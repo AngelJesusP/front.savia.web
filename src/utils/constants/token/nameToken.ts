@@ -1,0 +1,1 @@
+export const nametoken = "tk_";

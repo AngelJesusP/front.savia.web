@@ -1,0 +1,1 @@
+export const SPAN: React.CSSProperties  = {position: 'relative', bottom: 3}

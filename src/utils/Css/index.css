@@ -1,0 +1,49 @@
+.card-menu-home {
+    transition: all .1s ease;
+    cursor: pointer;
+}
+
+.color-b {
+    background-color: #3070af !important;
+}
+
+.card-menu-home:hover {
+    transform: scale(1.09);
+}
+
+.text-card-home:hover {
+    border-bottom: 2px solid #1c9a83;
+}
+
+.ant-modal-mask {
+    background: transparent;
+    pointer-events: none;
+}
+
+.ant-modal-wrap {
+    pointer-events: none;
+}
+
+.ant-modal {
+    pointer-events: all;
+}
+
+
+
+.ant-table-cell {
+    font-size: 12px !important;
+    padding: 6px !important;
+}
+
+
+.background-login {
+    overflow: initial;
+    background-image: url('../assets/img/backgraundBody.png');
+    background-size: cover;
+    height: 100vh;
+}
+
+
+input {
+    box-shadow: none !important;
+}

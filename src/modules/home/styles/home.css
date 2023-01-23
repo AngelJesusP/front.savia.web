@@ -1,0 +1,7 @@
+.dashboard-footer-home {
+    overflow: initial;
+    /* background: #edf7f5; */
+    background-image: url('../../../utils/assets/img/fondoHome.jpg');
+    background-size: cover;
+    height: 100vh;
+}
