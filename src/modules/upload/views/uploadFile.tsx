@@ -13,6 +13,7 @@ import { IConsulta, Ienfermedades } from '../interfaces/enfermedades.interfaces'
 import { convertListToSelect } from '../../../utils/constants/convertToList';
 import { Alert } from '../../../utils/components/Alert';
 import { onClickConsultar } from '../service/enfermedades.services';
+import TablePatientDetail from '../components/TablePatientDetail';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -22,6 +23,37 @@ const constantAlertJson = {
     hidden: true
 }
 export default class QueryRegister extends React.Component<{}, MyState> {
+
+    setTabInformacionDetalle = async () => {
+        this.setState({
+            items: this.state.items?.map((item, index) => {
+                if (index === 1) {
+                    return {
+                        ...item,
+                        disabled: item.disabled === true
+                    }
+                }
+                return item
+            }),
+            activeKey: '2',
+        });
+    };
+
+    returnToConsultation = async () => {
+        this.setState({
+            items: this.state.items?.map((item, index) => {
+                if (index === 1) {
+                    return {
+                        ...item,
+                        disabled: item.disabled === true
+                    }
+                }
+                return item
+            }),
+            activeKey: '1',
+        });
+    };
+
 
     state: MyState = {
         jsonAlert: constantAlertJson,
@@ -40,30 +72,29 @@ export default class QueryRegister extends React.Component<{}, MyState> {
         tipoDocumento: null,
         numeroDocumento: null,
         desde: null,
-        hasta: null
+        hasta: null,
+        activeKey: '1',
+        items: [
+            {
+                key: '1',
+                label: `Consulta de datos cargados`,
+                children: (<TableConsulta setTabInformacionDetalle={this.setTabInformacionDetalle} />),
+                disabled: false
+            },
+            {
+                key: '2',
+                label: `Detalle de una paciente`,
+                children: (<TablePatientDetail returnToConsultation={this.returnToConsultation}/>),
+                disabled: true
+            },
+            {
+                key: '3',
+                label: `Log de errores`,
+                children: `tab 3`,
+                disabled: true
+            },
+        ]
     };
-
-    items: TabsProps['items'] = [
-        {
-            key: '1',
-            label: `Consulta de datos cargados`,
-            children: (<TableConsulta />),
-            disabled: this.state.tabTablaConsulta
-        },
-        {
-            key: '2',
-            label: `Detalle de una paciente`,
-            children: `Content of Tab Pane 2`,
-            disabled: this.state.tabInformacionDetalle
-        },
-        {
-            key: '3',
-            label: `Log de errores`,
-            children: `Content of Tab Pane 3`,
-            disabled: this.state.tabLogErrores
-        },
-    ];
-
 
     /* Columnas para la tabla de detalle persona */
     columnasDetalle: ColumnsType<any> = [
@@ -102,13 +133,12 @@ export default class QueryRegister extends React.Component<{}, MyState> {
         const data: IConsulta = { idEnfermedad, idIps, tipoDocumento, numeroDocumento, desde, hasta, page: 1, limit: 1 }
         // const { response } = await onClickConsultar(data);
         await onClickConsultar(data);
-        
         // this.setState({ jsonAlert : response })
     }
 
 
     render(): React.ReactNode {
-        const { listEnfermedades, jsonAlert } = this.state
+        const { listEnfermedades, jsonAlert, activeKey, items } = this.state;
 
         return (
             <div className='container-upload-file' style={CONTAINER_HEIGHT_BACKGROUND}>
@@ -191,7 +221,9 @@ export default class QueryRegister extends React.Component<{}, MyState> {
 
                 <div className='card m-4 border-0' style={CONTAINER_BOXSHADOW}>
                     <div className='card-body'>
-                        <Tabs defaultActiveKey="1" key={1} items={this.items} />;
+                        <Tabs onChange={(key: string) => {
+                            this.setState({ activeKey: key });
+                        }} activeKey={activeKey} items={items} />
                     </div>
                 </div>
             </div >

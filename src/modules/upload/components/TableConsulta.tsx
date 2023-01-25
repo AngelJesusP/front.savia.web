@@ -1,9 +1,25 @@
 import { Pagination, PaginationProps, Table } from "antd";
 import { ColumnGroupType, ColumnType } from "antd/es/table";
 import React from "react";
-
-export default class TableConsulta extends React.Component {
-
+interface DataType {
+    key: React.Key;
+    name: string;
+    age: number;
+    address: string;
+  }
+  const data: DataType[] = [
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York Park',
+    }
+  ];
+export default class TableConsulta extends React.Component<{ setTabInformacionDetalle: any }>  {
+    constructor(props: any) {
+        super(props);
+      }
+   
     /* Columnas para la tabla de paciente */
     columnas: (ColumnGroupType<any> | ColumnType<any>)[] = [
         { title: 'Id', dataIndex: 'id', width: '5%' },
@@ -23,6 +39,8 @@ export default class TableConsulta extends React.Component {
                 style={{ cursor: 'pointer' }}
                 className="text-primary"
                 onClick={async () => {
+                   this.props.setTabInformacionDetalle();
+
                     // const { dataTable } = await dataTestForDatatable(false, item.id)
                     // this.setState({ navegacion: false, activacion: "2", idVerDetalle: item.id, dataForDatatableDetalle: dataTable })
                 }}>Ver detalle</span>
@@ -35,13 +53,14 @@ export default class TableConsulta extends React.Component {
         return originalElement;
     }
 
+    
     render(): React.ReactNode {
         return (
             <div>
                 <Table
                     size="small"
                     columns={this.columnas}
-                    dataSource={[]}
+                    dataSource={data}
                     pagination={false}
                     scroll={{ x: 1300, y: 150 }} />
 
