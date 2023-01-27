@@ -8,6 +8,7 @@ import {
   Space,
   Dropdown,
   MenuProps,
+  Empty,
 } from "antd";
 import {
   styleMenuHamburguesa,
@@ -16,7 +17,7 @@ import {
   styleimgHeader,
 } from "../styles/styleHeader";
 import { nametoken } from "../../../utils/constants/token/nameToken";
-import { BellTwoTone } from "@ant-design/icons";
+import { BellTwoTone, MailOutlined } from "@ant-design/icons";
 import { TemplateContext } from "../../../utils/components/TemplateContext";
 import { useContext } from "react";
 
@@ -74,7 +75,21 @@ export const HeaderComponent = () => {
       <Popover
         placement="bottomRight"
         title="Notificación"
-        content={context.notifications || 'No hay notificaciones por el momento'}
+        content={
+          < >
+           { context.notifications ?
+           
+           <div className="d-flex align-items-center">
+            <MailOutlined />
+            <span className="ms-3">
+             
+            </span>
+           </div>
+           
+           : <Empty description={'No hay notificaciones pendientes'} /> }
+            
+          </>
+        }
         trigger="click"
       >
         <Space style={styleNotificacion}>
@@ -84,8 +99,6 @@ export const HeaderComponent = () => {
           </Badge>
         </Space>
       </Popover>
-
-      
 
       <span style={styleUserName}>
         Bienvenido/a,{" "}

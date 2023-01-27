@@ -19,11 +19,13 @@
     "formik": "^2.2.9",
     "moment": "^2.29.4",
     "move-file": "^3.0.0",
+    "node-sass": "^8.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.5",
     "react-stomp": "^5.1.0",
+    "sass": "^1.57.1",
     "semantic-ui-react": "^2.1.4",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1"
