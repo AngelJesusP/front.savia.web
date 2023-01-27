@@ -6,7 +6,6 @@ import fecha from '../../../utils/assets/icon/flecha-hacia-abajo.svg'
 import ModalUploadComponent from '../../upload/components/ModalUpload'
 import { styleCard, styleCardHeader, styleLink, styleSubTitle, styleTitle, styleLabelCardAction, styleLabelCardText } from '../styles/stylesDashboard'
 import { MyProps, MyState } from '../types/Dashboard.type'
-
 export class DashboardComponent extends React.Component<MyProps, MyState> {
 
    state: MyState = {

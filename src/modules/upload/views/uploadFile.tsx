@@ -13,6 +13,7 @@ import { IConsulta, Ienfermedades } from '../interfaces/enfermedades.interfaces'
 import { convertListToSelect } from '../../../utils/constants/convertToList';
 import { Alert } from '../../../utils/components/Alert';
 import { onClickConsultar } from '../service/enfermedades.services';
+import TableGeneric from '../components/TableGeneric';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -59,8 +60,8 @@ export default class QueryRegister extends React.Component<{}, MyState> {
         {
             key: '3',
             label: `Log de errores`,
-            children: `Content of Tab Pane 3`,
-            disabled: this.state.tabLogErrores
+            children: (<TableGeneric />),
+            disabled: false
         },
     ];
 
