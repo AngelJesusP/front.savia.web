@@ -25,7 +25,7 @@ const getPaginator = (
         pageSizeOptions: [10, 20, 50, 100],
         locale: { items_per_page: '' },
         showLessItems: true,
-        position: ['bottomRight', 'topRight'],
+        position: ['topRight'],
         total: total || 0,
         ...(change_page
             ? {

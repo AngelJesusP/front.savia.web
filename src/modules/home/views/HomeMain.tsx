@@ -4,6 +4,7 @@ import { HeaderComponent } from '../components/Header'
 import { Layout, theme } from 'antd';
 import RouterComponent from '../../../utils/components/RouterComponent';
 import LeftPanelSider from '../../../utils/components/LeftPanel.sider';
+import ProgressFile from '../../upload/components/ProgressFile';
 const { Sider, Header } = Layout;
 
 const HomeMain: React.FC = () => {
@@ -19,6 +20,7 @@ const HomeMain: React.FC = () => {
                     <HeaderComponent />
                     {/* <BreadcrumbComponent /> */}
                 </Header>
+                {/* <ProgressFile /> */}
                 <RouterComponent  />
             </Layout>
         </Layout>

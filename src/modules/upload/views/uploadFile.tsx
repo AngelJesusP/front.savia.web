@@ -116,7 +116,7 @@ export default class QueryRegister extends React.Component<{}, MyState> {
                 <div className='card m-4 border-0' style={CONTAINER_BOXSHADOW}>
                     <div className='card-header bg-white'>
                         <span style={Font_Montserrat(true, 13, 12)}>
-                            Realziar consulta de registros cargados &#160;
+                            Realizar consulta de registros cargados &#160;
                             <span style={{ color: '#AD0808', ...Font_Montserrat(false, 10, 12) }}>
                                 - &#160; Llenar todos los campos que sean obligatorios </span>
                         </span>
@@ -192,7 +192,7 @@ export default class QueryRegister extends React.Component<{}, MyState> {
 
                 <div className='card m-4 border-0' style={CONTAINER_BOXSHADOW}>
                     <div className='card-body'>
-                        <Tabs defaultActiveKey="1" key={1} items={this.items} />;
+                        <Tabs defaultActiveKey="1" key={1} items={this.items} />
                     </div>
                 </div>
             </div >
