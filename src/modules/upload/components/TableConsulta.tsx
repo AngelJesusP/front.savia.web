@@ -7,7 +7,7 @@ import Table from "../../../utils/components/Table";
 export default class TableConsulta extends React.Component {
   /* Columnas para la tabla de paciente */
   columnas: (ColumnGroupType<any> | ColumnType<any>)[] = [
-    { title: "Id", dataIndex: "id", width: "5%" },
+    { title: "Id", dataIndex: "id" },
     { title: "Primer Nombre", dataIndex: "primer_nombre" },
     { title: "Segundo Nombre", dataIndex: "segundo_nombre" },
     { title: "Primer Apellido", dataIndex: "primer_apellido" },
@@ -16,18 +16,15 @@ export default class TableConsulta extends React.Component {
     {
       title: "Número Identificación",
       dataIndex: "numero_identificacion",
-      width: "13%",
     },
     {
       title: "Fecha de Nacimiento",
       dataIndex: "fecha_nacimiento",
-      width: "10%",
     },
-    { title: "Sexo", dataIndex: "sexo", width: "3%" },
+    { title: "Sexo", dataIndex: "sexo" },
     {
       title: "Código Pertenencia Etnica",
       dataIndex: "codigo_pertenencia_etnica",
-      width: "15%",
     },
     {
       title: "Detalle",
@@ -57,15 +54,18 @@ export default class TableConsulta extends React.Component {
     return (
       <div>
         <Table
-          
           columns={this.columnas}
-          items={[]}
-        />
-
-        <Pagination
-          total={500}
-          itemRender={this.itemRender}
-          style={{ marginTop: 10 }}
+          items={[
+            // {
+            //   primer_nombre: "ggggg",
+            // },
+            // {
+            //   primer_nombre: "ggggg",
+            // },
+          ]}
+          with_pagination
+          paginationTop
+          title='tabla'
         />
         <div className="d-flex justify-content-end ">
           <ProgressFile />

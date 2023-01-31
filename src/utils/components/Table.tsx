@@ -1,22 +1,27 @@
 import { FC } from 'react';
-import Table, { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
-import { Empty } from 'antd';
+import Table, { TablePaginationConfig } from 'antd/lib/table';
+import { Empty, Select } from 'antd';
+import '../../utils/Css/tableGeneric.scss'
 
 interface CompressTableProps {
-    columns?: ColumnsType<any>;
+    columns: any;
     items: any[];
     title?: string;
     change_page?: (page: number, pageSize?: number) => void;
     loading?: boolean;
     with_pagination?: boolean;
+    paginationTop?: boolean;
     count?: number;
     scroll?: any;
     expandable?: any;
 }
 
+// Pagination Table
+
 
 const getPaginator = (
     total: number,
+    paginationTop: boolean,
     change_page?: (page: number, pageSize?: number) => void,
     title?: string
 ): TablePaginationConfig => {
@@ -25,8 +30,25 @@ const getPaginator = (
         pageSizeOptions: [10, 20, 50, 100],
         locale: { items_per_page: '' },
         showLessItems: true,
-        position: ['topRight'],
+        position: paginationTop ? ['bottomRight', 'topRight'] : ['bottomRight'],
         total: total || 0,
+        selectComponentClass: (props: any) => {
+            return (
+                <Select
+                    defaultValue="10"
+                    value={props.value}
+                    onChange={(e: any) => props.onChange(e)}
+                    options={props.children?.map((option: any) => {
+                        return {
+                            value: option.props.value,
+                            label: option.props.value,
+                        };
+                    })}
+                />
+                
+            );
+        },
+
         ...(change_page
             ? {
                   onChange: change_page,
@@ -34,7 +56,7 @@ const getPaginator = (
                   showSizeChanger: true,
               }
             : {}),
-        showTotal: (total /*, current*/) => {
+        showTotal: (total) => {
             return (
                 <div>
                     {title && (
@@ -51,9 +73,9 @@ const getPaginator = (
                     )}
 
                     <span className="total-results">
-                        Total de resultados<span style={{ color: '#F28C02' }}>: {total}</span>
+                        Total <span style={{ color: '#F28C02' }}>: {total}</span>
                     </span>
-                    <span className="results-text"> Registros por página </span>
+                    <span className="results-text ms-5"> Registros por página </span>
                 </div>
             );
         },
@@ -68,16 +90,24 @@ const CompressTable: FC<CompressTableProps> = ({
     change_page,
     loading,
     with_pagination,
+    paginationTop,
     scroll,
     expandable,
 }) => {
     items = Array.isArray(items) ? items : [];
-    const data = items?.map((item, i) => ({ ...item, key: `compress_table_${i}` }));
+    const data = items?.map((item, i) => ({
+        ...item,
+        key: `compress_table_${i}`,
+    }));
     const ops = {
         columns: columns,
         dataSource: data,
         pagination: false,
-        ...(with_pagination ? { pagination: getPaginator(count ? count : data?.length, change_page, title) } : {}),
+        ...(with_pagination
+            ? {
+                  pagination: getPaginator(count ? count : data?.length, paginationTop || false, change_page, title),
+              }
+            : {}),
         ...(expandable ? expandable : {}),
         loading: loading,
         bordered: true,
@@ -91,19 +121,9 @@ const CompressTable: FC<CompressTableProps> = ({
                         color: 'blue',
                     }}
                     description={
-                        <span
-                            style={{
-                                color: 'rgb(74,74,74)',
-                                fontSize: '14px',
-                                fontWeight: '600',
-                                fontFamily: 'WorkSans-Regular',
-                            }}
-                        >
-                            No se encontraron datos en la búsqueda
+                        <span style={{ color: '#000000' }}>
+                            No hay datos para mostrar.
                             <br />
-                            <span style={{ fontWeight: '400', fontFamily: 'WorkSans-Regular', fontSize: '14px' }}>
-                                Realiza una nueva consulta
-                            </span>
                         </span>
                     }
                 />
@@ -127,5 +147,3 @@ CompressTable.defaultProps = {
 };
 
 export default CompressTable;
-
-

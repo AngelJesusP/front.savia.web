@@ -13,7 +13,7 @@ const TableGeneric = () => {
 
   return (
     <>
-      <Table items={dataJson} columns={columsForJson} />
+      <Table items={dataJson} columns={columsForJson} with_pagination paginationTop  />
       <div className="d-flex justify-content-end ">
         <ProgressFile />
       </div>
