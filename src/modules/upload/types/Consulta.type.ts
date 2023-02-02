@@ -14,7 +14,7 @@ export type MyState = {
     tabLogErrores: boolean,
 
     idEnfermedad: number,
-    idIps: number,
+    idIps: number | null,
     tipoDocumento: string | any,
     numeroDocumento: string | any,
     desde: string | any,

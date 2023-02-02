@@ -7,8 +7,9 @@ export type MyState = {
     message: string,
     typeres: any,
     openResponse: boolean,
-    idEnfermedad: number,
+    idEnfermedad: number | null,
     fileEnviar: any,
     nameFile: string,
-    openTag: boolean
+    openTag: boolean,
+    loading: boolean,
 };
