@@ -1,3 +1,5 @@
+import { TabsProps } from "antd";
+
 export type MyProps = {
     
 };
@@ -18,5 +20,7 @@ export type MyState = {
     tipoDocumento: string | any,
     numeroDocumento: string | any,
     desde: string | any,
-    hasta: string | any
+    hasta: string | any,
+    activeKey: string
+    items: TabsProps['items']
 };

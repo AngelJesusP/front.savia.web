@@ -4,7 +4,11 @@ import React from "react";
 import ProgressFile from "./ProgressFile";
 import Table from "../../../utils/components/Table";
 
-export default class TableConsulta extends React.Component {
+export default class TableConsulta extends React.Component<{ setTabInformacionDetalle: any }>  {
+  constructor(props: any) {
+      super(props);
+    }
+ 
   /* Columnas para la tabla de paciente */
   columnas: (ColumnGroupType<any> | ColumnType<any>)[] = [
     { title: "Id", dataIndex: "id", width: "5%" },
@@ -37,8 +41,7 @@ export default class TableConsulta extends React.Component {
           style={{ cursor: "pointer" }}
           className="text-primary"
           onClick={async () => {
-            // const { dataTable } = await dataTestForDatatable(false, item.id)
-            // this.setState({ navegacion: false, activacion: "2", idVerDetalle: item.id, dataForDatatableDetalle: dataTable })
+            this.props.setTabInformacionDetalle();
           }}
         >
           Ver detalle
