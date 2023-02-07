@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../../utils/Css/index.css'
+import '../../../utils/Css/index.scss'
 import iconExcel from '../../../utils/assets/icon/cargaarchivos.svg'
 import history from '../../../utils/assets/icon/consultaCard.svg'
 import fecha from '../../../utils/assets/icon/flecha-hacia-abajo.svg'

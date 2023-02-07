@@ -1,6 +1,7 @@
 import { Content } from "antd/es/layout/layout"
 import { DashboardComponent } from "../../../modules/home/components/dashboard"
 import QueryRegister from "../../../modules/upload/views/uploadFile"
+import UploadFile from "../../../modules/upload/views/uploadFile copy"
 import { RUTA_HOME, RUTA_CONSULTA } from "./router.router"
 
 export const RouterComponentList = () => {
@@ -16,7 +17,7 @@ export const RouterComponentList = () => {
         {
             key: '2',
             ruta: RUTA_CONSULTA,
-            component: <QueryRegister />
+            component: <UploadFile />
         }
     ]
 }

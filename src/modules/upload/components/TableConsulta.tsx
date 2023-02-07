@@ -1,74 +1,85 @@
-import { Pagination, PaginationProps } from "antd";
+import { PaginationProps } from "antd";
 import { ColumnGroupType, ColumnType } from "antd/es/table";
 import React from "react";
 import ProgressFile from "./ProgressFile";
 import Table from "../../../utils/components/Table";
+import { IConsulta } from "../interfaces/enfermedades.interfaces";
 
-export default class TableConsulta extends React.Component<{ setTabInformacionDetalle: any }>  {
+export default class TableConsulta extends React.Component<{
+  handleChangeConsulta: any;
+  setTabInformacionDetalle: any;
+  data: any[];
+  loading: boolean;
+  total: number | null;
+  setIdPaciente: any;
+  filters: IConsulta;
+}> {
   constructor(props: any) {
-      super(props);
-    }
- 
+    super(props);
+  }
+
+  change_page = async (page: number, pageSize?: number) => {
+    await this.props.handleChangeConsulta({
+      ...this.props.filters,
+      page,
+      limit: pageSize,
+    });
+  };
+
   /* Columnas para la tabla de paciente */
   columnas: (ColumnGroupType<any> | ColumnType<any>)[] = [
-    { title: "Id", dataIndex: "id", width: "5%" },
-    { title: "Primer Nombre", dataIndex: "primer_nombre" },
-    { title: "Segundo Nombre", dataIndex: "segundo_nombre" },
-    { title: "Primer Apellido", dataIndex: "primer_apellido" },
-    { title: "Segundo apellido", dataIndex: "segundo_apellido" },
-    { title: "Tipo Identificación", dataIndex: "tipo_identificacion" },
+    { title: "Id", dataIndex: "id" },
+    { title: "Primer Nombre", dataIndex: "primerNombre" },
+    { title: "Segundo Nombre", dataIndex: "segundoNombre" },
+    { title: "Primer Apellido", dataIndex: "primerApellido" },
+    { title: "Segundo apellido", dataIndex: "segundoApellido" },
+    { title: "Tipo Identificación", dataIndex: "tipoIdentificacion" },
     {
       title: "Número Identificación",
-      dataIndex: "numero_identificacion",
-      width: "13%",
+      dataIndex: "numeroIdentificacion",
     },
     {
       title: "Fecha de Nacimiento",
-      dataIndex: "fecha_nacimiento",
-      width: "10%",
+      dataIndex: "fechaNacimiento",
     },
-    { title: "Sexo", dataIndex: "sexo", width: "3%" },
+    { title: "Sexo", dataIndex: "sexo" },
     {
       title: "Código Pertenencia Etnica",
-      dataIndex: "codigo_pertenencia_etnica",
-      width: "15%",
+      dataIndex: "codigoPerteneneciaEtnica",
     },
     {
       title: "Detalle",
       fixed: "right",
-      render: (item: any) => (
-        <span
-          style={{ cursor: "pointer" }}
-          className="text-primary"
-          onClick={async () => {
-            this.props.setTabInformacionDetalle();
-          }}
-        >
-          Ver detalle
-        </span>
-      ),
+      dataIndex: "idDetalle",
+      render: (id: number) => {
+        return (
+          <span
+            style={{ cursor: "pointer" }}
+            className="text-primary"
+            onClick={async () => {
+              this.props.setTabInformacionDetalle("2");
+              this.props.setIdPaciente(id);
+            }}
+          >
+            Ver detalle
+          </span>
+        );
+      },
     },
   ];
-
-  itemRender: PaginationProps["itemRender"] = (_, type, originalElement) => {
-    if (type === "prev") return <a>Anterior</a>;
-    if (type === "next") return <a>Siguiente</a>;
-    return originalElement;
-  };
 
   render(): React.ReactNode {
     return (
       <div>
         <Table
-          
           columns={this.columnas}
-          items={[]}
-        />
-
-        <Pagination
-          total={500}
-          itemRender={this.itemRender}
-          style={{ marginTop: 10 }}
+          items={this?.props?.data || []}
+          with_pagination
+          paginationTop
+          title="tabla"
+          loading={this.props.loading}
+          count={this.props.total ? this.props.total : undefined}
+          change_page={this.change_page}
         />
         <div className="d-flex justify-content-end ">
           <ProgressFile />

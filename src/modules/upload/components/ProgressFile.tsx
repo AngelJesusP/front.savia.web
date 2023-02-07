@@ -9,13 +9,7 @@ const ProgressFile = () => {
   return (
     <>
       <button
-        style={{
-          borderRadius: 18,
-          backgroundColor: "#244c5c",
-          ...Font_Montserrat(true, 13, 18),
-          padding: "8px 20px",
-        }}
-        className="btn btn-primary text-white mt-3 d-flex align-items-center"
+        className="btn btn-primary mt-3 d-flex align-items-center"
         onClick={() => {
           setIs_visible(true);
         }}
