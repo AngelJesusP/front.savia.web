@@ -1,4 +1,3 @@
-import { PaginationProps } from "antd";
 import { ColumnGroupType, ColumnType } from "antd/es/table";
 import React from "react";
 import ProgressFile from "./ProgressFile";
@@ -29,22 +28,22 @@ export default class TableConsulta extends React.Component<{
   /* Columnas para la tabla de paciente */
   columnas: (ColumnGroupType<any> | ColumnType<any>)[] = [
     { title: "Id", dataIndex: "id" },
-    { title: "Primer Nombre", dataIndex: "primerNombre" },
-    { title: "Segundo Nombre", dataIndex: "segundoNombre" },
-    { title: "Primer Apellido", dataIndex: "primerApellido" },
+    { title: "Primer nombre", dataIndex: "primerNombre" },
+    { title: "Segundo nombre", dataIndex: "segundoNombre" },
+    { title: "Primer apellido", dataIndex: "primerApellido" },
     { title: "Segundo apellido", dataIndex: "segundoApellido" },
-    { title: "Tipo Identificación", dataIndex: "tipoIdentificacion" },
+    { title: "Tipo identificación", dataIndex: "tipoIdentificacion" },
     {
-      title: "Número Identificación",
+      title: "Número identificación",
       dataIndex: "numeroIdentificacion",
     },
     {
-      title: "Fecha de Nacimiento",
+      title: "Fecha de nacimiento",
       dataIndex: "fechaNacimiento",
     },
     { title: "Sexo", dataIndex: "sexo" },
     {
-      title: "Código Pertenencia Etnica",
+      title: "Código pertenencia étnica",
       dataIndex: "codigoPerteneneciaEtnica",
     },
     {
@@ -76,7 +75,6 @@ export default class TableConsulta extends React.Component<{
           items={this?.props?.data || []}
           with_pagination
           paginationTop
-          title="tabla"
           loading={this.props.loading}
           count={this.props.total ? this.props.total : undefined}
           change_page={this.change_page}

@@ -7,7 +7,7 @@ interface itemLeftPanel {
 
 export const listItems: itemLeftPanel[] = [
     {
-        name: "Carga de archivo .Csv",
+        name: "Carga de archivo .csv",
         ruta: ""
     },
     {

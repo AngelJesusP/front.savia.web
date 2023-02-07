@@ -1,3 +1,4 @@
+import moment from "moment";
 import { FC, useEffect, useState } from "react";
 
 import { Font_Montserrat } from "../../../utils/css/containerBackground";
@@ -142,7 +143,7 @@ const TablePatientDetail: FC<PatientDetailPros> = ({
               <hr />
             </div>
             <div className="col">
-              <div className="col">{paciente?.fechaMuerte || ''} </div>
+              <div className="col">{moment(paciente?.fechaMuerte).format('YYYY-MM-DD') || ''} </div>
               <hr />
             </div>
           </div>
@@ -176,7 +177,7 @@ const TablePatientDetail: FC<PatientDetailPros> = ({
               <hr />
             </div>
             <div className="col">
-              <div className="col">{paciente?.fechaCorte || ''} </div>
+              <div className="col">{moment(paciente?.fechaCorte).format('YYYY-MM-DD') || ''} </div>
               <hr />
             </div>
           </div>

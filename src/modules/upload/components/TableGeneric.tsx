@@ -11,10 +11,14 @@ interface ITableGeneric {
   getData: any;
 }
 
-const TableGeneric: FC<ITableGeneric> = ({ data, loading, total, filters, getData }) => {
-
+const TableGeneric: FC<ITableGeneric> = ({
+  data,
+  loading,
+  total,
+  filters,
+  getData,
+}) => {
   const [colums, setColumns] = useState();
-  
 
   const change_page = async (page: number, pageSize?: number) => {
     await getData({
@@ -24,17 +28,19 @@ const TableGeneric: FC<ITableGeneric> = ({ data, loading, total, filters, getDat
     });
   };
 
-  useEffect(() => {    
-   if(data.length > 0 ) {
-    const columsForJson: any = Object.keys(data[0]).map((key) => {
-      return {
-        title: `${key.split("_").join(" ")}`,
-        dataIndex: `${key}`,
-        key: `${key}`,
-      };
-    });
-    if(columsForJson.length) setColumns(columsForJson)
-   }
+  useEffect(() => {
+    if (data.length > 0) {
+      const columsForJson: any = Object.keys(data[0]).map((key) => {
+        return {
+          title: `${key.split("_").join(" ")}`,
+          dataIndex: `${key}`,
+          key: `${key}`,
+        };
+      });
+      if (columsForJson.length) setColumns(columsForJson);
+    } else {
+      setColumns(undefined);
+    }
   }, [data]);
 
   return (

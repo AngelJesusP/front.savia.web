@@ -1,5 +1,4 @@
 import { Card, DatePicker, Form, Input, Select } from "antd";
-import locale from "antd/es/date-picker/locale/en_US";
 import { Alert } from "../../../utils/components/Alert";
 import { LabelOptional } from "../../../utils/components/Labeloptional";
 import { Font_Montserrat } from "../../../utils/css/containerBackground";
@@ -7,6 +6,7 @@ import { FC, useState, useEffect } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
+import locale from 'antd/es/date-picker/locale/es_ES';
 
 interface IFormFilters {
   activeKey: string;
@@ -31,6 +31,7 @@ const FormFilters: FC<IFormFilters> = ({
   useEffect(() => {
     getListEnfermedadesConsulta();
   }, []);
+
 
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {
@@ -134,7 +135,7 @@ const FormFilters: FC<IFormFilters> = ({
                   <Input
                     disabled={activeKey === "2"}
                     style={{ width: "70%" }}
-                    placeholder="Numero de documento"
+                    placeholder="Número de documento"
                   />
                 </Form.Item>
               </Input.Group>

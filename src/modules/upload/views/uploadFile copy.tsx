@@ -1,6 +1,6 @@
 import { Card, Tabs, TabsProps } from "antd";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IConsulta } from "../interfaces/enfermedades.interfaces";
 import {
   getLogErrors,
@@ -21,6 +21,7 @@ const UploadFile = () => {
   const [jsonAlert, setJsonAlert] = useState(constantAlertJson);
   const [activeKey, setActiveKey] = useState("1");
   const [data, setData] = useState([]);
+  const [dataError, setDataError] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number | null>(null);
   const [idPaciente, setIdPaciente] = useState<number | null>(null);
@@ -56,26 +57,26 @@ const UploadFile = () => {
     if (activeKey === "1") {
       const { data } = await onClickConsultar(dataFinal);
       valuesResponse = data;
+      setData(valuesResponse?.data || []);
     } else if (activeKey === "3") {
       const { data } = await getLogErrors(dataFinal);
       valuesResponse = data;
+      setDataError(valuesResponse?.data || [])
     }
 
-    
-
     setFilters(dataFinal);
-    setData(valuesResponse?.data || []);
+    
     setJsonAlert({ ...jsonAlert, message: valuesResponse?.message || "" });
     setTotal(Number(valuesResponse?.items?.replace(/[\[\]]/g, "")) || null);
     setLoading(false);
   };
 
-  useEffect(() => {
-    onClear();
-  }, [activeKey]);
+
 
 
   const onClear = () => {
+    setLoading(true);
+    
     setFilters({
       idEnfermedad: -1,
       idIps: null,
@@ -87,8 +88,12 @@ const UploadFile = () => {
       limit: 10,
     });
     setTotal(null);
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+      
+    }, 1000)
     setData([]);
+    setDataError([])
   };
 
   const items: TabsProps["items"] = [
@@ -110,7 +115,7 @@ const UploadFile = () => {
     },
     {
       key: "2",
-      label: `Detalle de una paciente`,
+      label: `Detalle de un paciente`,
       children: (
         <TablePatientDetail
           returnToConsultation={setActiveKey}
@@ -124,7 +129,7 @@ const UploadFile = () => {
       label: `Log de errores`,
       children: (
         <TableGeneric
-          data={data}
+          data={dataError}
           loading={loading}
           total={total}
           filters={filters}

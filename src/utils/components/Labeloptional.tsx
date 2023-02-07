@@ -1,3 +1,3 @@
 
-const label = {font: 'normal normal 200 11px/22px Montserrat',}
-export const LabelOptional = () => <span style={label}> - Opcional </span>
+const label = {font: 'normal normal 200 12px/22px Montserrat',}
+export const LabelOptional = () => <> - <span className="ms-2" style={label}>{' '} Opcional </span></>
