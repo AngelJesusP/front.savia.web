@@ -34,7 +34,7 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                         <div className="card-header bg-white" style={styleCardHeader}>
                            <img src={iconExcel} style={{ height: 30 }} alt="" />
                            <span className="card-text" style={styleLink}>
-                              Carga de .Cvs</span>
+                              Carga de .cvs</span>
                         </div>
                         <div className="card-body">
                            <p className="card-text" style={styleLabelCardText}>

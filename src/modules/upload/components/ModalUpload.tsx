@@ -192,9 +192,9 @@ export default class DashboardComponent extends React.Component<
               return false;
             }}
           >
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
+            {/* <p className="ant-upload-drag-icon"> */}
+              <InboxOutlined  style={{ color: '#244c5c', fontSize: '50px' }} />
+            {/* </p> */}
             <p className="ant-upload-text">
               Haga click o arrastre el archivo para ser cargado
             </p>

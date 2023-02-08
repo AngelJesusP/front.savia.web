@@ -55,7 +55,7 @@ const TableGeneric: FC<ITableGeneric> = ({
         change_page={change_page}
       />
       <div className="d-flex justify-content-end ">
-        <ProgressFile />
+        <ProgressFile filters={{...filters, bandera: false}} />
       </div>
     </>
   );

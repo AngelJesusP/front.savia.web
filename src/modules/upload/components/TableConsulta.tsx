@@ -80,7 +80,7 @@ export default class TableConsulta extends React.Component<{
           change_page={this.change_page}
         />
         <div className="d-flex justify-content-end ">
-          <ProgressFile />
+          <ProgressFile filters={{...this.props.filters,  bandera: true}} />
         </div>
       </div>
     );

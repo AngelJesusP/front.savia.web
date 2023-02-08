@@ -15,6 +15,7 @@ export interface IConsulta {
   limit: number;
   page: number;
   tipoDocumento?: string;
+  bandera?: boolean;
 }
 
 export interface IResponseConsulta {

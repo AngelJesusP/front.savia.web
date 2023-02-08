@@ -52,8 +52,8 @@ const FormFilters: FC<IFormFilters> = ({
           Realizar consulta de registros cargados &#160;
           <span
             style={{
-              color: "#AD0808",
-              ...Font_Montserrat(false, 10, 12),
+              color: "#ff4d4f",
+              ...Font_Montserrat(false, 12, 12),
             }}
           >
             - &#160; Llenar todos los campos que sean obligatorios{" "}
@@ -68,8 +68,8 @@ const FormFilters: FC<IFormFilters> = ({
         onFinish={onSubmit}
         form={form}
       >
-        <div className="row">
-          <div className="col-3">
+        <div className="row align-items-center">
+          <div className="col-12 col-md-6 col-lg-3">
             <Form.Item
               label="Seleccionar un enfermedad"
               name="idEnfermedad"
@@ -90,7 +90,7 @@ const FormFilters: FC<IFormFilters> = ({
               />
             </Form.Item>
           </div>
-          <div className="col-3">
+          <div className="col-12 col-md-6 col-lg-3">
             <Form.Item
               label={
                 <>
@@ -111,11 +111,12 @@ const FormFilters: FC<IFormFilters> = ({
               />
             </Form.Item>
           </div>
-          <div className="col-3">
+          <div className="col-12 col-md-6 col-lg-3">
             <Form.Item
               label={
                 <>
-                  Número de documento <LabelOptional />
+                  Número de documento 
+                  <LabelOptional />
                 </>
               }
               name="document"
@@ -141,7 +142,7 @@ const FormFilters: FC<IFormFilters> = ({
               </Input.Group>
             </Form.Item>
           </div>
-          <div className="col-3">
+          <div className="col-12 col-md-6 col-lg-3">
             <Form.Item
               label="Desde - Hasta"
               name="rangePicker"
@@ -150,6 +151,7 @@ const FormFilters: FC<IFormFilters> = ({
               <RangePicker
                 disabled={activeKey === "2"}
                 locale={locale}
+                className='w-100'
                 placeholder={["Fecha inicial", "Fecha final"]}
               />
             </Form.Item>

@@ -37,3 +37,17 @@ export const getLogErrors = async (filters: IConsulta): Promise<any> => {
     Promise.reject(error);
   }
 };
+
+export const downloadDoc = async (nameFile: string): Promise<any> => {
+  try {
+    const response = await axios.get(`${URL}/api/v1/exportar/excel`,{
+      responseType: "blob",
+      params: {
+        file: nameFile
+      }
+    });
+    return response.data
+  } catch (error) {
+    Promise.reject(error);
+  }
+};

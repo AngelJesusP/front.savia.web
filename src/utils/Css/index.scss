@@ -104,3 +104,22 @@ input {
 :where(.css-dev-only-do-not-override-1hyej8k).ant-spin {
     line-height: 0 !important;
 }
+
+.ant-card {
+  box-shadow: 0px 3px 10px #00000029;
+  border-radius: 11px;
+}
+
+.ant-select-selector {
+  min-height: 38px !important;
+  align-items: center;
+}
+
+input[type='text'] {
+  min-height: 38px;
+}
+
+.ant-picker {
+  min-height: 38px !important;
+}
+
