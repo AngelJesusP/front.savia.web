@@ -1,7 +1,6 @@
 import moment from "moment";
 import { FC, useEffect, useState } from "react";
 
-import { Font_Montserrat } from "../../../utils/css/containerBackground";
 import { getPaciente } from "../service/enfermedades.services";
 import { SPAN } from "../styles/stylesUploadFile";
 
@@ -29,7 +28,7 @@ const TablePatientDetail: FC<PatientDetailPros> = ({
   return (
     <>
       <div className="d-flex align-items-center justify-content-between">
-        <span style={{ ...Font_Montserrat(true, 12, 15), ...SPAN }}>
+        <span style={{ ...SPAN }}>
           Detalles del paciente
         </span>
 

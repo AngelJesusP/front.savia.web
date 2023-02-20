@@ -1,7 +1,6 @@
 import { Card, DatePicker, Form, Input, Select } from "antd";
 import { Alert } from "../../../utils/components/Alert";
 import { LabelOptional } from "../../../utils/components/Labeloptional";
-import { Font_Montserrat } from "../../../utils/css/containerBackground";
 import { FC, useState, useEffect } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
@@ -48,12 +47,12 @@ const FormFilters: FC<IFormFilters> = ({
     <Card
       className="mt-4"
       title={
-        <span style={Font_Montserrat(true, 13, 12)}>
+        <span>
           Realizar consulta de registros cargados &#160;
           <span
             style={{
               color: "#ff4d4f",
-              ...Font_Montserrat(false, 12, 12),
+             
             }}
           >
             - &#160; Llenar todos los campos que sean obligatorios{" "}
@@ -163,9 +162,7 @@ const FormFilters: FC<IFormFilters> = ({
 
         <button
           type="button"
-          style={{
-            ...Font_Montserrat(true, 13, 18),
-          }}
+          
           onClick={() => {
             form.resetFields();
             onClear();
@@ -176,9 +173,6 @@ const FormFilters: FC<IFormFilters> = ({
         </button>
         <button
           type="submit"
-          style={{
-            ...Font_Montserrat(true, 13, 18),
-          }}
           disabled={loading || activeKey === "2"}
           className="btn btn-primary"
         >
