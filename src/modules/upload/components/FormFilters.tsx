@@ -8,7 +8,7 @@ import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
 import locale from 'antd/es/date-picker/locale/es_ES';
 
 interface IFormFilters {
-  activeKey: string;
+  activeKey?: string;
   onSubmit: (values: any) => any;
   onClear: () => any;
   jsonAlert: any;
@@ -45,7 +45,6 @@ const FormFilters: FC<IFormFilters> = ({
 
   return (
     <Card
-      className="mt-4"
       title={
         <span>
           Realizar consulta de registros cargados &#160;
