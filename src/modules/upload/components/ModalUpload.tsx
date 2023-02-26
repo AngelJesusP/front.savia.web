@@ -1,12 +1,11 @@
 import React from "react";
 import { Modal, Select, Tag, Upload, Alert, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, InboxOutlined } from "@ant-design/icons";
 import {
   getListEnfermedades,
   HttpClientPostFile,
 } from "../../../utils/api/api";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
-import { InboxOutlined } from "@ant-design/icons";
 import { MyProps, MyState } from "../types/UploadFile.type";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 const { Dragger } = Upload;
@@ -104,12 +103,14 @@ export default class DashboardComponent extends React.Component<
           width={900}
           footer={[
             <button
+              key='button-cancel'
               onClick={() => closeModal(false)}
               className="btn btn-outline-primary me-3"
             >
               Cancelar
             </button>,
             <button
+              key='button-success'
               onClick={this.onClickEnviarArchivo}
               className="btn btn-primary"
               disabled={this.state.loading}

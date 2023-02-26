@@ -6,7 +6,6 @@ export default class RouterComponent extends React.Component {
     try {
       const listaRutas = RouterComponentList();
       const { location } = window;
-      console.log('lista rutas', listaRutas);
       
       return listaRutas.map(
         (item: { key: string; ruta: string; component: any }) => {
@@ -26,7 +25,7 @@ export default class RouterComponent extends React.Component {
   render(): React.ReactNode {
     return (
       <>
-        <div style={{ background: "#F5F9FD" }}>{this.exportRouter()}</div>
+        <div className="h-100" style={{ background: "#F5F9FD" }}>{this.exportRouter()}</div>
       </>
     );
   }
