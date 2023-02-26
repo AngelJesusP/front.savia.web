@@ -16,6 +16,8 @@ export interface IConsulta {
   page: number;
   tipoDocumento?: string;
   bandera?: boolean;
+  claveArchivo?: string,
+  novedades?: any;
 }
 
 export interface IResponseConsulta {

@@ -5,22 +5,24 @@ import { FC, useState, useEffect } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
-import locale from 'antd/es/date-picker/locale/es_ES';
+import locale from "antd/es/date-picker/locale/es_ES";
 
 interface IFormFilters {
-  activeKey?: string;
   onSubmit: (values: any) => any;
   onClear: () => any;
   jsonAlert: any;
   loading: boolean;
+  values?: { idEnfermedad: number, idIps?: number, document?: any, rangePicker?: any };
+  type?: 'patient' | 'error'
 }
 
 const FormFilters: FC<IFormFilters> = ({
-  activeKey,
   onSubmit,
   onClear,
   jsonAlert,
   loading,
+  values,
+  type
 }) => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
   const { RangePicker } = DatePicker;
@@ -30,7 +32,6 @@ const FormFilters: FC<IFormFilters> = ({
   useEffect(() => {
     getListEnfermedadesConsulta();
   }, []);
-
 
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {
@@ -51,7 +52,6 @@ const FormFilters: FC<IFormFilters> = ({
           <span
             style={{
               color: "#ff4d4f",
-             
             }}
           >
             - &#160; Llenar todos los campos que sean obligatorios{" "}
@@ -65,6 +65,7 @@ const FormFilters: FC<IFormFilters> = ({
         colon={false}
         onFinish={onSubmit}
         form={form}
+        fields={[{ name: ["idEnfermedad"], value: values?.idEnfermedad || null }]}
       >
         <div className="row align-items-center">
           <div className="col-12 col-md-6 col-lg-3">
@@ -74,7 +75,7 @@ const FormFilters: FC<IFormFilters> = ({
               rules={[{ required: true, message: "Campo obligatorio" }]}
             >
               <Select
-                disabled={activeKey === "2"}
+                disabled={type === 'patient'}
                 className="w-100"
                 showSearch
                 placeholder="Selecciona la enfermedad"
@@ -99,7 +100,6 @@ const FormFilters: FC<IFormFilters> = ({
               // rules={[{ required: true, message: 'Campo obligatorio' }]}
             >
               <Select
-                disabled={activeKey === "2"}
                 className="w-100"
                 showSearch
                 placeholder="Selecciona la IPS"
@@ -113,7 +113,7 @@ const FormFilters: FC<IFormFilters> = ({
             <Form.Item
               label={
                 <>
-                  Número de documento 
+                  Número de documento
                   <LabelOptional />
                 </>
               }
@@ -122,7 +122,6 @@ const FormFilters: FC<IFormFilters> = ({
               <Input.Group compact>
                 <Form.Item name={["document", "type"]} noStyle>
                   <Select
-                    disabled={activeKey === "2"}
                     style={{ width: "30%" }}
                     placeholder="C.C"
                   >
@@ -132,7 +131,6 @@ const FormFilters: FC<IFormFilters> = ({
                 </Form.Item>
                 <Form.Item name={["document", "number"]} noStyle>
                   <Input
-                    disabled={activeKey === "2"}
                     style={{ width: "70%" }}
                     placeholder="Número de documento"
                   />
@@ -147,9 +145,8 @@ const FormFilters: FC<IFormFilters> = ({
               rules={[{ required: true, message: "Campo obligatorio" }]}
             >
               <RangePicker
-                disabled={activeKey === "2"}
                 locale={locale}
-                className='w-100'
+                className="w-100"
                 placeholder={["Fecha inicial", "Fecha final"]}
               />
             </Form.Item>
@@ -161,7 +158,6 @@ const FormFilters: FC<IFormFilters> = ({
 
         <button
           type="button"
-          
           onClick={() => {
             form.resetFields();
             onClear();
@@ -172,7 +168,7 @@ const FormFilters: FC<IFormFilters> = ({
         </button>
         <button
           type="submit"
-          disabled={loading || activeKey === "2"}
+          // disabled={loading || activeKey === "2"}
           className="btn btn-primary"
         >
           Consultar

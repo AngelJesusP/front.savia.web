@@ -1,18 +1,32 @@
 import { Card, Form, Select } from "antd";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
 import Table from "../../../utils/components/Table";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
+import useTable from "../hooks/useTable";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
 import ModalPatients from "./ModalPatients";
 
 const TableHistorical = () => {
-  const change_page = async (page: number, pageSize?: number) => {};
-
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
+  const [form] = Form.useForm();
+  const { filters, data, loading, total,  getData, resetFilters, handleTableChange } = useTable(
+    {
+      limit: 10,
+      page: 1,
+      idEnfermedad: null,
+    },
+    "/api/v1/historico/archivo"
+  );
+
   useEffect(() => {
     getListEnfermedadesConsulta();
   }, []);
+
+  const onSubmit = async (values: any) => {
+    await getData({ ...filters, ...values });
+  };
 
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {
@@ -27,18 +41,18 @@ const TableHistorical = () => {
 
   const columnas = [
     { title: "Id", dataIndex: "id" },
-    { title: "Nombre", dataIndex: "name" },
-    { title: "Archivo", dataIndex: "file" },
-    { title: "clave", dataIndex: "name" },
-    { title: "Fecha", dataIndex: "date" },
+    { title: "Nombre", dataIndex: "nombreArchivo" },
+    { title: "clave", dataIndex: "claveArchivo" },
+    {
+      title: "Fecha",
+      dataIndex: "fechaCargue",
+      render: (date: any) => moment(date).format("YYYY-MM-DD"),
+    },
     {
       title: "Detalle",
       fixed: "right",
-      dataIndex: "idDetalle",
-      render: (id: number) => {
-        return (
-          <ModalPatients />
-        );
+      render: (data: any) => {
+        return <ModalPatients idEnfermedad={filters.idEnfermedad} claveArchivo={data.claveArchivo}  />;
       },
     },
   ];
@@ -50,8 +64,8 @@ const TableHistorical = () => {
           name="wrap"
           layout="vertical"
           colon={false}
-          // onFinish={onSubmit}
-          // form={form}
+          onFinish={onSubmit}
+          form={form}
         >
           <Form.Item
             label="Seleccionar un enfermedad"
@@ -78,8 +92,8 @@ const TableHistorical = () => {
           <button
             type="button"
             onClick={() => {
-              // form.resetFields();
-              // onClear();
+              form.resetFields();
+              resetFilters();
             }}
             className="btn btn-outline-primary me-3"
           >
@@ -87,7 +101,7 @@ const TableHistorical = () => {
           </button>
           <button
             type="submit"
-            //   disabled={loading || activeKey === "2"}
+              disabled={loading}
             className="btn btn-primary"
           >
             Consultar
@@ -97,17 +111,12 @@ const TableHistorical = () => {
       <Card className="mt-3">
         <Table
           columns={columnas}
-          items={[{
-            id: 1,
-            name: 'Karen',
-            file: 'archivo',
-            date: '11/11/2022'
-          }]}
+          items={data}
           with_pagination
           paginationTop
-          // loading={loading}
-          //   count={}
-          change_page={change_page}
+          loading={loading}
+          count={total}
+          handleTableChange={handleTableChange}
         />
       </Card>
     </div>

@@ -108,7 +108,6 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
     <div className="container-fluid">
       <FormFilters
         onClear={onClear}
-        activeKey={activeKey}
         jsonAlert={jsonAlert}
         loading={loading}
         onSubmit={getData}

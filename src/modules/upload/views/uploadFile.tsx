@@ -38,7 +38,7 @@ const UploadFile = () => {
 
   return (
     <div className="h-100 d-flex flex-column">
-      <div className="flex-fill overflow-auto">
+      <div className="flex-fill">
         <div className="d-flex flex-column h-100" style={{ borderTop: '1px solid rgba(5, 5, 5, 0.06)'}}>
           <div className="bg-white d-flex flex-row pt-3 ps-4">
             <span style={{ fontSize: "14px", fontWeight: "bold" }}>
