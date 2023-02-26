@@ -39,7 +39,6 @@ const ProgressFile: FC<IProgressFile> = ({ filters }) => {
     link.target = "_blank";
     link.setAttribute("download", `${resposeDoc.valor}`);
     document.body.appendChild(link);
-    console.log(link);
     link.click();
   };
 
@@ -57,7 +56,6 @@ const ProgressFile: FC<IProgressFile> = ({ filters }) => {
             serverSendEvent.addEventListener(
               "PROCESS_GENERAR_EXCEL",
               (event) => {
-                // console.log('evento', event);
                 setResponseDoc(JSON.parse(event?.data.replace(/'/g, '"')));
               }
             );

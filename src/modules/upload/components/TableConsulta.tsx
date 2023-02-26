@@ -1,38 +1,57 @@
-import { ColumnGroupType, ColumnType } from "antd/es/table";
-import React from "react";
+import { FC } from "react";
 import ProgressFile from "./ProgressFile";
 import Table from "../../../utils/components/Table";
-import { IConsulta } from "../interfaces/enfermedades.interfaces";
+import moment from "moment";
+import { TablePaginationConfig } from "antd";
+import { FilterValue, SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
 
-export default class TableConsulta extends React.Component<{
-  handleChangeConsulta: any;
-  setTabInformacionDetalle: any;
-  data: any[];
+interface ITableConsulta {
+  total: number;
   loading: boolean;
-  total: number | null;
-  setIdPaciente: any;
-  filters: IConsulta;
-}> {
-  constructor(props: any) {
-    super(props);
-  }
+  data: any[];
+  filters: any;
+  novedades: string[];
+  handleTableChange:  ((pagination: TablePaginationConfig, filters: Record<string, string | number | boolean | null>, sorter: SorterResult<any> | SorterResult<any>[], extra: TableCurrentDataSource<any>) => void);
+}
 
-  change_page = async (page: number, pageSize?: number) => {
-    await this.props.handleChangeConsulta({
-      ...this.props.filters,
-      page,
-      limit: pageSize,
-    });
+
+
+
+const TableConsulta: FC<ITableConsulta> = ({
+  total,
+  loading,
+  data,
+  filters,
+  novedades,
+  handleTableChange,
+}) => {
+
+  const tableChange = async (
+    pagination: TablePaginationConfig,
+    filters: Record<string, string | number | boolean | null>,
+    sorter: SorterResult<any> | SorterResult<any>[],
+    extra: TableCurrentDataSource<any>
+  ) => {
+    filters = { ...filters, novedades: filters?.novedades?.toString() || null}
+    console.log('filtros', filters);
+    
+    handleTableChange(pagination,
+      filters,
+      sorter,
+      extra,)
   };
+  
 
-  /* Columnas para la tabla de paciente */
-  columnas: (ColumnGroupType<any> | ColumnType<any>)[] = [
+  const columnas = [
     { title: "Id", dataIndex: "id" },
     { title: "Primer nombre", dataIndex: "primerNombre" },
     { title: "Segundo nombre", dataIndex: "segundoNombre" },
     { title: "Primer apellido", dataIndex: "primerApellido" },
     { title: "Segundo apellido", dataIndex: "segundoApellido" },
-    { title: "Tipo identificación", dataIndex: "tipoIdentificacion" },
+    {
+      title: "Tipo identificación",
+      dataIndex: "tipoIdentificacion",
+    },
     {
       title: "Número identificación",
       dataIndex: "numeroIdentificacion",
@@ -41,48 +60,49 @@ export default class TableConsulta extends React.Component<{
       title: "Fecha de nacimiento",
       dataIndex: "fechaNacimiento",
     },
-    { title: "Sexo", dataIndex: "sexo" },
     {
-      title: "Código pertenencia étnica",
-      dataIndex: "codigoPerteneneciaEtnica",
+      title: "Fecha de afiliación",
+      dataIndex: "fechaAfilicion",
+      render: (date: any) => moment(date).format("YYYY-MM-DD"),
     },
     {
-      title: "Detalle",
-      fixed: "right",
-      dataIndex: "idDetalle",
-      render: (id: number) => {
-        return (
-          <span
-            style={{ cursor: "pointer" }}
-            className="text-primary"
-            onClick={async () => {
-              this.props.setTabInformacionDetalle("2");
-              this.props.setIdPaciente(id);
-            }}
-          >
-            Ver detalle
-          </span>
-        );
-      },
+      title: "Fecha de egreso",
+      dataIndex: "fecha_egreso",
+    },
+    {
+      title: "Prestador",
+      dataIndex: "prestador",
+    },
+    {
+      title: "Novedades",
+      dataIndex: "novedades",
+      filters: novedades?.map((novedad) => ({
+        text: novedad,
+        value: novedad,
+      })),
+      filterMode: "tree",
+      filterSearch: true,
+      
+        
     },
   ];
 
-  render(): React.ReactNode {
-    return (
-      <div>
-        <Table
-          columns={this.columnas}
-          items={this?.props?.data || []}
-          with_pagination
-          paginationTop
-          loading={this.props.loading}
-          count={this.props.total ? this.props.total : undefined}
-          change_page={this.change_page}
-        />
-        <div className="d-flex justify-content-end ">
-          <ProgressFile filters={{...this.props.filters,  bandera: true}} />
-        </div>
+  return (
+    <div>
+      <Table
+        columns={columnas}
+        items={data || []}
+        with_pagination
+        paginationTop
+        loading={loading}
+        count={total || undefined}
+        handleTableChange={tableChange}
+      />
+      <div className="d-flex justify-content-end ">
+        <ProgressFile filters={{ ...filters, bandera: true }} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default TableConsulta;

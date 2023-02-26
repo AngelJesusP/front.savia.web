@@ -20,9 +20,7 @@
   pointer-events: none;
 }
 
-.ant-modal-wrap {
-  pointer-events: none;
-}
+
 
 .ant-modal {
   pointer-events: all;
@@ -121,5 +119,10 @@ input[type='text'] {
 
 .ant-picker {
   min-height: 38px !important;
+}
+
+.modal-patients .ant-modal-content {
+  padding: 0 !important;
+  background-color: transparent !important;
 }
 
