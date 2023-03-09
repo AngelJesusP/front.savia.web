@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
 import Table from "../../../utils/components/Table";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
+import { createFolders } from "../../reports/service/reports.service";
 import useTable from "../hooks/useTable";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
 import ModalPatients from "./ModalPatients";
@@ -62,33 +63,73 @@ const TableHistorical = () => {
     },
     {
       title: "Estado",
-      dataIndex: "estado",
+      dataIndex: "estadoArchivo",
       render: (status: string) => (
         <span
           style={{ fontWeight: "bold" }}
           className={` ${
-            status === "En proceso"
+            status === "1"
               ? "text-primary"
-              : status === "Completado"
+              : status === "2"
               ? "text-success"
               : "text-warning"
           } `}
         >
-          {status}
+          {status === "1"
+            ? "Proceso"
+            : status === "2"
+            ? "Completado"
+            : "Cancelado"}
         </span>
       ),
     },
     {
-      title: "Detalle",
+      title: "Acciones",
       fixed: "right",
-      render: (data: any) => {
-        return (
-          <ModalPatients
-            idEnfermedad={filters.idEnfermedad}
-            claveArchivo={data.claveArchivo}
-          />
-        );
-      },
+      children: [
+        {
+          title: "Detalle",
+          fixed: "right",
+          align: "center",
+          render: (data: any) => {
+            return (
+              <ModalPatients
+                idEnfermedad={filters.idEnfermedad}
+                claveArchivo={data.claveArchivo}
+              />
+            );
+          },
+        },
+        {
+          title: "Crear carpetas",
+          fixed: "right",
+          align: "center",
+          render: (data: any) => {
+            console.log(data);
+            
+            if (data?.estadoArchivo === "2") {
+              return (
+                <div
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                  }}
+                  className="text-primary"
+                  onClick={async() => {
+                    const resp = await createFolders(data?.claveArchivo);
+                    console.log(resp);
+                  }}
+                >
+                  Crear
+                </div>
+              );
+            } else {
+              return "No disponible"
+            }
+          },
+        },
+      ],
     },
   ];
 

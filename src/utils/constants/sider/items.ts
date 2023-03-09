@@ -1,4 +1,4 @@
-import { RUTA_CONSULTA } from "../router/router.router"
+import { RUTA_CONSULTA, RUTA_REPORTES } from "../router/router.router"
 
 interface itemLeftPanel {
     name: string
@@ -9,6 +9,10 @@ export const listItems: itemLeftPanel[] = [
     {
         name: "Carga de archivo .csv",
         ruta: ""
+    },
+    {
+        name: "Reportes",
+        ruta: RUTA_REPORTES
     },
     {
         name: "Consultar datos cargados",
