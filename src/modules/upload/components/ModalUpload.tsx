@@ -9,6 +9,7 @@ import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
 import { MyProps, MyState } from "../types/UploadFile.type";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 const { Dragger } = Upload;
+import { swal } from "../../../utils/components/SwalAlert";
 
 export default class DashboardComponent extends React.Component<
   MyProps,
@@ -76,6 +77,13 @@ export default class DashboardComponent extends React.Component<
         openTag: false,
         openResponse: false,
       });
+      await swal.fire({
+        title: "¡Archivo subido exitosamente!",
+        text: "en este momento su archivo esta siendo leído.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+      });
+      
     } else {
       message =
         "Acción no permitida, Debe llenar todos los campos y seleccionar un archivo.";
@@ -103,14 +111,14 @@ export default class DashboardComponent extends React.Component<
           width={900}
           footer={[
             <button
-              key='button-cancel'
+              key="button-cancel"
               onClick={() => closeModal(false)}
               className="btn btn-outline-primary me-3"
             >
               Cancelar
             </button>,
             <button
-              key='button-success'
+              key="button-success"
               onClick={this.onClickEnviarArchivo}
               className="btn btn-primary"
               disabled={this.state.loading}
@@ -194,7 +202,7 @@ export default class DashboardComponent extends React.Component<
             }}
           >
             {/* <p className="ant-upload-drag-icon"> */}
-              <InboxOutlined  style={{ color: '#244c5c', fontSize: '50px' }} />
+            <InboxOutlined style={{ color: "#244c5c", fontSize: "50px" }} />
             {/* </p> */}
             <p className="ant-upload-text">
               Haga click o arrastre el archivo para ser cargado

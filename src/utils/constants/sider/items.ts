@@ -1,4 +1,4 @@
-import { RUTA_CONSULTA } from "../router/router.router"
+import { RUTA_CONSULTA, RUTA_REPORTES } from "../router/router.router"
 
 interface itemLeftPanel {
     name: string
@@ -11,6 +11,10 @@ export const listItems: itemLeftPanel[] = [
         ruta: ""
     },
     {
+        name: "Reportes",
+        ruta: RUTA_REPORTES
+    },
+    {
         name: "Consultar datos cargados",
         ruta: RUTA_CONSULTA
     },
@@ -21,5 +25,9 @@ export const listItems: itemLeftPanel[] = [
     {
         name: "Nueva enfermedad",
         ruta: ""
-    }
+    },
+    {
+        name: "Reportes",
+        ruta: RUTA_REPORTES
+    },
 ]

@@ -6,6 +6,7 @@ import fecha from '../../../utils/assets/icon/flecha-hacia-abajo.svg'
 import ModalUploadComponent from '../../upload/components/ModalUpload'
 import { styleCard, styleCardHeader, styleLink, styleSubTitle, styleTitle, styleLabelCardAction, styleLabelCardText } from '../styles/stylesDashboard'
 import { MyProps, MyState } from '../types/Dashboard.type'
+import { RUTA_CONSULTA } from '../../../utils/constants/router/router.router'
 export class DashboardComponent extends React.Component<MyProps, MyState> {
 
    state: MyState = {
@@ -63,6 +64,7 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                            <span
                               onClick={() => {}}
                               className='text-card-home'
+                              onClickCapture={() => window.location.href = RUTA_CONSULTA }
                               style={styleLabelCardAction}>Realizar consulta</span>
                         </div>
                      </div>

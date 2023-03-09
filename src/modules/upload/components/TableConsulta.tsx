@@ -32,7 +32,7 @@ const TableConsulta: FC<ITableConsulta> = ({
     sorter: SorterResult<any> | SorterResult<any>[],
     extra: TableCurrentDataSource<any>
   ) => {
-    filters = { ...filters, novedades: filters?.novedades?.toString() || null}
+    filters = { ...filters, novedades: filters?.novedades?.toString() || ''}
     console.log('filtros', filters);
     
     handleTableChange(pagination,
