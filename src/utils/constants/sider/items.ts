@@ -25,5 +25,9 @@ export const listItems: itemLeftPanel[] = [
     {
         name: "Nueva enfermedad",
         ruta: ""
-    }
+    },
+    {
+        name: "Reportes",
+        ruta: RUTA_REPORTES
+    },
 ]

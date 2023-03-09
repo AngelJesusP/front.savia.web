@@ -5,6 +5,5 @@ const RUTA_REPORTES = "/savia/reportes"
 export {
     RUTA_HOME,
     RUTA_CONSULTA,
-    RUTA_REPORTES
-
+    RUTA_REPORTES,
 }
