@@ -37,7 +37,6 @@ const useTable = (
     extra: TableCurrentDataSource<any>
   ) => {
     await await getData({ ...state.filters, ...filters, page: pagination.current, limit: pagination.pageSize});
-    console.log('cambio tabla', pagination);
   };
 
 
@@ -47,8 +46,6 @@ const useTable = (
       let response: any;
       if (method === "POST") {
         response = await axios.post(`${originUrl}${path}`, _filters);
-        
-        
       } else {
         response = await axios.get(`${originUrl}${path}`, {
           params: {
