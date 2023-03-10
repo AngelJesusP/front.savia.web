@@ -9,16 +9,16 @@ const TemplateProvider: FC<{ children: any }> = React.memo(({ children }) => {
 
   let URL: string = import.meta.env.VITE_URL;
 
-  useEffect(() => {
-    if (token) {
-      const serverSendEvent = new EventSource(
-        `${URL}/api/v1/notificacion/subcribir`
-      );
-      serverSendEvent.addEventListener("NUEVOS_MENSAJES_USUARIOS", (event) => {
-        setNotifications(event?.data || null);
-      });
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     const serverSendEvent = new EventSource(
+  //       `${URL}/api/v1/notificacion/subcribir`
+  //     );
+  //     serverSendEvent.addEventListener("NUEVOS_MENSAJES_USUARIOS", (event) => {
+  //       setNotifications(event?.data || null);
+  //     });
+  //   }
+  // }, [token]);
 
   return (
     <TemplateContext.Provider
