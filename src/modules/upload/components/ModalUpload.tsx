@@ -64,7 +64,17 @@ export default class DashboardComponent extends React.Component<
       const response = await HttpClientPostFile(fileEnviar);
       const data = response.data;
       if (data) {
+        
         const { status } = data;
+        if(status === 400) {
+          return await swal.fire({
+            title: "Tipo de archivo no permitido",
+            text: message,
+            icon: "error",
+            confirmButtonText: "Aceptar",
+          });
+        }
+       
         if (status == 200) type = "success";
         else if (status == 500) type = "error";
         else type = "warning";
@@ -83,7 +93,6 @@ export default class DashboardComponent extends React.Component<
         icon: "success",
         confirmButtonText: "Aceptar",
       });
-      
     } else {
       message =
         "Acción no permitida, Debe llenar todos los campos y seleccionar un archivo.";
@@ -96,8 +105,26 @@ export default class DashboardComponent extends React.Component<
     this.setState({ loading: false });
   };
 
-  getFile = (file: any) =>
-    this.setState({ nameFile: file.name, openTag: true, fileEnviar: file });
+  getFile = (file: any) => {
+    const file_type = file.type.split("/").pop()?.toLowerCase();
+    if (file_type === "csv") {
+      return this.setState({
+        nameFile: file.name,
+        openTag: true,
+        fileEnviar: file,
+        message: "",
+        typeres: "",
+        openResponse: false,
+      });
+    } else {
+      return this.setState({
+        message:
+          "El tipo de archivo no es permitido, por favor sube un archivo .csv",
+        typeres: "error",
+        openResponse: true,
+      });
+    }
+  };
 
   render() {
     const { openModal, closeModal } = this.props;

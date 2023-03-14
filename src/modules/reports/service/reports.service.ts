@@ -89,7 +89,7 @@ export const saveFilesInFolder = async (
   numeroDocumento: string
 ): Promise<any> => {
   const formData: FormData = new FormData();
-  formData.append("file", _file);
+  formData.append("files", _file);
   formData.append("claveArchivo", claveArchivo);
   formData.append("numeroDocumento", numeroDocumento);
   try {
@@ -119,23 +119,30 @@ export const getFilesForFolder = async (
         numeroDocumento,
       },
     });
-    return response;
+    return response.data;
   } catch (error) {
     Promise.reject(error);
   }
 };
 
-export const deleteFolderOrFile = async (id: number): Promise<any> => {
+export const deleteFolderOrFile = async (
+  claveArchivo: string,
+  numeroDocumento: string | number,
+  listFiles: any
+): Promise<any> => {
   try {
-    const response = await axios.delete(`${URL}/api/v1/reports/`, {
-      params: id,
-    });
+    const response = await axios.post(
+      `${URL}/api/v1/soportes/eliminar/archivos`,{},
+      {
+        params: {
+          claveArchivo,
+          numeroDocumento,
+          listFiles,
+        },
+      }
+    );
     return response;
   } catch (error) {
     Promise.reject(error);
   }
 };
-
-
-
-
