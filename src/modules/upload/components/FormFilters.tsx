@@ -153,7 +153,7 @@ const FormFilters: FC<IFormFilters> = ({
           </div>
         </div>
 
-        <Alert {...jsonAlert} />
+        <Alert {...jsonAlert} showIcon closable />
         <hr />
 
         <button

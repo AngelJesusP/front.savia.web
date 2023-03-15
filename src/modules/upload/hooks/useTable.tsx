@@ -1,6 +1,5 @@
 import { TablePaginationConfig } from "antd";
 import {
-  FilterValue,
   SorterResult,
   TableCurrentDataSource,
 } from "antd/es/table/interface";
@@ -59,7 +58,7 @@ const useTable = (
         data: response.data.data,
         total: response.data.items?.replace(/[\[\]]/g, "") || null,
         filters: _filters,
-      });
+      });      
       return response.data;
     } catch (error) {
       Promise.reject(error);

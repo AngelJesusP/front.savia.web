@@ -8,9 +8,19 @@ import { createFolders } from "../../reports/service/reports.service";
 import useTable from "../hooks/useTable";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
 import ModalPatients from "./ModalPatients";
+import { Alert } from "../../../utils/components/Alert";
 
 const TableHistorical = () => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
+  const [alert, setAlert] = useState<{
+    message: string;
+    type: "error" | "success" | "info" | "warning";
+    hidden: boolean;
+  }>({
+    message: "",
+    type: "error",
+    hidden: true,
+  });
   const [form] = Form.useForm();
   const {
     filters,
@@ -34,7 +44,12 @@ const TableHistorical = () => {
   }, []);
 
   const onSubmit = async (values: any) => {
-    await getData({ ...filters, ...values });
+    const { data } = await getData({ ...filters, ...values });
+    if (data.length === 0)
+      setAlert({ message: 'No hay registros', hidden: false, type: "warning" });
+    else{
+      setAlert({ message: '', hidden: true, type: "info" });  
+    }
   };
 
   const getListEnfermedadesConsulta = async () => {
@@ -106,7 +121,7 @@ const TableHistorical = () => {
           align: "center",
           render: (data: any) => {
             console.log(data);
-            
+
             if (data?.estadoArchivo === "2") {
               return (
                 <div
@@ -116,7 +131,7 @@ const TableHistorical = () => {
                     fontWeight: "bold",
                   }}
                   className="text-primary"
-                  onClick={async() => {
+                  onClick={async () => {
                     const resp = await createFolders(data?.claveArchivo);
                     console.log(resp);
                   }}
@@ -125,7 +140,7 @@ const TableHistorical = () => {
                 </div>
               );
             } else {
-              return "No disponible"
+              return "No disponible";
             }
           },
         },
@@ -162,6 +177,7 @@ const TableHistorical = () => {
               options={listEnfermedades}
             />
           </Form.Item>
+          <Alert {...alert} />
 
           <hr />
 
