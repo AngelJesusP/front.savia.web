@@ -36,7 +36,6 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
   const open = () => setIsVisible(true);
   const close = () => setIsVisible(false);
 
-
   const {
     filters,
     data,
@@ -62,8 +61,6 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
     "POST"
   );
 
-  
-
   const onSubmit = async (values: any) => {
     setJsonAlert(constantAlertJson);
     const dataFinal: IConsulta = {
@@ -82,8 +79,11 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
       page: values.page || 1,
       limit: values.limit || 10,
     };
-    const { data } = await getData(dataFinal);
-    setJsonAlert({ ...jsonAlert, message: data?.message || "" });
+
+    const { data, message } = await getData(dataFinal);
+    console.log(data);
+    if (data.length === 0)
+      setJsonAlert({ type: "warning", hidden: false, message: message || "" });
   };
 
   return (
