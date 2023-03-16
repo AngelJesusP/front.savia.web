@@ -1,20 +1,17 @@
 import React from "react";
-import { Modal, Select, Tag, Upload, Alert, Spin } from "antd";
+import { Select, Tag, Upload, Alert, Spin, Card } from "antd";
 import { LoadingOutlined, InboxOutlined } from "@ant-design/icons";
 import {
   getListEnfermedades,
   HttpClientPostFile,
 } from "../../../utils/api/api";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
-import { MyProps, MyState } from "../types/UploadFile.type";
+import { MyState } from "../types/UploadFile.type";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 const { Dragger } = Upload;
 import { swal } from "../../../utils/components/SwalAlert";
 
-export default class DashboardComponent extends React.Component<
-  MyProps,
-  MyState
-> {
+export default class CreateFile extends React.Component {
   state: MyState = {
     listEnfermedades: [],
     message: "",
@@ -64,17 +61,17 @@ export default class DashboardComponent extends React.Component<
       const response = await HttpClientPostFile(fileEnviar);
       const data = response.data;
       if (data) {
-        
         const { status } = data;
-        if(status === 400) {
+        if (status === 400) {
+          this.setState({ loading: false, fileEnviar: null, idEnfermedad: null, nameFile: "", openTag: false, });
           return await swal.fire({
-            title: "Tipo de archivo no permitido",
-            text: message,
+            title: 'Error, no se puede procesar',
+            text:  data?.message || "Tipo de archivo no permitido",
             icon: "error",
             confirmButtonText: "Aceptar",
           });
         }
-       
+
         if (status == 200) type = "success";
         else if (status == 500) type = "error";
         else type = "warning";
@@ -127,43 +124,38 @@ export default class DashboardComponent extends React.Component<
   };
 
   render() {
-    const { openModal, closeModal } = this.props;
     const { listEnfermedades, openResponse, nameFile, openTag } = this.state;
     return (
-      <div>
-        <Modal
-          closable={false}
-          centered
-          open={openModal}
-          width={900}
-          footer={[
-            <button
-              key="button-cancel"
-              onClick={() => closeModal(false)}
-              className="btn btn-outline-primary me-3"
-            >
-              Cancelar
-            </button>,
-            <button
-              key="button-success"
-              onClick={this.onClickEnviarArchivo}
-              className="btn btn-primary"
-              disabled={this.state.loading}
-            >
-              <div className="d-flex align-items-center">
-                Realizar carga
-                {this.state.loading && (
-                  <Spin
-                    indicator={
-                      <LoadingOutlined
-                        className="text-white ms-2"
-                        style={{ fontSize: "14px" }}
-                      />
-                    }
-                  />
-                )}
-              </div>
-            </button>,
+      <div className="container-fluid mt-3">
+        <Card
+          actions={[
+            <div key="actions-button" className="d-flex justify-content-end me-4">
+              <button
+                // onClick={() => closeModal(false)}
+                className="btn btn-outline-primary me-3"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={this.onClickEnviarArchivo}
+                className="btn btn-primary"
+                disabled={this.state.loading}
+              >
+                <div className="d-flex align-items-center">
+                  Realizar carga
+                  {this.state.loading && (
+                    <Spin
+                      indicator={
+                        <LoadingOutlined
+                          className="text-white ms-2"
+                          style={{ fontSize: "14px" }}
+                        />
+                      }
+                    />
+                  )}
+                </div>
+              </button>
+            </div>,
           ]}
         >
           <span style={{ font: "normal normal normal 13px/13px Montserrat" }}>
@@ -245,7 +237,7 @@ export default class DashboardComponent extends React.Component<
             </Tag>
           ) : null}
           {openResponse ? this.getAlertMessage() : null}
-        </Modal>
+        </Card>
       </div>
     );
   }

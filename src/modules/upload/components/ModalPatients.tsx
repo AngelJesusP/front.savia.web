@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Card, Modal } from "antd";
-import moment from "moment";
 import { FC, useState } from "react";
 import useTable from "../hooks/useTable";
 import { IConsulta } from "../interfaces/enfermedades.interfaces";
@@ -30,10 +29,15 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
 
   const getNovedades = async () => {
     const resp = await getNews(idEnfermedad);
-    setNovedades(resp?.split(","));
+    console.log('resultado', resp);
+    
+    setNovedades(resp);
   };
 
-  const open = () => setIsVisible(true);
+  const open = async () => {
+    setIsVisible(true);
+    await onSubmit({ idEnfermedad });
+  }
   const close = () => setIsVisible(false);
 
   const {
@@ -66,22 +70,21 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
     const dataFinal: IConsulta = {
       claveArchivo: claveArchivo,
       novedades: "",
-      idEnfermedad: values?.idEnfermedad || -1,
+      idEnfermedad: idEnfermedad || -1,
       idIps: values?.idIps || null,
       tipoDocumento: values?.document?.type || "",
       documento: values?.document?.number || "",
-      desde:
-        values?.desde ||
-        moment(new Date(values?.rangePicker[0])).format("YYYY-MM-DD"),
-      hasta:
-        values?.hasta ||
-        moment(new Date(values?.rangePicker[1])).format("YYYY-MM-DD"),
+      desde: '',
+        /* values?.desde ||
+        moment(new Date(values?.rangePicker[0])).format("YYYY-MM-DD"),*/
+      hasta: '',
+        /* values?.hasta ||
+        moment(new Date(values?.rangePicker[1])).format("YYYY-MM-DD"),*/
       page: values.page || 1,
       limit: values.limit || 10,
     };
 
     const { data, message } = await getData(dataFinal);
-    console.log(data);
     if (data.length === 0)
       setJsonAlert({ type: "warning", hidden: false, message: message || "" });
   };
@@ -113,7 +116,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
           type="patient"
         />
 
-        {data.length > 0 && (
+        {/* {data.length > 0 && ( */}
           <Card className="mt-3">
             <TableConsulta
               total={total}
@@ -124,7 +127,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
               handleTableChange={handleTableChange}
             />
           </Card>
-        )}
+        {/* )} */}
       </Modal>
     </>
   );

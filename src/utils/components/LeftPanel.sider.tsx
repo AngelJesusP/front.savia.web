@@ -4,6 +4,7 @@ import LogoLeftPanel from '../assets/img/imgLogoLeftPanel.jpg'
 import { Menu } from "antd";
 import { listItems } from "../constants/sider/items";
 import { MinusCircleTwoTone } from '@ant-design/icons';
+import { RUTA_HOME } from "../constants/router/router.router";
 
 export default class LeftPanel extends React.Component {
 
@@ -17,7 +18,7 @@ export default class LeftPanel extends React.Component {
     render(): React.ReactNode {
 
         return <div className="left-panel">
-            <img src={LogoLeftPanel} className="img-fluid w-100 p-2" style={{ height: 219 }} alt="logo leftpanel" />
+            <img src={LogoLeftPanel} style={{ cursor: 'pointer', height: 219 }} onClick={() => window.location.href = RUTA_HOME} className="img-fluid w-100 p-2" alt="logo leftpanel" />
             <hr />
             <Menu mode="inline"
                 style={{ height: '100%', font: 'normal normal normal 13px/22px Montserrat' }}
