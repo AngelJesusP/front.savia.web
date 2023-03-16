@@ -76,9 +76,9 @@ const TableConsulta: FC<ITableConsulta> = ({
     {
       title: "Novedades",
       dataIndex: "novedades",
-      filters: novedades?.map((novedad) => ({
-        text: novedad,
-        value: novedad,
+      filters: novedades?.map((novedad: any) => ({
+        text: novedad?.novDescripcion,
+        value: novedad?.novCodigo,
       })),
       filterMode: "tree",
       filterSearch: true,

@@ -111,6 +111,7 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
         jsonAlert={jsonAlert}
         loading={loading}
         onSubmit={getData}
+        type='error'
       />
       <Card className="mt-3">
         <Table
