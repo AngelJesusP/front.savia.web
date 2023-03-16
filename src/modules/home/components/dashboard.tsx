@@ -3,10 +3,9 @@ import '../../../utils/Css/index.scss'
 import iconExcel from '../../../utils/assets/icon/cargaarchivos.svg'
 import history from '../../../utils/assets/icon/consultaCard.svg'
 import fecha from '../../../utils/assets/icon/flecha-hacia-abajo.svg'
-import ModalUploadComponent from '../../upload/components/ModalUpload'
 import { styleCard, styleCardHeader, styleLink, styleSubTitle, styleTitle, styleLabelCardAction, styleLabelCardText } from '../styles/stylesDashboard'
 import { MyProps, MyState } from '../types/Dashboard.type'
-import { RUTA_CONSULTA } from '../../../utils/constants/router/router.router'
+import { RUTA_CARGA, RUTA_CONSULTA } from '../../../utils/constants/router/router.router'
 export class DashboardComponent extends React.Component<MyProps, MyState> {
 
    state: MyState = {
@@ -20,9 +19,9 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
       return (
          <div style={{ height: 190 }} className="bg-white">
 
-            {modalUpload ? <ModalUploadComponent
+            {/* {modalUpload ? <ModalUploadComponent
                openModal={modalUpload}
-               closeModal={this.onClickModalUpload} /> : null}
+               closeModal={this.onClickModalUpload} /> : null} */}
 
             <h5 style={styleTitle}>Bienvenido(a) al sistema de carga de savia Salud EPS</h5>
             <p style={styleSubTitle}>Desde aqui podra elegir los módulos para gestionar el contenido 
@@ -43,7 +42,7 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                               tablas sin acceso SQL.</p>
                            <img src={fecha} style={{ height: 7 }} alt="" />
                            <span className='text-card-home'
-                              onClick={() => this.onClickModalUpload(true)}
+                              onClick={() => window.location.href = RUTA_CARGA}
                               style={styleLabelCardAction}>Realizar carga</span>
                         </div>
                      </div>
@@ -59,7 +58,7 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                         <div className="card-body">
                            <p className="card-text" style={styleLabelCardText}>
                               Esta función permite consultar y ver el número de registros procesados por
-                              evisnfermedad, Ips y fecha de carga.</p>
+                              enfermedad, Ips y fecha de carga.</p>
                            <img src={fecha} style={{ height: 7 }} alt="" />
                            <span
                               onClick={() => {}}

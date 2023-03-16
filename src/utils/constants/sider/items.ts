@@ -1,4 +1,4 @@
-import { RUTA_CONSULTA, RUTA_REPORTES } from "../router/router.router"
+import { RUTA_CARGA, RUTA_CONSULTA, RUTA_HOME, RUTA_REPORTES } from "../router/router.router"
 
 interface itemLeftPanel {
     name: string
@@ -7,24 +7,16 @@ interface itemLeftPanel {
 
 export const listItems: itemLeftPanel[] = [
     {
-        name: "Carga de archivo .csv",
-        ruta: ""
+        name: "Página principal",
+        ruta: RUTA_HOME,
     },
     {
-        name: "Reportes",
-        ruta: RUTA_REPORTES
+        name: "Carga de archivo .csv",
+        ruta: RUTA_CARGA,
     },
     {
         name: "Consultar datos cargados",
         ruta: RUTA_CONSULTA
-    },
-    {
-        name: "Log de errores de carga",
-        ruta: ""
-    },
-    {
-        name: "Nueva enfermedad",
-        ruta: ""
     },
     {
         name: "Reportes",

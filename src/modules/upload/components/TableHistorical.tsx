@@ -1,4 +1,4 @@
-import { Card, Form, Select } from "antd";
+import { Card, Form, Select, Tag } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
@@ -9,6 +9,12 @@ import useTable from "../hooks/useTable";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
 import ModalPatients from "./ModalPatients";
 import { Alert } from "../../../utils/components/Alert";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  SyncOutlined,
+  FolderOpenOutlined,
+} from '@ant-design/icons';
 
 const TableHistorical = () => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
@@ -46,9 +52,9 @@ const TableHistorical = () => {
   const onSubmit = async (values: any) => {
     const { data } = await getData({ ...filters, ...values });
     if (data.length === 0)
-      setAlert({ message: 'No hay registros', hidden: false, type: "warning" });
-    else{
-      setAlert({ message: '', hidden: true, type: "info" });  
+      setAlert({ message: "No hay registros", hidden: false, type: "warning" });
+    else {
+      setAlert({ message: "", hidden: true, type: "info" });
     }
   };
 
@@ -79,24 +85,33 @@ const TableHistorical = () => {
     {
       title: "Estado",
       dataIndex: "estadoArchivo",
-      render: (status: string) => (
-        <span
-          style={{ fontWeight: "bold" }}
-          className={` ${
-            status === "1"
-              ? "text-primary"
+      align: 'center',
+      render: (status: string) => {
+        return (
+          <Tag
+            color={
+              status === "1"
+                ? "processing"
+                : status === "2"
+                ? "success"
+                : "warning"
+            }
+            icon={
+              status === "1"
+                ? <SyncOutlined spin />
+                : status === "2"
+                ? <CheckCircleOutlined />
+                : <CloseCircleOutlined />
+            }
+          >
+            {status === "1"
+              ? "Proceso"
               : status === "2"
-              ? "text-success"
-              : "text-warning"
-          } `}
-        >
-          {status === "1"
-            ? "Proceso"
-            : status === "2"
-            ? "Completado"
-            : "Cancelado"}
-        </span>
-      ),
+              ? "Completado"
+              : "Cancelado"}
+          </Tag>
+        );
+      },
     },
     {
       title: "Acciones",
@@ -130,13 +145,13 @@ const TableHistorical = () => {
                     fontSize: "14px",
                     fontWeight: "bold",
                   }}
-                  className="text-primary"
+                  // className="text-primary"
                   onClick={async () => {
                     const resp = await createFolders(data?.claveArchivo);
                     console.log(resp);
                   }}
                 >
-                  Crear
+                 <FolderOpenOutlined style={{ color: '#bdbd18'}} /> 
                 </div>
               );
             } else {

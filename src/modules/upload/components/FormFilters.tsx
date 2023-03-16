@@ -12,8 +12,13 @@ interface IFormFilters {
   onClear: () => any;
   jsonAlert: any;
   loading: boolean;
-  values?: { idEnfermedad: number, idIps?: number, document?: any, rangePicker?: any };
-  type?: 'patient' | 'error'
+  values?: {
+    idEnfermedad: number;
+    idIps?: number;
+    document?: any;
+    rangePicker?: any;
+  };
+  type?: "patient" | "error";
 }
 
 const FormFilters: FC<IFormFilters> = ({
@@ -22,9 +27,11 @@ const FormFilters: FC<IFormFilters> = ({
   jsonAlert,
   loading,
   values,
-  type
+  type,
 }) => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
+  const [validateField, setValidateField] = useState('');
+  
   const { RangePicker } = DatePicker;
   const { Option } = Select;
   const [form] = Form.useForm();
@@ -65,31 +72,36 @@ const FormFilters: FC<IFormFilters> = ({
         colon={false}
         onFinish={onSubmit}
         form={form}
-        fields={[{ name: ["idEnfermedad"], value: values?.idEnfermedad || null }]}
+        fields={[
+          { name: ["idEnfermedad"], value: values?.idEnfermedad || null },
+        ]}
       >
         <div className="row align-items-center">
-          <div className="col-12 col-md-6 col-lg-3">
-            <Form.Item
-              label="Seleccionar un enfermedad"
-              name="idEnfermedad"
-              rules={[{ required: true, message: "Campo obligatorio" }]}
-            >
-              <Select
-                disabled={type === 'patient'}
-                className="w-100"
-                showSearch
-                placeholder="Selecciona la enfermedad"
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={listEnfermedades}
-              />
-            </Form.Item>
-          </div>
-          <div className="col-12 col-md-6 col-lg-3">
+          {type === "error" && (
+            <div className="col-12 col-md-6 col-lg-3">
+              <Form.Item
+                label="Seleccionar un enfermedad"
+                name="idEnfermedad"
+                rules={[{ required: true, message: "Campo obligatorio" }]}
+              >
+                <Select
+                  // disabled={type === 'patient'}
+                  className="w-100"
+                  showSearch
+                  placeholder="Selecciona la enfermedad"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={listEnfermedades}
+                />
+              </Form.Item>
+            </div>
+          )}
+
+          <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
             <Form.Item
               label={
                 <>
@@ -109,7 +121,7 @@ const FormFilters: FC<IFormFilters> = ({
               />
             </Form.Item>
           </div>
-          <div className="col-12 col-md-6 col-lg-3">
+          <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
             <Form.Item
               label={
                 <>
@@ -120,11 +132,13 @@ const FormFilters: FC<IFormFilters> = ({
               name="document"
             >
               <Input.Group compact>
-                <Form.Item name={["document", "type"]} noStyle>
-                  <Select
-                    style={{ width: "30%" }}
-                    placeholder="C.C"
-                  >
+                <Form.Item
+                  name={["document", "type"]}
+                  noStyle
+                  rules={[{ required: validateField ? true : false, message: "Campo obligatorio" }]}
+                  
+                >
+                  <Select style={{ width: "30%" }} placeholder="C.C">
                     <Option value="CC">CC</Option>
                     <Option value="TI">TI</Option>
                   </Select>
@@ -133,24 +147,29 @@ const FormFilters: FC<IFormFilters> = ({
                   <Input
                     style={{ width: "70%" }}
                     placeholder="Número de documento"
+                    onChange={({ target}) => {
+                      setValidateField(target.value);
+                    }}
                   />
                 </Form.Item>
               </Input.Group>
             </Form.Item>
           </div>
-          <div className="col-12 col-md-6 col-lg-3">
-            <Form.Item
-              label="Desde - Hasta"
-              name="rangePicker"
-              rules={[{ required: true, message: "Campo obligatorio" }]}
-            >
-              <RangePicker
-                locale={locale}
-                className="w-100"
-                placeholder={["Fecha inicial", "Fecha final"]}
-              />
-            </Form.Item>
-          </div>
+          {type === "error" && (
+            <div className="col-12 col-md-6 col-lg-3">
+              <Form.Item
+                label="Desde - Hasta"
+                name="rangePicker"
+                rules={[{ required: true, message: "Campo obligatorio" }]}
+              >
+                <RangePicker
+                  locale={locale}
+                  className="w-100"
+                  placeholder={["Fecha inicial", "Fecha final"]}
+                />
+              </Form.Item>
+            </div>
+          )}
         </div>
 
         <Alert {...jsonAlert} showIcon closable />
