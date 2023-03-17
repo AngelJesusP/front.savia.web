@@ -160,7 +160,7 @@ export default class CreateFile extends React.Component {
         >
           <span style={{ font: "normal normal normal 13px/13px Montserrat" }}>
             Carga de archivo .csv
-            <span
+            {/* <span
               style={{
                 font: "normal normal normal 10px/13px Montserrat",
                 color: "#AD0808",
@@ -168,14 +168,14 @@ export default class CreateFile extends React.Component {
             >
               {" "}
               - llenar todos los campos obligatorios
-            </span>
+            </span> */}
           </span>
           <hr style={{ position: "relative", bottom: 10 }} />
 
           <div className="row">
             <div className="col-6">
               <span style={{ font: "normal normal 600 12px/15px Montserrat" }}>
-                Seleccionar un enfermedad{" "}
+                Seleccionar una enfermedad{" "}
               </span>
               <Select
                 className="w-100"
@@ -194,12 +194,12 @@ export default class CreateFile extends React.Component {
             </div>
             <div className="col-6">
               <span style={{ font: "normal normal 600 12px/15px Montserrat" }}>
-                Seleccionar la IPS
+                Seleccionar el prestador
               </span>
               <Select
                 className="w-100"
                 showSearch
-                placeholder="Selecciona la IPS"
+                placeholder="Selecciona el prestador"
                 optionFilterProp="children"
                 // onChange={onChange}
                 // onSearch={onSearch}
@@ -224,7 +224,7 @@ export default class CreateFile extends React.Component {
             <InboxOutlined style={{ color: "#244c5c", fontSize: "50px" }} />
             {/* </p> */}
             <p className="ant-upload-text">
-              Haga click o arrastre el archivo para ser cargado
+              Haga clic o arrastre el archivo para ser cargado
             </p>
             <p className="ant-upload-hint">
               Soporte para una carga única o masiva. Prohibir estrictamente la
