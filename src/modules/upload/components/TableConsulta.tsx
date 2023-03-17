@@ -2,8 +2,12 @@ import { FC } from "react";
 import ProgressFile from "./ProgressFile";
 import Table from "../../../utils/components/Table";
 import moment from "moment";
-import { TablePaginationConfig } from "antd";
-import { FilterValue, SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
+import { Popover, TablePaginationConfig } from "antd";
+import {
+  FilterValue,
+  SorterResult,
+  TableCurrentDataSource,
+} from "antd/es/table/interface";
 
 interface ITableConsulta {
   total: number;
@@ -11,11 +15,13 @@ interface ITableConsulta {
   data: any[];
   filters: any;
   novedades: string[];
-  handleTableChange:  ((pagination: TablePaginationConfig, filters: Record<string, string | number | boolean | null>, sorter: SorterResult<any> | SorterResult<any>[], extra: TableCurrentDataSource<any>) => void);
+  handleTableChange: (
+    pagination: TablePaginationConfig,
+    filters: Record<string, string | number | boolean | null>,
+    sorter: SorterResult<any> | SorterResult<any>[],
+    extra: TableCurrentDataSource<any>
+  ) => void;
 }
-
-
-
 
 const TableConsulta: FC<ITableConsulta> = ({
   total,
@@ -25,22 +31,17 @@ const TableConsulta: FC<ITableConsulta> = ({
   novedades,
   handleTableChange,
 }) => {
-
   const tableChange = async (
     pagination: TablePaginationConfig,
     filters: Record<string, string | number | boolean | null>,
     sorter: SorterResult<any> | SorterResult<any>[],
     extra: TableCurrentDataSource<any>
   ) => {
-    filters = { ...filters, novedades: filters?.novedades?.toString() || ''}
-    console.log('filtros', filters);
-    
-    handleTableChange(pagination,
-      filters,
-      sorter,
-      extra,)
+    filters = { ...filters, novedades: filters?.novedades?.toString() || "" };
+    console.log("filtros", filters);
+
+    handleTableChange(pagination, filters, sorter, extra);
   };
-  
 
   const columnas = [
     { title: "Id", dataIndex: "id" },
@@ -77,13 +78,15 @@ const TableConsulta: FC<ITableConsulta> = ({
       title: "Novedades",
       dataIndex: "novedades",
       filters: novedades?.map((novedad: any) => ({
-        text: novedad?.novDescripcion,
+        text: (
+          <Popover style={{zIndex: 10000}} trigger="hover" content={novedad?.novDescripcion}>
+            <span>{`Novedad ${novedad?.novCodigo}`}</span>
+          </Popover>
+        ),
         value: novedad?.novCodigo,
       })),
       filterMode: "tree",
       filterSearch: true,
-      
-        
     },
   ];
 
