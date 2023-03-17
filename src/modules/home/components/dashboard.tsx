@@ -5,7 +5,7 @@ import history from '../../../utils/assets/icon/consultaCard.svg'
 import fecha from '../../../utils/assets/icon/flecha-hacia-abajo.svg'
 import { styleCard, styleCardHeader, styleLink, styleSubTitle, styleTitle, styleLabelCardAction, styleLabelCardText } from '../styles/stylesDashboard'
 import { MyProps, MyState } from '../types/Dashboard.type'
-import { RUTA_CARGA, RUTA_CONSULTA } from '../../../utils/constants/router/router.router'
+import { RUTA_CARGA, RUTA_CONSULTA, RUTA_REPORTES } from '../../../utils/constants/router/router.router'
 export class DashboardComponent extends React.Component<MyProps, MyState> {
 
    state: MyState = {
@@ -23,8 +23,8 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                openModal={modalUpload}
                closeModal={this.onClickModalUpload} /> : null} */}
 
-            <h5 style={styleTitle}>Bienvenido(a) al sistema de carga de savia Salud EPS</h5>
-            <p style={styleSubTitle}>Desde aqui podra elegir los módulos para gestionar el contenido 
+            <h5 style={styleTitle}>Bienvenido(a) al sistema de carga de Savia Salud EPS</h5>
+            <p style={styleSubTitle}>Desde aquí podrá elegir los módulos para gestionar el contenido 
             del portal de savia salud EPS</p>
 
             <div style={{ position: 'relative', top: 68 }}>
@@ -58,7 +58,7 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                         <div className="card-body">
                            <p className="card-text" style={styleLabelCardText}>
                               Esta función permite consultar y ver el número de registros procesados por
-                              enfermedad, Ips y fecha de carga.</p>
+                              enfermedad, Prestador y fecha de carga.</p>
                            <img src={fecha} style={{ height: 7 }} alt="" />
                            <span
                               onClick={() => {}}
@@ -74,14 +74,15 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                         <div className="card-header bg-white" style={styleCardHeader}>
                            <img src={iconExcel} style={{ height: 30 }} alt="" />
                            <span className="card-text" style={styleLink}>
-                              Ver log de cargas</span>
+                              Ver reportes</span>
                         </div>
                         <div className="card-body">
                            <p className="card-text" style={styleLabelCardText}>
-                              Permite cargar grandes cantidades de información de la aplicación y datos
-                              en tablas sin acceso SQL.</p>
+                              Permite visualizar todos los reportes de los pacientes cargados correctamente.</p>
                            <img src={fecha} style={{ height: 7 }} alt="" />
-                           <span className='text-card-home' style={styleLabelCardAction}>Realizar consulta</span>
+                           <span className='text-card-home' 
+                           onClick={() => window.location.href = RUTA_REPORTES}
+                           style={styleLabelCardAction}>Realizar consulta</span>
                         </div>
                      </div>
                   </div>

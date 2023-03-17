@@ -174,7 +174,7 @@ const TableHistorical = () => {
           form={form}
         >
           <Form.Item
-            label="Seleccionar un enfermedad"
+            label="Seleccionar una enfermedad"
             name="idEnfermedad"
             rules={[{ required: true, message: "Campo obligatorio" }]}
           >

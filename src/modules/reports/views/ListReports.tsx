@@ -27,7 +27,7 @@ export const ListReports = () => {
     <div className="container">
       {contextHolder}
       <Card
-        title="filtros"
+        title="Filtros"
         className="mt-3"
         actions={[
           <div key="button-search" className="d-flex justify-content-end me-3">
