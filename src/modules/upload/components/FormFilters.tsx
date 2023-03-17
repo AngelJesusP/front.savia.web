@@ -56,13 +56,13 @@ const FormFilters: FC<IFormFilters> = ({
       title={
         <span>
           Realizar consulta de registros cargados &#160;
-          <span
+          {/* <span
             style={{
               color: "#ff4d4f",
             }}
           >
             - &#160; Llenar todos los campos que sean obligatorios{" "}
-          </span>
+          </span> */}
         </span>
       }
     >
@@ -80,7 +80,7 @@ const FormFilters: FC<IFormFilters> = ({
           {type === "error" && (
             <div className="col-12 col-md-6 col-lg-3">
               <Form.Item
-                label="Seleccionar un enfermedad"
+                label="Seleccionar una enfermedad"
                 name="idEnfermedad"
                 rules={[{ required: true, message: "Campo obligatorio" }]}
               >
@@ -105,7 +105,7 @@ const FormFilters: FC<IFormFilters> = ({
             <Form.Item
               label={
                 <>
-                  Seleccionar la IPS <LabelOptional />
+                  Seleccionar el prestador <LabelOptional />
                 </>
               }
               name="idIps"
@@ -114,7 +114,7 @@ const FormFilters: FC<IFormFilters> = ({
               <Select
                 className="w-100"
                 showSearch
-                placeholder="Selecciona la IPS"
+                placeholder="Selecciona el prestador"
                 optionFilterProp="children"
                 // filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
                 options={[]}
