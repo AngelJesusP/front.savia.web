@@ -24,8 +24,12 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
   const [novedades, setNovedades] = useState([]);
 
   useEffect(() => {
-    getNovedades();
-  }, []);
+    if(isVisible) {
+      console.log('aquiiii');
+      
+      getNovedades();
+    }
+  }, [isVisible]);
 
   const getNovedades = async () => {
     const resp = await getNews(idEnfermedad);
