@@ -14,7 +14,7 @@ import {
   CloseCircleOutlined,
   SyncOutlined,
   FolderOpenOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 
 const TableHistorical = () => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
@@ -76,7 +76,7 @@ const TableHistorical = () => {
         filters.page === 1 ? index + 1 : (filters.page - 1) * 10 + index + 1,
     },
     { title: "Nombre", dataIndex: "nombreArchivo" },
-    { title: "clave", dataIndex: "claveArchivo" },
+    { title: "Clave", dataIndex: "claveArchivo" },
     {
       title: "Fecha",
       dataIndex: "fechaCargue",
@@ -85,10 +85,11 @@ const TableHistorical = () => {
     {
       title: "Estado",
       dataIndex: "estadoArchivo",
-      align: 'center',
+      align: "center",
       render: (status: string) => {
         return (
           <Tag
+            style={{ width: "100%" }}
             color={
               status === "1"
                 ? "processing"
@@ -97,11 +98,13 @@ const TableHistorical = () => {
                 : "warning"
             }
             icon={
-              status === "1"
-                ? <SyncOutlined spin />
-                : status === "2"
-                ? <CheckCircleOutlined />
-                : <CloseCircleOutlined />
+              status === "1" ? (
+                <SyncOutlined spin />
+              ) : status === "2" ? (
+                <CheckCircleOutlined />
+              ) : (
+                <CloseCircleOutlined />
+              )
             }
           >
             {status === "1"
@@ -151,7 +154,7 @@ const TableHistorical = () => {
                     console.log(resp);
                   }}
                 >
-                 <FolderOpenOutlined style={{ color: '#bdbd18'}} /> 
+                  <FolderOpenOutlined style={{ color: "#bdbd18" }} />
                 </div>
               );
             } else {
