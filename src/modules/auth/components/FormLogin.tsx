@@ -16,6 +16,7 @@ const FormLogin = () => {
   const [typeRes, setTypeRes] = useState<any>("");
   const [message, setMessage] = useState<string>("");
 
+  /* Una función que devuelve un componente de alerta. */
   const getAlertMessage = () => {
     return (
       <div className="container-alert-login">
@@ -31,6 +32,16 @@ const FormLogin = () => {
     );
   };
 
+  /**
+   * Si el nombre de usuario y la contraseña están vacíos, configure la alerta en verdadero, configure
+   * el tipo Res en error y configure el mensaje en "Acción no permitido, Debe ingresar todos los
+   * campos".
+   * Si el nombre de usuario y la contraseña son "admin", llame a la función IndexAuth, establezca
+   * onClickSession en verdadero y llame a la función de historial con el argumento "/savia/home".
+   * Si el nombre de usuario y la contraseña no son "admin", configure la alerta en verdadero,
+   * configure typeRes en error y configure el mensaje en "Credenciales incorrectas".
+   * @returns el valor de la variable "onClickSession"
+   */
   const signIn = () => {
     if (userName == "" && password == "") {
       setAlert(true);
@@ -47,8 +58,8 @@ const FormLogin = () => {
     }
 
     setAlert(true);
-      setTypeRes("error");
-      setMessage("Credenciales incorrectas");
+    setTypeRes("error");
+    setMessage("Credenciales incorrectas");
   };
 
   return (

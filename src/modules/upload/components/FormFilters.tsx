@@ -30,16 +30,21 @@ const FormFilters: FC<IFormFilters> = ({
   type,
 }) => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
-  const [validateField, setValidateField] = useState('');
-  
+  const [validateField, setValidateField] = useState("");
+
   const { RangePicker } = DatePicker;
   const { Option } = Select;
   const [form] = Form.useForm();
 
+  /* Llamando a la función `getListEnfermedadesConsulta` cuando el componente está montado. */
   useEffect(() => {
     getListEnfermedadesConsulta();
   }, []);
 
+  /**
+   * GetListEnfermedadesConsulta() es una función asíncrona que llama a getListEnfermedades() y luego
+   * establece el estado de listEnfermedades en el resultado de convertListToSelect(list).
+   */
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {
       const { status } = data;
@@ -135,8 +140,12 @@ const FormFilters: FC<IFormFilters> = ({
                 <Form.Item
                   name={["document", "type"]}
                   noStyle
-                  rules={[{ required: validateField ? true : false, message: "Campo obligatorio" }]}
-                  
+                  rules={[
+                    {
+                      required: validateField ? true : false,
+                      message: "Campo obligatorio",
+                    },
+                  ]}
                 >
                   <Select style={{ width: "30%" }} placeholder="C.C">
                     <Option value="CC">CC</Option>
@@ -147,7 +156,7 @@ const FormFilters: FC<IFormFilters> = ({
                   <Input
                     style={{ width: "70%" }}
                     placeholder="Número de documento"
-                    onChange={({ target}) => {
+                    onChange={({ target }) => {
                       setValidateField(target.value);
                     }}
                   />

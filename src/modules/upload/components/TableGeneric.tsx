@@ -34,6 +34,7 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
     limit: 10,
   });
 
+  /* Un gancho que se ejecuta cuando se monta el componente y cuando cambian los datos. */
   useEffect(() => {
     if (data.length > 0) {
       const columsForJson: any = Object.keys(data[0]).map((key) => {
@@ -57,6 +58,12 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
     });
   };
 
+  /**
+   * Se usa un formulario para obtener los valores y luego se usan esos valores para hacer
+   * una solicitud al backend.
+   * </código>
+   * @param {any} values - cualquiera = {
+   */
   const getData = async (values: any) => {
     setJsonAlert(constantAlertJson);
     setLoading(true);
@@ -85,6 +92,11 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
     setLoading(false);
   };
 
+  /**
+   * OnClear() es una función que establece el estado de carga en verdadero, establece el estado de los
+   * filtros en un nuevo objeto, establece el estado de total en nulo, establece el estado de carga en
+   * falso después de 1000 ms y establece el estado de los datos en una matriz vacía.
+   */
   const onClear = () => {
     setLoading(true);
     setFilters({
@@ -111,7 +123,7 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
         jsonAlert={jsonAlert}
         loading={loading}
         onSubmit={getData}
-        type='error'
+        type="error"
       />
       <Card className="mt-3">
         <Table

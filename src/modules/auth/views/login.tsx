@@ -3,7 +3,6 @@ import logoHeaderLogin from '../../../utils/assets/img/logoHomeSavia.jpg'
 import { fontLabel } from '../styles/stylesAuth'
 
 export const Login = () => {
-
     return (
         <div className='container w-100'>
             <div className="row justify-content-center align-items-center">
