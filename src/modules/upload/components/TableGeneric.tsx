@@ -1,28 +1,53 @@
-import { Card } from "antd";
+import { Card, Tag, Tour, TourProps } from "antd";
 import moment from "moment";
-import { useEffect, FC, useState } from "react";
+import { useEffect, FC, useState, useRef } from "react";
 import Table from "../../../utils/components/Table";
 import { IConsulta } from "../interfaces/enfermedades.interfaces";
 import { getLogErrors } from "../service/enfermedades.services";
 import FormFilters from "./FormFilters";
 import ProgressFile from "./ProgressFile";
 
-interface ITableGeneric {
-  activeKey: string;
-}
+// interface ITableGeneric {
+//   activeKey: string;
+// }
 
-const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
+const TableGeneric: FC<any> = () => {
   const constantAlertJson = {
     message: "",
     type: "error",
     hidden: true,
   };
 
+  const ref = useRef(null);
+
+  const [open, setOpen] = useState<boolean>(false);
+
+  const steps: TourProps["steps"] = [
+    {
+      title: "Center",
+      description: "Displlayed in the center of screen.",
+      target: null,
+    },
+    {
+      title: "Right",
+      description: "On the right of target.",
+      placement: "right",
+      target: () => ref.current,
+    },
+    {
+      title: "Top",
+      description: "On the top of target.",
+      placement: "top",
+      target: () => ref.current,
+    },
+  ];
+
   const [colums, setColumns] = useState();
   const [total, setTotal] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState([]);
   const [jsonAlert, setJsonAlert] = useState(constantAlertJson);
+  const [getskeleton, setSkeleton] = useState<boolean>(false);
   const [filters, setFilters] = useState<IConsulta>({
     idEnfermedad: -1,
     idIps: null,
@@ -34,6 +59,14 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
     limit: 10,
   });
 
+  const getDescriptionError = () => {
+    setSkeleton(true);
+    // setTimeout(() => {
+    //   setSkeleton(false);
+    //   setClickPopover('');
+    // }, 3000);
+  };
+
   useEffect(() => {
     if (data.length > 0) {
       const columsForJson: any = Object.keys(data[0]).map((key) => {
@@ -41,6 +74,33 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
           title: `${key.split("_").join(" ")}`,
           dataIndex: `${key}`,
           key: `${key}`,
+          render: (value: any) => {
+            if (key === "error_validacion") {
+              return (
+                <>
+                  <Tag
+                    ref={ref}
+                    onClick={() => {setOpen(true)}}
+                    color="red"
+                    style={{
+                      width: "100%",
+                      cursor: "pointer",
+                      textAlign: "center",
+                    }}
+                  >
+                    Ver errores
+                  </Tag>
+                  <Tour
+                    open={open}
+                    onClose={() => {setOpen(false)}}
+                    steps={steps}
+                  />
+                </>
+              );
+            } else {
+              return <span>{value}</span>;
+            }
+          },
         };
       });
       if (columsForJson.length) setColumns(columsForJson);
@@ -111,7 +171,7 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
         jsonAlert={jsonAlert}
         loading={loading}
         onSubmit={getData}
-        type='error'
+        type="error"
       />
       <Card className="mt-3">
         <Table

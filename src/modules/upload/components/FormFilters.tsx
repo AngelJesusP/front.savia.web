@@ -25,7 +25,6 @@ const FormFilters: FC<IFormFilters> = ({
   onSubmit,
   onClear,
   jsonAlert,
-  loading,
   values,
   type,
 }) => {
@@ -53,18 +52,18 @@ const FormFilters: FC<IFormFilters> = ({
 
   return (
     <Card
-      title={
-        <span>
-          Realizar consulta de registros cargados &#160;
-          {/* <span
-            style={{
-              color: "#ff4d4f",
-            }}
-          >
-            - &#160; Llenar todos los campos que sean obligatorios{" "}
-          </span> */}
-        </span>
-      }
+      // title={
+      //   <span>
+      //     Realizar consulta de registros cargados &#160;
+      //     {/* <span
+      //       style={{
+      //         color: "#ff4d4f",
+      //       }}
+      //     >
+      //       - &#160; Llenar todos los campos que sean obligatorios{" "}
+      //     </span> */}
+      //   </span>
+      // }
     >
       <Form
         name="wrap"

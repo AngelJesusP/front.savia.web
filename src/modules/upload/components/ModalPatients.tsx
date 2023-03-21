@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { Card, Modal } from "antd";
+import { Card, Modal, Tabs, TabsProps } from "antd";
 import { FC, useState } from "react";
 import useTable from "../hooks/useTable";
 import { IConsulta } from "../interfaces/enfermedades.interfaces";
 import { getNews } from "../service/enfermedades.services";
 import FormFilters from "./FormFilters";
 import TableConsulta from "./TableConsulta";
+import TableGeneric from "./TableGeneric";
+import { CloseCircleTwoTone, CheckCircleTwoTone } from "@ant-design/icons";
 
 interface IModalPatients {
   claveArchivo: string;
@@ -24,24 +26,24 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
   const [novedades, setNovedades] = useState([]);
 
   useEffect(() => {
-    if(isVisible) {
-      console.log('aquiiii');
-      
+    if (isVisible) {
+      console.log("aquiiii");
+
       getNovedades();
     }
   }, [isVisible]);
 
   const getNovedades = async () => {
     const resp = await getNews(idEnfermedad);
-    console.log('resultado', resp);
-    
+    console.log("resultado", resp);
+
     setNovedades(resp);
   };
 
   const open = async () => {
     setIsVisible(true);
     await onSubmit({ idEnfermedad });
-  }
+  };
   const close = () => setIsVisible(false);
 
   const {
@@ -78,11 +80,11 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
       idIps: values?.idIps || null,
       tipoDocumento: values?.document?.type || "",
       documento: values?.document?.number || "",
-      desde: '',
-        /* values?.desde ||
+      desde: "",
+      /* values?.desde ||
         moment(new Date(values?.rangePicker[0])).format("YYYY-MM-DD"),*/
-      hasta: '',
-        /* values?.hasta ||
+      hasta: "",
+      /* values?.hasta ||
         moment(new Date(values?.rangePicker[1])).format("YYYY-MM-DD"),*/
       page: values.page || 1,
       limit: values.limit || 10,
@@ -92,6 +94,50 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
     if (data.length === 0)
       setJsonAlert({ type: "warning", hidden: false, message: message || "" });
   };
+
+  const items: TabsProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <span>
+          <CheckCircleTwoTone />
+          Registros exitosos
+        </span>
+      ),
+      children: (
+        <>
+          <FormFilters
+            onSubmit={onSubmit}
+            onClear={resetFilters}
+            jsonAlert={jsonAlert}
+            loading={loading}
+            values={{ idEnfermedad }}
+            type="patient"
+          />
+          <Card className="mt-3">
+            <TableConsulta
+              total={total}
+              loading={loading}
+              data={data}
+              filters={filters}
+              novedades={novedades}
+              handleTableChange={handleTableChange}
+            />
+          </Card>
+        </>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <span>
+          <CloseCircleTwoTone />
+          Log de errores
+        </span>
+      ),
+      children: <TableGeneric />,
+    },
+  ];
 
   return (
     <>
@@ -107,30 +153,30 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
         className="modal-patients"
         open={isVisible}
         onCancel={close}
-        width={1200}
+        width={'85%'}
         bodyStyle={{ padding: 0 }}
         footer={[]}
       >
-        <FormFilters
+        <Tabs defaultActiveKey="1" items={items} />
+        {/* <FormFilters
           onSubmit={onSubmit}
           onClear={resetFilters}
           jsonAlert={jsonAlert}
           loading={loading}
           values={{ idEnfermedad }}
           type="patient"
-        />
-
+        /> */}
         {/* {data.length > 0 && ( */}
-          <Card className="mt-3">
-            <TableConsulta
-              total={total}
-              loading={loading}
-              data={data}
-              filters={filters}
-              novedades={novedades}
-              handleTableChange={handleTableChange}
-            />
-          </Card>
+        {/* <Card className="mt-3">
+          <TableConsulta
+            total={total}
+            loading={loading}
+            data={data}
+            filters={filters}
+            novedades={novedades}
+            handleTableChange={handleTableChange}
+          />
+        </Card> */}
         {/* )} */}
       </Modal>
     </>
