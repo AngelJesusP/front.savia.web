@@ -138,7 +138,6 @@ const TableHistorical = () => {
           fixed: "right",
           align: "center",
           render: (data: any) => {
-            console.log(data);
 
             if (data?.estadoArchivo === "2") {
               return (
