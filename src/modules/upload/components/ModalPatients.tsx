@@ -135,7 +135,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
           Log de errores
         </span>
       ),
-      children: <TableGeneric />,
+      children: <TableGeneric idEnfermedad={idEnfermedad} />,
     },
   ];
 
@@ -153,7 +153,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
         className="modal-patients"
         open={isVisible}
         onCancel={close}
-        width={'85%'}
+        width={"85%"}
         bodyStyle={{ padding: 0 }}
         footer={[]}
       >

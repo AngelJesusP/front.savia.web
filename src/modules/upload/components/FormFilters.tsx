@@ -29,8 +29,8 @@ const FormFilters: FC<IFormFilters> = ({
   type,
 }) => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
-  const [validateField, setValidateField] = useState('');
-  
+  const [validateField, setValidateField] = useState("");
+
   const { RangePicker } = DatePicker;
   const { Option } = Select;
   const [form] = Form.useForm();
@@ -52,18 +52,18 @@ const FormFilters: FC<IFormFilters> = ({
 
   return (
     <Card
-      // title={
-      //   <span>
-      //     Realizar consulta de registros cargados &#160;
-      //     {/* <span
-      //       style={{
-      //         color: "#ff4d4f",
-      //       }}
-      //     >
-      //       - &#160; Llenar todos los campos que sean obligatorios{" "}
-      //     </span> */}
-      //   </span>
-      // }
+    // title={
+    //   <span>
+    //     Realizar consulta de registros cargados &#160;
+    //     {/* <span
+    //       style={{
+    //         color: "#ff4d4f",
+    //       }}
+    //     >
+    //       - &#160; Llenar todos los campos que sean obligatorios{" "}
+    //     </span> */}
+    //   </span>
+    // }
     >
       <Form
         name="wrap"
@@ -76,7 +76,7 @@ const FormFilters: FC<IFormFilters> = ({
         ]}
       >
         <div className="row align-items-center">
-          {type === "error" && (
+          {/* {type === "error" && (
             <div className="col-12 col-md-6 col-lg-3">
               <Form.Item
                 label="Seleccionar una enfermedad"
@@ -98,9 +98,9 @@ const FormFilters: FC<IFormFilters> = ({
                 />
               </Form.Item>
             </div>
-          )}
+          )} */}
 
-          <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
+          {/* <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
             <Form.Item
               label={
                 <>
@@ -119,7 +119,7 @@ const FormFilters: FC<IFormFilters> = ({
                 options={[]}
               />
             </Form.Item>
-          </div>
+          </div> */}
           <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
             <Form.Item
               label={
@@ -134,8 +134,12 @@ const FormFilters: FC<IFormFilters> = ({
                 <Form.Item
                   name={["document", "type"]}
                   noStyle
-                  rules={[{ required: validateField ? true : false, message: "Campo obligatorio" }]}
-                  
+                  rules={[
+                    {
+                      required: validateField ? true : false,
+                      message: "Campo obligatorio",
+                    },
+                  ]}
                 >
                   <Select style={{ width: "30%" }} placeholder="C.C">
                     <Option value="CC">CC</Option>
@@ -146,7 +150,7 @@ const FormFilters: FC<IFormFilters> = ({
                   <Input
                     style={{ width: "70%" }}
                     placeholder="Número de documento"
-                    onChange={({ target}) => {
+                    onChange={({ target }) => {
                       setValidateField(target.value);
                     }}
                   />
@@ -154,7 +158,7 @@ const FormFilters: FC<IFormFilters> = ({
               </Input.Group>
             </Form.Item>
           </div>
-          {type === "error" && (
+          {/* {type === "error" && (
             <div className="col-12 col-md-6 col-lg-3">
               <Form.Item
                 label="Desde - Hasta"
@@ -168,7 +172,7 @@ const FormFilters: FC<IFormFilters> = ({
                 />
               </Form.Item>
             </div>
-          )}
+          )} */}
         </div>
 
         <Alert {...jsonAlert} showIcon closable />
