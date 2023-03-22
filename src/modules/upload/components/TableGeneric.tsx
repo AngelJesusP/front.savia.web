@@ -1,4 +1,4 @@
-import { Card, Popover, Tag, Input } from "antd";
+import { Card, Popover, Tag, Input, Skeleton } from "antd";
 import axios from "axios";
 import { useEffect, FC, useState } from "react";
 import Table from "../../../utils/components/Table";
@@ -44,8 +44,6 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
   const getDescriptionError = async (key: any) => {
     setSkeleton(true);
     let response: any;
-    console.log("exito: ", key);
-    console.log(originUrl, path);
 
     const json = {
       idEnfermedad: 1,
@@ -57,11 +55,9 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
         ...json,
       },
     });
-    console.log(response);
     let data = response.data.data[0];
     let texto: string = "";
     data.forEach((dta: any) => {
-      console.log(dta.descripcion);
       texto += `Fila: ${dta.posicionFila}\nColumna: ${dta.posicionColumna}\nVariable: ${dta.variable}\nDescripción: ${dta.descripcion}\n------------------------------\n\n`;
     });
     setSkeleton(false);
@@ -75,10 +71,8 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
   }, []);
 
   useEffect(() => {
-    console.log(data);
     if (data.length > 0) {
       const columsForJson: any = Object.keys(data[0]).map((key) => {
-        //console.log('columns: ',columsForJson);
         if (key != "id") {
           return {
             title: `${key.split("_").join(" ")}`,
@@ -92,13 +86,19 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
                     <Popover
                       overlayStyle={{ width: "20vw" }}
                       content={
-                        <TextArea
-                          className="w-100"
-                          value={texto}
-                          disabled={true}
-                          autoCorrect="false"
-                          style={{ height: "10vh", color: "black" }}
-                        />
+                        <>
+                          {getskeleton === true ? (
+                            <Skeleton />
+                          ) : (
+                            <TextArea
+                              className="w-100"
+                              value={texto}
+                              disabled={true}
+                              autoCorrect="false"
+                              style={{ height: "10vh", color: "black" }}
+                            />
+                          )}
+                        </>
                       }
                       title={"Lista de errores"}
                       trigger="click"
@@ -138,8 +138,6 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
   };
 
   const getData = async (values: any) => {
-    console.log(values);
-
     setJsonAlert(constantAlertJson);
     setLoading(true);
     const dataFinal: IConsulta = {
