@@ -70,17 +70,29 @@ const TableHistorical = () => {
   };
 
   interface MyObject {
-    [key: string]: string;
+    [key: string]: {
+      color: string;
+      icon: JSX.Element;
+      text: string;
+    };
   }
 
-  const statusMap: MyObject = {
-    "1": "processing",
-    "2": "success",
-  };
-
-  const statusMap2: MyObject = {
-    "1": "Proceso",
-    "2": "Completado",
+  const tagStatus: MyObject = {
+    "1": {
+      color: "processing",
+      icon: <SyncOutlined spin />,
+      text: "Proceso",
+    },
+    "2": {
+      color: "success",
+      icon: <CheckCircleOutlined />,
+      text: "Completado",
+    },
+    "3": {
+      color: "warning",
+      icon: <CloseCircleOutlined />,
+      text: "Cancelado",
+    },
   };
 
   const columnas = [
@@ -104,18 +116,10 @@ const TableHistorical = () => {
         return (
           <Tag
             style={{ width: "100%" }}
-            color={statusMap[status] || "warning"}
-            icon={
-              status === "1" ? (
-                <SyncOutlined spin />
-              ) : status === "2" ? (
-                <CheckCircleOutlined />
-              ) : (
-                <CloseCircleOutlined />
-              )
-            }
+            color={tagStatus[status].color || tagStatus["3"].color}
+            icon={tagStatus[status].icon || tagStatus["3"].icon}
           >
-            {statusMap2[status] || "Cancelado"}
+            {tagStatus[status].text || tagStatus["3"].text}
           </Tag>
         );
       },
