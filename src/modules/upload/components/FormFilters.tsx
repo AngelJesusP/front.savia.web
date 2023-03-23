@@ -5,8 +5,6 @@ import { FC, useState, useEffect } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
-import locale from "antd/es/date-picker/locale/es_ES";
-import { text } from "stream/consumers";
 
 interface IFormFilters {
   onSubmit: (values: any) => any;
@@ -36,9 +34,9 @@ const FormFilters: FC<IFormFilters> = ({
   const { Option } = Select;
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    getListEnfermedadesConsulta();
-  }, []);
+  // useEffect(() => {
+  //   getListEnfermedadesConsulta();
+  // }, []);
 
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {

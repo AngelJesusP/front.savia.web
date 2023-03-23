@@ -69,6 +69,20 @@ const TableHistorical = () => {
     });
   };
 
+  interface MyObject {
+    [key: string]: string;
+  }
+
+  const statusMap: MyObject = {
+    "1": "processing",
+    "2": "success",
+  };
+
+  const statusMap2: MyObject = {
+    "1": "Proceso",
+    "2": "Completado",
+  };
+
   const columnas = [
     {
       title: "Id",
@@ -90,13 +104,7 @@ const TableHistorical = () => {
         return (
           <Tag
             style={{ width: "100%" }}
-            color={
-              status === "1"
-                ? "processing"
-                : status === "2"
-                ? "success"
-                : "warning"
-            }
+            color={statusMap[status] || "warning"}
             icon={
               status === "1" ? (
                 <SyncOutlined spin />
@@ -107,11 +115,7 @@ const TableHistorical = () => {
               )
             }
           >
-            {status === "1"
-              ? "Proceso"
-              : status === "2"
-              ? "Completado"
-              : "Cancelado"}
+            {statusMap2[status] || "Cancelado"}
           </Tag>
         );
       },
@@ -138,7 +142,6 @@ const TableHistorical = () => {
           fixed: "right",
           align: "center",
           render: (data: any) => {
-
             if (data?.estadoArchivo === "2") {
               return (
                 <div
