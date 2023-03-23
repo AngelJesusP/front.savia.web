@@ -2,7 +2,7 @@ import { FC } from "react";
 import Table, { TablePaginationConfig } from "antd/lib/table";
 import { Empty, Select } from "antd";
 import "../../utils/Css/tableGeneric.scss";
-import { FilterValue, SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
+import { SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
 
 interface CompressTableProps {
   columns: any;
@@ -134,11 +134,7 @@ const CompressTable: FC<CompressTableProps> = ({
         />
       ),
     },
-    ...(scroll
-      ? typeof scroll === "boolean"
-        ? { scroll: { x: "max-content" } }
-        : scroll
-      : {}),
+    ...(typeof scroll === "boolean" ? { scroll: { x: "max-content" } } : {}),
   };
   
   return (

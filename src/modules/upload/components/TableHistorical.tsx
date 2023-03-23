@@ -150,7 +150,7 @@ const TableHistorical = () => {
                   // className="text-primary"
                   onClick={async () => {
                     const resp = await createFolders(data?.claveArchivo);
-                    console.log(resp);
+                    //console.log(resp);
                   }}
                 >
                   <FolderOpenOutlined style={{ color: "#bdbd18" }} />
