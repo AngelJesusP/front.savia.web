@@ -19,7 +19,7 @@ export default class RouterComponent extends React.Component {
         }
       );
     } catch (error) {
-      console.log("Ocurrió un error grave al momento de ir la ruta", error);
+      //console.log("Ocurrió un error grave al momento de ir la ruta", error);
     }
   };
 

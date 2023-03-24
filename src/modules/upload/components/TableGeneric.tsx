@@ -1,5 +1,5 @@
-import { Card } from "antd";
-import moment from "moment";
+import { Card, Popover, Tag, Skeleton } from "antd";
+import axios from "axios";
 import { useEffect, FC, useState } from "react";
 import Table from "../../../utils/components/Table";
 import { IConsulta } from "../interfaces/enfermedades.interfaces";
@@ -7,11 +7,10 @@ import { getLogErrors } from "../service/enfermedades.services";
 import FormFilters from "./FormFilters";
 import ProgressFile from "./ProgressFile";
 
-interface ITableGeneric {
-  activeKey: string;
-}
+const originUrl = import.meta.env.VITE_URL;
+const path = "/api/v1/consulta/errores/detallado";
 
-const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
+const TableGeneric: FC<any> = ({ idEnfermedad }) => {
   const constantAlertJson = {
     message: "",
     type: "error",
@@ -23,6 +22,7 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState([]);
   const [jsonAlert, setJsonAlert] = useState(constantAlertJson);
+  const [getskeleton, setSkeleton] = useState<boolean>(false);
   const [filters, setFilters] = useState<IConsulta>({
     idEnfermedad: -1,
     idIps: null,
@@ -34,17 +34,102 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
     limit: 10,
   });
 
+
   /* Un gancho que se ejecuta cuando se monta el componente y cuando cambian los datos. */
+  const getDescriptionError = async (key: any, nameKey: string) => {
+    setSkeleton(true);
+    let response: any;
+
+    const json = {
+      idEnfermedad: 1,
+      claveArchivo: key.clave_archivo,
+      idPaciente: key.id,
+    };
+    response = await axios.get(`${originUrl}${path}`, {
+      params: {
+        ...json,
+      },
+    });
+    let data = response.data.data[0];
+    let texto: string = "";
+    data.forEach((dta: any) => {
+      texto += `Fila: ${dta.posicionFila}\nColumna: ${dta.posicionColumna}\nVariable: ${dta.variable}\n------------------------------\n\n`;
+    });
+
+    let elemento: any = document.getElementById(`${nameKey}_${key.id}`);
+    if (elemento != null) {
+      elemento.value = texto;
+    }
+    setSkeleton(false);
+  };
+
+  useEffect(() => {
+    getData({
+      ...filters,
+    });
+  }, []);
+
   useEffect(() => {
     if (data.length > 0) {
       const columsForJson: any = Object.keys(data[0]).map((key) => {
-        return {
-          title: `${key.split("_").join(" ")}`,
-          dataIndex: `${key}`,
-          key: `${key}`,
-        };
+        if (key != "id" && key != "campo_leido") {
+          return {
+            title: `${key.split("_").join(" ")}`,
+            dataIndex: `${key}`,
+            key: `${key}`,
+            fixed: key === "error_validacion" ? "right" : null,
+            render: (value: any, index: any) => {
+              if (key === "error_validacion") {
+                return (
+                  <>
+                    <Popover
+                      overlayStyle={{ width: "20vw" }}
+                      content={
+                        <>
+                          {getskeleton ? (
+                            <Skeleton />
+                          ) : (
+                            <>
+                              <textarea
+                                disabled={true}
+                                name={`${key}_name`}
+                                id={`${key}_${index.id}`}
+                                className="w-100"
+                                style={{
+                                  borderRadius: 10,
+                                  height: "30vh",
+                                  color: "black",
+                                  cursor: "pointer",
+                                }}
+                              ></textarea>
+                            </>
+                          )}
+                        </>
+                      }
+                      title={"Lista de errores"}
+                      trigger="click"
+                    >
+                      <Tag
+                        key={key}
+                        onClick={() => getDescriptionError(index, key)}
+                        color="red"
+                        style={{
+                          width: "100%",
+                          cursor: "pointer",
+                          textAlign: "center",
+                        }}
+                      >
+                        Ver errores
+                      </Tag>
+                    </Popover>
+                  </>
+                );
+              } else return <span>{value}</span>;
+            },
+          };
+        } else return {};
       });
-      if (columsForJson.length) setColumns(columsForJson);
+      if (columsForJson.length - 1) setColumns(columsForJson);
     } else {
       setColumns(undefined);
     }
@@ -68,16 +153,13 @@ const TableGeneric: FC<ITableGeneric> = ({ activeKey }) => {
     setJsonAlert(constantAlertJson);
     setLoading(true);
     const dataFinal: IConsulta = {
-      idEnfermedad: values?.idEnfermedad || -1,
+      claveArchivo: "11-2023-03-22-10-51-19",
+      idEnfermedad: idEnfermedad || -1,
       idIps: values?.idIps || null,
       tipoDocumento: values?.document?.type || "",
       documento: values?.document?.number || "",
-      desde:
-        values?.desde ||
-        moment(new Date(values?.rangePicker[0])).format("YYYY-MM-DD"),
-      hasta:
-        values?.hasta ||
-        moment(new Date(values?.rangePicker[1])).format("YYYY-MM-DD"),
+      desde: values?.desde || "",
+      hasta: values?.hasta || "",
       page: values.page || 1,
       limit: values.limit || 10,
     };

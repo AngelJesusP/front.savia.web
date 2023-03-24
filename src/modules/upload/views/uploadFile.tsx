@@ -1,13 +1,10 @@
 import { Tabs, TabsProps } from "antd";
 import { useState } from "react";
-
-import TablePatientDetail from "../components/TablePatientDetail";
-import TableGeneric from "../components/TableGeneric";
 import TableHistorical from "../components/TableHistorical";
 
 const UploadFile = () => {
   const [activeKey, setActiveKey] = useState("1");
-  const [idPaciente, setIdPaciente] = useState<number | null>(null);
+  //const [idPaciente, setIdPaciente] = useState<number | null>(null);
 
   const items: TabsProps["items"] = [
     {
@@ -29,11 +26,11 @@ const UploadFile = () => {
     //   ),
     //   disabled: true,
     // },
-    {
-      key: "3",
-      label: `Log de errores`,
-      children: <TableGeneric activeKey={activeKey} />,
-    },
+    // {
+    //   key: "3",
+    //   label: `Log de errores`,
+    //   children: <TableGeneric/>,
+    // },
   ];
 
   return (

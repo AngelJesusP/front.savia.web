@@ -118,7 +118,6 @@ export const CollapseFolders: FC<ICollapse> = ({
   ) => {
     const resp = await saveFilesInFolder(info.file, clave, folder.trim());
     if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
     }
     if (resp.status === 200) {
       message.success(`${info.file.name} file uploaded successfully`);
@@ -127,15 +126,14 @@ export const CollapseFolders: FC<ICollapse> = ({
     }
   };
 
-  const confirm = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    message.success("Click on Yes");
-  };
+  // const confirm = (e: React.MouseEvent<HTMLElement>) => {
+  //   message.success("Click on Yes");
+  // };
 
-  const cancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    message.error("Click on No");
-  };
+  // const cancel = (e: React.MouseEvent<HTMLElement>) => {
+  //   console.log(e);
+  //   message.error("Click on No");
+  // };
 
   const genExtra = (folder: any) => {
     return (

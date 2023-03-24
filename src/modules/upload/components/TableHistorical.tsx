@@ -79,6 +79,32 @@ const TableHistorical = () => {
     });
   };
 
+  interface MyObject {
+    [key: string]: {
+      color: string;
+      icon: JSX.Element;
+      text: string;
+    };
+  }
+
+  const tagStatus: MyObject = {
+    "1": {
+      color: "processing",
+      icon: <SyncOutlined spin />,
+      text: "Proceso",
+    },
+    "2": {
+      color: "success",
+      icon: <CheckCircleOutlined />,
+      text: "Completado",
+    },
+    "3": {
+      color: "warning",
+      icon: <CloseCircleOutlined />,
+      text: "Cancelado",
+    },
+  };
+
   const columnas = [
     {
       title: "Id",
@@ -100,28 +126,10 @@ const TableHistorical = () => {
         return (
           <Tag
             style={{ width: "100%" }}
-            color={
-              status === "1"
-                ? "processing"
-                : status === "2"
-                ? "success"
-                : "warning"
-            }
-            icon={
-              status === "1" ? (
-                <SyncOutlined spin />
-              ) : status === "2" ? (
-                <CheckCircleOutlined />
-              ) : (
-                <CloseCircleOutlined />
-              )
-            }
+            color={tagStatus[status].color || tagStatus["3"].color}
+            icon={tagStatus[status].icon || tagStatus["3"].icon}
           >
-            {status === "1"
-              ? "Proceso"
-              : status === "2"
-              ? "Completado"
-              : "Cancelado"}
+            {tagStatus[status].text || tagStatus["3"].text}
           </Tag>
         );
       },
@@ -148,8 +156,6 @@ const TableHistorical = () => {
           fixed: "right",
           align: "center",
           render: (data: any) => {
-            console.log(data);
-
             if (data?.estadoArchivo === "2") {
               return (
                 <div
@@ -161,7 +167,7 @@ const TableHistorical = () => {
                   // className="text-primary"
                   onClick={async () => {
                     const resp = await createFolders(data?.claveArchivo);
-                    console.log(resp);
+                    //console.log(resp);
                   }}
                 >
                   <FolderOpenOutlined style={{ color: "#bdbd18" }} />

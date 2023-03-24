@@ -5,7 +5,6 @@ import { FC, useState, useEffect } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
-import locale from "antd/es/date-picker/locale/es_ES";
 
 interface IFormFilters {
   onSubmit: (values: any) => any;
@@ -25,7 +24,6 @@ const FormFilters: FC<IFormFilters> = ({
   onSubmit,
   onClear,
   jsonAlert,
-  loading,
   values,
   type,
 }) => {
@@ -36,10 +34,12 @@ const FormFilters: FC<IFormFilters> = ({
   const { Option } = Select;
   const [form] = Form.useForm();
 
+
   /* Llamando a la función `getListEnfermedadesConsulta` cuando el componente está montado. */
   useEffect(() => {
     getListEnfermedadesConsulta();
   }, []);
+
 
   /**
    * GetListEnfermedadesConsulta() es una función asíncrona que llama a getListEnfermedades() y luego
@@ -58,18 +58,18 @@ const FormFilters: FC<IFormFilters> = ({
 
   return (
     <Card
-      title={
-        <span>
-          Realizar consulta de registros cargados &#160;
-          {/* <span
-            style={{
-              color: "#ff4d4f",
-            }}
-          >
-            - &#160; Llenar todos los campos que sean obligatorios{" "}
-          </span> */}
-        </span>
-      }
+    // title={
+    //   <span>
+    //     Realizar consulta de registros cargados &#160;
+    //     {/* <span
+    //       style={{
+    //         color: "#ff4d4f",
+    //       }}
+    //     >
+    //       - &#160; Llenar todos los campos que sean obligatorios{" "}
+    //     </span> */}
+    //   </span>
+    // }
     >
       <Form
         name="wrap"
@@ -82,7 +82,7 @@ const FormFilters: FC<IFormFilters> = ({
         ]}
       >
         <div className="row align-items-center">
-          {type === "error" && (
+          {/* {type === "error" && (
             <div className="col-12 col-md-6 col-lg-3">
               <Form.Item
                 label="Seleccionar una enfermedad"
@@ -104,9 +104,9 @@ const FormFilters: FC<IFormFilters> = ({
                 />
               </Form.Item>
             </div>
-          )}
+          )} */}
 
-          <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
+          {/* <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
             <Form.Item
               label={
                 <>
@@ -125,8 +125,9 @@ const FormFilters: FC<IFormFilters> = ({
                 options={[]}
               />
             </Form.Item>
-          </div>
-          <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
+          </div> */}
+          {/* Antes se tenia esta ternaria `col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}` */}
+          <div className={`col-12 col-md-6 col-lg-6`} style={{margin: 'auto'}} >
             <Form.Item
               label={
                 <>
@@ -164,7 +165,7 @@ const FormFilters: FC<IFormFilters> = ({
               </Input.Group>
             </Form.Item>
           </div>
-          {type === "error" && (
+          {/* {type === "error" && (
             <div className="col-12 col-md-6 col-lg-3">
               <Form.Item
                 label="Desde - Hasta"
@@ -178,7 +179,7 @@ const FormFilters: FC<IFormFilters> = ({
                 />
               </Form.Item>
             </div>
-          )}
+          )} */}
         </div>
 
         <Alert {...jsonAlert} showIcon closable />
