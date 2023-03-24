@@ -34,6 +34,8 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
     limit: 10,
   });
 
+
+  /* Un gancho que se ejecuta cuando se monta el componente y cuando cambian los datos. */
   const getDescriptionError = async (key: any, nameKey: string) => {
     setSkeleton(true);
     let response: any;
@@ -141,6 +143,12 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
     });
   };
 
+  /**
+   * Se usa un formulario para obtener los valores y luego se usan esos valores para hacer
+   * una solicitud al backend.
+   * </código>
+   * @param {any} values - cualquiera = {
+   */
   const getData = async (values: any) => {
     setJsonAlert(constantAlertJson);
     setLoading(true);
@@ -166,6 +174,11 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
     setLoading(false);
   };
 
+  /**
+   * OnClear() es una función que establece el estado de carga en verdadero, establece el estado de los
+   * filtros en un nuevo objeto, establece el estado de total en nulo, establece el estado de carga en
+   * falso después de 1000 ms y establece el estado de los datos en una matriz vacía.
+   */
   const onClear = () => {
     setLoading(true);
     setFilters({

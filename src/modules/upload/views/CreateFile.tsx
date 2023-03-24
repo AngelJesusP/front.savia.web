@@ -24,10 +24,15 @@ export default class CreateFile extends React.Component {
     loading: false,
   };
 
+  /* Un método de ciclo de vida que se llama después de montar el componente. */
   componentDidMount = async () => {
     await this.getListEnfermedades();
   };
 
+  /* Esta es una función que se llama cuando se monta el componente. Es una función asíncrona que llama
+  a otra función llamada getListEnfermedades. Esta función devuelve una promesa. A continuación, se
+  resuelve la promesa y se devuelven los datos. A continuación, los datos se utilizan para
+  establecer el estado del componente. */
   getListEnfermedades = async () => {
     await getListEnfermedades().then(({ data }) => {
       const { status } = data;
@@ -39,6 +44,7 @@ export default class CreateFile extends React.Component {
     });
   };
 
+  /* Una función que devuelve un componente de alerta. */
   getAlertMessage = () => {
     const { message, typeres } = this.state;
     return (
@@ -52,6 +58,11 @@ export default class CreateFile extends React.Component {
   };
 
   /* Metodo para enviar los datos back */
+
+  /* Esta es una función que se llama cuando el usuario hace clic en el botón. Esta función es
+  asíncrona y llama a otra función denominada HttpClientPostFile. Esta función devuelve una promesa.
+  Luego se resuelve la promesa y se devuelven los datos. Luego, los datos se utilizan para
+  establecer el estado del componente. */
   onClickEnviarArchivo = async () => {
     this.setState({ loading: true });
     const { idEnfermedad, fileEnviar } = this.state;
@@ -63,10 +74,16 @@ export default class CreateFile extends React.Component {
       if (data) {
         const { status } = data;
         if (status === 400) {
-          this.setState({ loading: false, fileEnviar: null, idEnfermedad: null, nameFile: "", openTag: false, });
+          this.setState({
+            loading: false,
+            fileEnviar: null,
+            idEnfermedad: null,
+            nameFile: "",
+            openTag: false,
+          });
           return await swal.fire({
-            title: 'Error, no se puede procesar',
-            text:  data?.message || "Tipo de archivo no permitido",
+            title: "Error, no se puede procesar",
+            text: data?.message || "Tipo de archivo no permitido",
             icon: "error",
             confirmButtonText: "Aceptar",
           });
@@ -102,6 +119,7 @@ export default class CreateFile extends React.Component {
     this.setState({ loading: false });
   };
 
+  /* Esta es una función que devuelve una alerta de componente. */
   getFile = (file: any) => {
     const file_type = file.type.split("/").pop()?.toLowerCase();
     if (file_type === "csv") {
@@ -129,7 +147,10 @@ export default class CreateFile extends React.Component {
       <div className="container-fluid mt-3">
         <Card
           actions={[
-            <div key="actions-button" className="d-flex justify-content-end me-4">
+            <div
+              key="actions-button"
+              className="d-flex justify-content-end me-4"
+            >
               <button
                 // onClick={() => closeModal(false)}
                 className="btn btn-outline-primary me-3"
