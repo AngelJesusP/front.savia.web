@@ -12,3 +12,20 @@ export const convertListToSelect = (list: Ienfermedades[]) => {
   }
   return { convert };
 };
+
+export const convertListVarToSelect = (list: any) => {
+  let convert: any[] = [];
+  let contador = 1;
+  console.log("list: ", list);
+
+  if (list) {
+    list.forEach((item: any) => {
+      convert.push({
+        value: contador,
+        label: item,
+      });
+      contador = contador + 1;
+    });
+  }
+  return { convert };
+};
