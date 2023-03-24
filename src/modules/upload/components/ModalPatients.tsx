@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { Card, Modal, Tabs, TabsProps } from "antd";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import useTable from "../hooks/useTable";
 import { IConsulta } from "../interfaces/enfermedades.interfaces";
 import { getNews } from "../service/enfermedades.services";

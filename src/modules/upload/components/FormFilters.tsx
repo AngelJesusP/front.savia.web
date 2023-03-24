@@ -5,7 +5,6 @@ import { FC, useState, useEffect } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
-import locale from "antd/es/date-picker/locale/es_ES";
 
 interface IFormFilters {
   onSubmit: (values: any) => any;
@@ -35,9 +34,9 @@ const FormFilters: FC<IFormFilters> = ({
   const { Option } = Select;
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    getListEnfermedadesConsulta();
-  }, []);
+  // useEffect(() => {
+  //   getListEnfermedadesConsulta();
+  // }, []);
 
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {
@@ -120,7 +119,8 @@ const FormFilters: FC<IFormFilters> = ({
               />
             </Form.Item>
           </div> */}
-          <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
+          {/* Antes se tenia esta ternaria `col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}` */}
+          <div className={`col-12 col-md-6 col-lg-6`} style={{margin: 'auto'}} >
             <Form.Item
               label={
                 <>

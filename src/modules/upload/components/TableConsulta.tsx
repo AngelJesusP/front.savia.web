@@ -4,7 +4,6 @@ import Table from "../../../utils/components/Table";
 import moment from "moment";
 import { Popover, TablePaginationConfig } from "antd";
 import {
-  FilterValue,
   SorterResult,
   TableCurrentDataSource,
 } from "antd/es/table/interface";
@@ -38,7 +37,6 @@ const TableConsulta: FC<ITableConsulta> = ({
     extra: TableCurrentDataSource<any>
   ) => {
     filters = { ...filters, novedades: filters?.novedades?.toString() || "" };
-    console.log("filtros", filters);
 
     handleTableChange(pagination, filters, sorter, extra);
   };

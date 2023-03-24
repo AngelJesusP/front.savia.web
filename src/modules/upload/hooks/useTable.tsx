@@ -21,7 +21,7 @@ const useTable = (
 
 
   const resetFilters = async () => {
-    await setState({
+    setState({
       data: [],
       loading: false,
       total: 0,
