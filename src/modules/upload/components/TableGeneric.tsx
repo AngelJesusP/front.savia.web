@@ -173,7 +173,6 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
     setTotal(Number(valuesResponse?.items?.replace(/[\[\]]/g, "")) || null);
     setLoading(false);
   };
-
   /**
    * OnClear() es una función que establece el estado de carga en verdadero, establece el estado de los
    * filtros en un nuevo objeto, establece el estado de total en nulo, establece el estado de carga en
