@@ -25,7 +25,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
   const [getskeleton, setSkeleton] = useState<boolean>(false);
   const [filters, setFilters] = useState<IConsulta>({
     idEnfermedad: -1,
-    idIps: null,
+    idIps: 0,
     tipoDocumento: "",
     documento: "",
     desde: "",
@@ -155,7 +155,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
     const dataFinal: IConsulta = {
       claveArchivo: "11-2023-03-22-10-51-19",
       idEnfermedad: idEnfermedad || -1,
-      idIps: values?.idIps || null,
+      idIps: values?.idIps || 0,
       tipoDocumento: values?.document?.type || "",
       documento: values?.document?.number || "",
       desde: values?.desde || "",
@@ -183,7 +183,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
     setLoading(true);
     setFilters({
       idEnfermedad: -1,
-      idIps: null,
+      idIps: 0,
       tipoDocumento: "",
       documento: "",
       desde: "",

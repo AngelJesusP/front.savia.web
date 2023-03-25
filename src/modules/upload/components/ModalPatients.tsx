@@ -53,7 +53,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
   } = useTable(
     {
       idEnfermedad: -1,
-      idIps: null,
+      idIps: 0,
       tipoDocumento: "",
       documento: "",
       desde: "",
@@ -73,7 +73,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
       claveArchivo: claveArchivo,
       novedades: "",
       idEnfermedad: idEnfermedad || -1,
-      idIps: values?.idIps || null,
+      idIps: values?.idIps || 0,
       tipoDocumento: values?.document?.type || "",
       documento: values?.document?.number || "",
       desde: "",
