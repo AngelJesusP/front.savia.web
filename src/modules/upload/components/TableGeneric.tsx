@@ -10,7 +10,7 @@ import ProgressFile from "./ProgressFile";
 const originUrl = import.meta.env.VITE_URL;
 const path = "/api/v1/consulta/errores/detallado";
 
-const TableGeneric: FC<any> = ({ idEnfermedad }) => {
+const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
   const constantAlertJson = {
     message: "",
     type: "error",
@@ -50,15 +50,27 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
         ...json,
       },
     });
+    let elemento: any = document.getElementById(`${nameKey}_${key.id}`);
+    const valor :string = elemento.getAttribute('data-valor');
+    const lista = valor.split(';');
+    
+    
     let data = response.data.data[0];
-    let texto: string = "";
-    data.forEach((dta: any) => {
-      texto += `Fila: ${dta.posicionFila}\nColumna: ${dta.posicionColumna}\nVariable: ${dta.variable}\n------------------------------\n\n`;
+    let texto: string = "<b>DETALLE DE LOS ERRORES</b><br/>";
+    texto += `======================</br>`;
+    data.forEach((dta: any, index: number) => {
+      texto += `<b>ITERADOR :</b> <i>${index+1}<i> <br/>`;
+      texto += `<b>CODIGO ERROR: </b> <i>${lista[index]}<i><br/>`;
+      texto += `<b>FILA ➡: </b> <i>${dta.posicionFila}<i> <br/>`;
+      texto += `<b>COLUMNA ⬇:</b> <i>${dta.posicionColumna}</i> <br/>`;
+      texto += `<b>VARIABLE</b>: ${dta.variable}<br/>`;
+      texto += `<b>======================</b> <br/><br/>`;
     });
 
-    let elemento: any = document.getElementById(`${nameKey}_${key.id}`);
+    
+    
     if (elemento != null) {
-      elemento.value = texto;
+      elemento.innerHTML = texto;
     }
     setSkeleton(false);
   };
@@ -88,25 +100,21 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
                         <>
                           {getskeleton ? (
                             <Skeleton />
-                          ) : (
-                            <>
-                              <textarea
-                                disabled={true}
-                                name={`${key}_name`}
-                                id={`${key}_${index.id}`}
-                                className="w-100"
-                                style={{
-                                  borderRadius: 10,
-                                  height: "30vh",
-                                  color: "black",
-                                  cursor: "pointer",
-                                }}
-                              ></textarea>
-                            </>
-                          )}
+                          ) : (<p
+                            data-valor={value}
+                            id={`${key}_${index.id}`}
+                            style={{
+                              borderRadius: 10,
+                              width: '100%',
+                              height: "25vh",
+                              color: "black",
+                              cursor: "pointer",
+                              overflowX: 'scroll',
+                              fontFamily: 'monospace'
+                            }}> </p>)}
                         </>
                       }
-                      title={"Lista de errores"}
+                      // title={"Lista de errores"}
                       trigger="click"
                     >
                       <Tag
@@ -153,7 +161,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad }) => {
     setJsonAlert(constantAlertJson);
     setLoading(true);
     const dataFinal: IConsulta = {
-      claveArchivo: "11-2023-03-22-10-51-19",
+      claveArchivo: claveArchivo,
       idEnfermedad: idEnfermedad || -1,
       idIps: values?.idIps || 0,
       tipoDocumento: values?.document?.type || "",
