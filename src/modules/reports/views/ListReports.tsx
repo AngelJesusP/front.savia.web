@@ -9,6 +9,12 @@ export const ListReports = () => {
   const [clave, setClave] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
 
+  /**
+   * función para obtener una lista de carpetas de una API y luego se usa la
+   * función setFolders para establecer el estado de las carpetas.
+   * </código>
+   * @param {any} values - cualquiera = {keyArchivo: "12345"}
+   */
   const listFolders = async (values: any) => {
     const resp = await getFolders(values?.claveArchivo);
     if (resp?.data[0]?.replace(/[\[\]]/g, "")) {

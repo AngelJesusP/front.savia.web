@@ -45,10 +45,16 @@ const TableHistorical = () => {
     "/api/v1/historico/archivo"
   );
 
+  /* Llamar a la función `getListEnfermedadesConsulta()` cuando el componente está montado. */
   useEffect(() => {
     getListEnfermedadesConsulta();
   }, []);
 
+  /**
+   * OnSubmit es una función que toma un parámetro de tipo any y devuelve una promesa que se resuelve
+   * en un valor de tipo any
+   * @param {any} values - {
+   */
   const onSubmit = async (values: any) => {
     const { data } = await getData({ ...filters, ...values });
     if (data.length === 0)
@@ -58,6 +64,10 @@ const TableHistorical = () => {
     }
   };
 
+  /**
+   * GetListEnfermedadesConsulta() es una función asíncrona que llama a getListEnfermedades() y luego
+   * establece el estado de listEnfermedades en el resultado de convertListToSelect(list).
+   */
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {
       const { status } = data;

@@ -34,10 +34,17 @@ const FormFilters: FC<IFormFilters> = ({
   const { Option } = Select;
   const [form] = Form.useForm();
 
-  // useEffect(() => {
-  //   getListEnfermedadesConsulta();
-  // }, []);
 
+  /* Llamando a la función `getListEnfermedadesConsulta` cuando el componente está montado. */
+  useEffect(() => {
+    getListEnfermedadesConsulta();
+  }, []);
+
+
+  /**
+   * GetListEnfermedadesConsulta() es una función asíncrona que llama a getListEnfermedades() y luego
+   * establece el estado de listEnfermedades en el resultado de convertListToSelect(list).
+   */
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {
       const { status } = data;
