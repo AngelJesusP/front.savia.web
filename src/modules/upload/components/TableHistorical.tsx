@@ -108,13 +108,15 @@ const TableHistorical = () => {
   const columnas = [
     {
       title: "Id",
+      align: "center",
       render: (data1: any, data2: any, index: number) =>
         filters.page === 1 ? index + 1 : (filters.page - 1) * 10 + index + 1,
     },
-    { title: "Nombre", dataIndex: "nombreArchivo" },
-    { title: "Clave", dataIndex: "claveArchivo" },
+    { title: "Nombre", align: "center", dataIndex: "nombreArchivo" },
+    { title: "Clave", align: "center", dataIndex: "claveArchivo" },
     {
       title: "Fecha",
+      align: "center",
       dataIndex: "fechaCargue",
       render: (date: any) => moment(date).format("YYYY-MM-DD"),
     },
@@ -133,6 +135,24 @@ const TableHistorical = () => {
           </Tag>
         );
       },
+    },
+    {
+      title: "Total registros",
+      align: "center",
+      width: "9%",
+      dataIndex: "totalRegistrosCargados",
+    },
+    {
+      title: "Exitosos",
+      width: "6%",
+      align: "center",
+      dataIndex: "registrosExitosos",
+    },
+    {
+      title: "Con errores",
+      width: "7%",
+      align: "center",
+      dataIndex: "registrosErrores",
     },
     {
       title: "Acciones",
