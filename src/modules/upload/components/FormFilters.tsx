@@ -127,7 +127,9 @@ const FormFilters: FC<IFormFilters> = ({
             </Form.Item>
           </div> */}
           {/* Antes se tenia esta ternaria `col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}` */}
-          <div className={`col-12 col-md-6 col-lg-6`} style={{margin: 'auto'}} >
+          <div
+            className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}
+          >
             <Form.Item
               label={
                 <>

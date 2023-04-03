@@ -34,7 +34,6 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
     limit: 10,
   });
 
-
   /* Un gancho que se ejecuta cuando se monta el componente y cuando cambian los datos. */
   const getDescriptionError = async (key: any, nameKey: string) => {
     setSkeleton(true);
@@ -51,15 +50,14 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
       },
     });
     let elemento: any = document.getElementById(`${nameKey}_${key.id}`);
-    const valor :string = elemento.getAttribute('data-valor');
-    const lista = valor.split(';');
-    
-    
+    const valor: string = elemento.getAttribute("data-valor");
+    const lista = valor.split(";");
+
     let data = response.data.data[0];
     let texto: string = "<b>DETALLE DE LOS ERRORES</b><br/>";
     texto += `======================</br>`;
     data.forEach((dta: any, index: number) => {
-      texto += `<b>ITERADOR :</b> <i>${index+1}<i> <br/>`;
+      texto += `<b>ITERADOR :</b> <i>${index + 1}<i> <br/>`;
       texto += `<b>CODIGO ERROR: </b> <i>${lista[index]}<i><br/>`;
       texto += `<b>FILA ➡: </b> <i>${dta.posicionFila}<i> <br/>`;
       texto += `<b>COLUMNA ⬇:</b> <i>${dta.posicionColumna}</i> <br/>`;
@@ -67,8 +65,6 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
       texto += `<b>======================</b> <br/><br/>`;
     });
 
-    
-    
     if (elemento != null) {
       elemento.innerHTML = texto;
     }
@@ -82,16 +78,22 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
   }, []);
 
   useEffect(() => {
+    let contador: number = 0;
     if (data.length > 0) {
-      const columsForJson: any = Object.keys(data[0]).map((key) => {
-        if (key != "id" && key != "campo_leido") {
+      const columsForJson: any = Object.keys(data[0]).map((key,index) => {
+        if (key != "campo_leido") {
           return {
-            title: `${key.split("_").join(" ")}`,
+            title: () => (
+              <span>
+                {key == "id" ? `fila` : `${index + 1} - ${key.split("_").join(" ")}`}
+              </span>
+            ),
             dataIndex: `${key}`,
             key: `${key}`,
             fixed: key === "error_validacion" ? "right" : null,
             render: (value: any, index: any) => {
               if (key === "error_validacion") {
+                contador = contador + 0.5;
                 return (
                   <>
                     <Popover
@@ -100,18 +102,23 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
                         <>
                           {getskeleton ? (
                             <Skeleton />
-                          ) : (<p
-                            data-valor={value}
-                            id={`${key}_${index.id}`}
-                            style={{
-                              borderRadius: 10,
-                              width: '100%',
-                              height: "25vh",
-                              color: "black",
-                              cursor: "pointer",
-                              overflowX: 'scroll',
-                              fontFamily: 'monospace'
-                            }}> </p>)}
+                          ) : (
+                            <p
+                              data-valor={value}
+                              id={`${key}_${index.id}`}
+                              style={{
+                                borderRadius: 10,
+                                width: "100%",
+                                height: "25vh",
+                                color: "black",
+                                cursor: "pointer",
+                                overflowX: "scroll",
+                                fontFamily: "monospace",
+                              }}
+                            >
+                              {" "}
+                            </p>
+                          )}
                         </>
                       }
                       // title={"Lista de errores"}
@@ -132,7 +139,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
                     </Popover>
                   </>
                 );
-              } else return <span>{value}</span>;
+              } else return <span>{key == "id" ? contador : value}</span>;
             },
           };
         } else return {};
