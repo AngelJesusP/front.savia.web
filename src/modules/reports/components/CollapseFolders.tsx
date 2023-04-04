@@ -25,6 +25,7 @@ import {
 } from "../service/reports.service";
 import { swal } from "../../../utils/components/SwalAlert";
 
+/* Definición de los props que recibirá el componente. */
 interface ICollapse {
   clave: string;
   listFolders: (values: any) => Promise<any>;
@@ -40,6 +41,7 @@ export const CollapseFolders: FC<ICollapse> = ({
   const [listFiles, setListFiles] = useState([]);
   const [valueInput, setValueInput] = useState("");
 
+  /* Un accesorio que se pasa al componente Upload. */
   const props: UploadProps = {
     name: "file",
     accept: ".pdf",
@@ -49,6 +51,12 @@ export const CollapseFolders: FC<ICollapse> = ({
   };
 
   //methods folder
+
+  /**
+   * EditFolder es una función que toma una carpeta como argumento y devuelve una promesa que actualiza
+   * el nombre de la carpeta y luego enumera las carpetas.
+   * @param {any} folder - cualquiera =&gt; el nombre de la carpeta
+   */
   const editFolder = async (folder: any) => {
     await updateNameFolder(
       clave,
@@ -58,6 +66,11 @@ export const CollapseFolders: FC<ICollapse> = ({
     await listFolders({ claveArchivo: clave });
   };
 
+  /**
+   * Trata de eliminar una carpeta de una lista de carpetas y luego actualizar la lista de
+   * carpetas.
+   * @param {string} folder - cadena =&gt; El nombre de la carpeta que se va a eliminar.
+   */
   const deleteFolder = async (folder: string) => {
     const result = await swal.fire({
       title: "¿Estás seguro de eliminar esta carpeta?",
@@ -80,6 +93,14 @@ export const CollapseFolders: FC<ICollapse> = ({
   };
 
   //methods files
+
+  /**
+   * "Si la clave es una cadena, obtenga los archivos para la carpeta y, si los datos de respuesta no
+   * están vacíos, establezca los archivos de lista en los datos de respuesta; de lo contrario,
+   * establezca los archivos de lista en una matriz vacía".
+   * </código>
+   * @param {string | string[]} key - cadena | cadena[]
+   */
   const getFiles = async (key: string | string[]) => {
     if (typeof key === "string") {
       const resp = await getFilesForFolder(clave, key.trim());
@@ -97,7 +118,6 @@ export const CollapseFolders: FC<ICollapse> = ({
   ) => {
     const resp = await saveFilesInFolder(info.file, clave, folder.trim());
     if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
     }
     if (resp.status === 200) {
       message.success(`${info.file.name} file uploaded successfully`);
@@ -106,15 +126,14 @@ export const CollapseFolders: FC<ICollapse> = ({
     }
   };
 
-  const confirm = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    message.success("Click on Yes");
-  };
+  // const confirm = (e: React.MouseEvent<HTMLElement>) => {
+  //   message.success("Click on Yes");
+  // };
 
-  const cancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    message.error("Click on No");
-  };
+  // const cancel = (e: React.MouseEvent<HTMLElement>) => {
+  //   console.log(e);
+  //   message.error("Click on No");
+  // };
 
   const genExtra = (folder: any) => {
     return (

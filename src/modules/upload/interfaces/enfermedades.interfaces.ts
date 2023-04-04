@@ -11,7 +11,7 @@ export interface IConsulta {
   documento?: string;
   hasta?: string;
   idEnfermedad?: number;
-  idIps: number | null;
+  idIps: number | number;
   limit: number;
   page: number;
   tipoDocumento?: string;

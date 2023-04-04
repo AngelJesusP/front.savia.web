@@ -1,8 +1,5 @@
 import axios from "axios";
-import {
-  IConsulta,
-  IResponseConsulta,
-} from "../interfaces/enfermedades.interfaces";
+import { IConsulta } from "../interfaces/enfermedades.interfaces";
 
 // Promise<IResponseConsulta | any>
 const URL = import.meta.env.VITE_URL;

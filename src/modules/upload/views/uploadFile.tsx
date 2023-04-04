@@ -15,22 +15,6 @@ const UploadFile = () => {
       ),
       disabled: false,
     },
-    // {
-    //   key: "2",
-    //   label: `Detalle de un paciente`,
-    //   children: (
-    //     <TablePatientDetail
-    //       returnToConsultation={setActiveKey}
-    //       idPaciente={idPaciente}
-    //     />
-    //   ),
-    //   disabled: true,
-    // },
-    // {
-    //   key: "3",
-    //   label: `Log de errores`,
-    //   children: <TableGeneric/>,
-    // },
   ];
 
   return (

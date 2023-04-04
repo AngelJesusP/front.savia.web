@@ -18,6 +18,7 @@ import {
 
 const TableHistorical = () => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
+  const [IdEnfermedad, setIdEnfermedada] = useState(0);
   const [alert, setAlert] = useState<{
     message: string;
     type: "error" | "success" | "info" | "warning";
@@ -45,9 +46,11 @@ const TableHistorical = () => {
     "/api/v1/historico/archivo"
   );
 
+ 
   useEffect(() => {
     getListEnfermedadesConsulta();
   }, []);
+
 
   const onSubmit = async (values: any) => {
     const { data } = await getData({ ...filters, ...values });
@@ -56,6 +59,7 @@ const TableHistorical = () => {
     else {
       setAlert({ message: "", hidden: true, type: "info" });
     }
+    setIdEnfermedada(values.idEnfermedad);
   };
 
   const getListEnfermedadesConsulta = async () => {
@@ -69,16 +73,44 @@ const TableHistorical = () => {
     });
   };
 
+  interface MyObject {
+    [key: string]: {
+      color: string;
+      icon: JSX.Element;
+      text: string;
+    };
+  }
+
+  const tagStatus: MyObject = {
+    "1": {
+      color: "processing",
+      icon: <SyncOutlined spin />,
+      text: "Proceso",
+    },
+    "2": {
+      color: "success",
+      icon: <CheckCircleOutlined />,
+      text: "Completado",
+    },
+    "3": {
+      color: "warning",
+      icon: <CloseCircleOutlined />,
+      text: "Cancelado",
+    },
+  };
+
   const columnas = [
     {
       title: "Id",
+      align: "center",
       render: (data1: any, data2: any, index: number) =>
         filters.page === 1 ? index + 1 : (filters.page - 1) * 10 + index + 1,
     },
-    { title: "Nombre", dataIndex: "nombreArchivo" },
-    { title: "Clave", dataIndex: "claveArchivo" },
+    { title: "Nombre", align: "center", dataIndex: "nombreArchivo" },
+    { title: "Clave", align: "center", dataIndex: "claveArchivo" },
     {
       title: "Fecha",
+      align: "center",
       dataIndex: "fechaCargue",
       render: (date: any) => moment(date).format("YYYY-MM-DD"),
     },
@@ -90,31 +122,19 @@ const TableHistorical = () => {
         return (
           <Tag
             style={{ width: "100%" }}
-            color={
-              status === "1"
-                ? "processing"
-                : status === "2"
-                ? "success"
-                : "warning"
-            }
-            icon={
-              status === "1" ? (
-                <SyncOutlined spin />
-              ) : status === "2" ? (
-                <CheckCircleOutlined />
-              ) : (
-                <CloseCircleOutlined />
-              )
-            }
+            color={tagStatus[status].color || tagStatus["3"].color}
+            icon={tagStatus[status].icon || tagStatus["3"].icon}
           >
-            {status === "1"
-              ? "Proceso"
-              : status === "2"
-              ? "Completado"
-              : "Cancelado"}
+            {tagStatus[status].text || tagStatus["3"].text}
           </Tag>
         );
       },
+    },
+    {
+      title: "Total registros",
+      align: "center",
+      width: "9%",
+      dataIndex: "cantidadRegistros",
     },
     {
       title: "Acciones",
@@ -138,7 +158,6 @@ const TableHistorical = () => {
           fixed: "right",
           align: "center",
           render: (data: any) => {
-
             if (data?.estadoArchivo === "2") {
               return (
                 <div
@@ -149,8 +168,41 @@ const TableHistorical = () => {
                   }}
                   // className="text-primary"
                   onClick={async () => {
-                    const resp = await createFolders(data?.claveArchivo);
-                    console.log(resp);
+                    const resp = await createFolders(
+                      data?.claveArchivo,
+                      IdEnfermedad
+                    );
+                    //console.log(resp);
+                  }}
+                >
+                  <FolderOpenOutlined style={{ color: "#bdbd18" }} />
+                </div>
+              );
+            } else {
+              return "No disponible";
+            }
+          },
+        },
+        {
+          title: "Ver reporte",
+          fixed: "right",
+          align: "center",
+          render: (data: any) => {
+            if (data?.estadoArchivo === "2") {
+              return (
+                <div
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                  }}
+                  // className="text-primary"
+                  onClick={async () => {
+                    const resp = await createFolders(
+                      data?.claveArchivo,
+                      IdEnfermedad
+                    );
+                    //console.log(resp);
                   }}
                 >
                   <FolderOpenOutlined style={{ color: "#bdbd18" }} />
