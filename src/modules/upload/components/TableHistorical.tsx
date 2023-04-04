@@ -18,6 +18,7 @@ import {
 
 const TableHistorical = () => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
+  const [IdEnfermedad, setIdEnfermedada] = useState(0);
   const [alert, setAlert] = useState<{
     message: string;
     type: "error" | "success" | "info" | "warning";
@@ -62,6 +63,7 @@ const TableHistorical = () => {
     else {
       setAlert({ message: "", hidden: true, type: "info" });
     }
+    setIdEnfermedada(values.idEnfermedad);
   };
 
   /**
@@ -140,20 +142,20 @@ const TableHistorical = () => {
       title: "Total registros",
       align: "center",
       width: "9%",
-      dataIndex: "totalRegistrosCargados",
+      dataIndex: "cantidadRegistros",
     },
-    {
-      title: "Exitosos",
-      width: "6%",
-      align: "center",
-      dataIndex: "registrosExitosos",
-    },
-    {
-      title: "Con errores",
-      width: "7%",
-      align: "center",
-      dataIndex: "registrosErrores",
-    },
+    // {
+    //   title: "Exitosos",
+    //   width: "6%",
+    //   align: "center",
+    //   dataIndex: "registrosExitosos",
+    // },
+    // {
+    //   title: "Con errores",
+    //   width: "7%",
+    //   align: "center",
+    //   dataIndex: "registrosErrores",
+    // },
     {
       title: "Acciones",
       fixed: "right",
@@ -186,7 +188,40 @@ const TableHistorical = () => {
                   }}
                   // className="text-primary"
                   onClick={async () => {
-                    const resp = await createFolders(data?.claveArchivo);
+                    const resp = await createFolders(
+                      data?.claveArchivo,
+                      IdEnfermedad
+                    );
+                    //console.log(resp);
+                  }}
+                >
+                  <FolderOpenOutlined style={{ color: "#bdbd18" }} />
+                </div>
+              );
+            } else {
+              return "No disponible";
+            }
+          },
+        },
+        {
+          title: "Ver reporte",
+          fixed: "right",
+          align: "center",
+          render: (data: any) => {
+            if (data?.estadoArchivo === "2") {
+              return (
+                <div
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                  }}
+                  // className="text-primary"
+                  onClick={async () => {
+                    const resp = await createFolders(
+                      data?.claveArchivo,
+                      IdEnfermedad
+                    );
                     //console.log(resp);
                   }}
                 >

@@ -5,13 +5,13 @@ import { IFiltersFolders } from "../types/Reports.type";
 // Promise<IResponseConsulta | any>
 const URL = import.meta.env.VITE_URL;
 
-export const createFolders = async (claveArchivo: string): Promise<any> => {
+export const createFolders = async (claveArchivo: string, idEnfermedad: Number): Promise<any> => {
   try {
     const response = await axios.post(
       `${URL}/api/v1/soportes/creacion/automatica/carpetas/`,
       {},
       {
-        params: { claveArchivo },
+        params: { claveArchivo, idEnfermedad },
       }
     );
     await swal.fire({
