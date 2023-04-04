@@ -46,16 +46,12 @@ const TableHistorical = () => {
     "/api/v1/historico/archivo"
   );
 
-  /* Llamar a la función `getListEnfermedadesConsulta()` cuando el componente está montado. */
+ 
   useEffect(() => {
     getListEnfermedadesConsulta();
   }, []);
 
-  /**
-   * OnSubmit es una función que toma un parámetro de tipo any y devuelve una promesa que se resuelve
-   * en un valor de tipo any
-   * @param {any} values - {
-   */
+
   const onSubmit = async (values: any) => {
     const { data } = await getData({ ...filters, ...values });
     if (data.length === 0)
@@ -66,10 +62,6 @@ const TableHistorical = () => {
     setIdEnfermedada(values.idEnfermedad);
   };
 
-  /**
-   * GetListEnfermedadesConsulta() es una función asíncrona que llama a getListEnfermedades() y luego
-   * establece el estado de listEnfermedades en el resultado de convertListToSelect(list).
-   */
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {
       const { status } = data;
@@ -144,18 +136,6 @@ const TableHistorical = () => {
       width: "9%",
       dataIndex: "cantidadRegistros",
     },
-    // {
-    //   title: "Exitosos",
-    //   width: "6%",
-    //   align: "center",
-    //   dataIndex: "registrosExitosos",
-    // },
-    // {
-    //   title: "Con errores",
-    //   width: "7%",
-    //   align: "center",
-    //   dataIndex: "registrosErrores",
-    // },
     {
       title: "Acciones",
       fixed: "right",

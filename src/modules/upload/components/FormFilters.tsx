@@ -1,4 +1,4 @@
-import { Card, DatePicker, Form, Input, Select } from "antd";
+import { Card, Form, Input, Select } from "antd";
 import { Alert } from "../../../utils/components/Alert";
 import { LabelOptional } from "../../../utils/components/Labeloptional";
 import { FC, useState, useEffect } from "react";
@@ -30,21 +30,13 @@ const FormFilters: FC<IFormFilters> = ({
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
   const [validateField, setValidateField] = useState("");
 
-  const { RangePicker } = DatePicker;
   const { Option } = Select;
   const [form] = Form.useForm();
 
-
-  /* Llamando a la función `getListEnfermedadesConsulta` cuando el componente está montado. */
   useEffect(() => {
     getListEnfermedadesConsulta();
   }, []);
 
-
-  /**
-   * GetListEnfermedadesConsulta() es una función asíncrona que llama a getListEnfermedades() y luego
-   * establece el estado de listEnfermedades en el resultado de convertListToSelect(list).
-   */
   const getListEnfermedadesConsulta = async () => {
     await getListEnfermedades().then(({ data }) => {
       const { status } = data;
@@ -57,20 +49,7 @@ const FormFilters: FC<IFormFilters> = ({
   };
 
   return (
-    <Card
-    // title={
-    //   <span>
-    //     Realizar consulta de registros cargados &#160;
-    //     {/* <span
-    //       style={{
-    //         color: "#ff4d4f",
-    //       }}
-    //     >
-    //       - &#160; Llenar todos los campos que sean obligatorios{" "}
-    //     </span> */}
-    //   </span>
-    // }
-    >
+    <Card>
       <Form
         name="wrap"
         layout="vertical"
@@ -82,51 +61,6 @@ const FormFilters: FC<IFormFilters> = ({
         ]}
       >
         <div className="row align-items-center">
-          {/* {type === "error" && (
-            <div className="col-12 col-md-6 col-lg-3">
-              <Form.Item
-                label="Seleccionar una enfermedad"
-                name="idEnfermedad"
-                rules={[{ required: true, message: "Campo obligatorio" }]}
-              >
-                <Select
-                  // disabled={type === 'patient'}
-                  className="w-100"
-                  showSearch
-                  placeholder="Selecciona la enfermedad"
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    (option?.label ?? "")
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={listEnfermedades}
-                />
-              </Form.Item>
-            </div>
-          )} */}
-
-          {/* <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
-            <Form.Item
-              label={
-                <>
-                  Seleccionar el prestador <LabelOptional />
-                </>
-              }
-              name="idIps"
-              // rules={[{ required: true, message: 'Campo obligatorio' }]}
-            >
-              <Select
-                className="w-100"
-                showSearch
-                placeholder="Selecciona el prestador"
-                optionFilterProp="children"
-                // filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                options={[]}
-              />
-            </Form.Item>
-          </div> */}
-          {/* Antes se tenia esta ternaria `col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}` */}
           <div
             className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}
           >
@@ -167,21 +101,6 @@ const FormFilters: FC<IFormFilters> = ({
               </Input.Group>
             </Form.Item>
           </div>
-          {/* {type === "error" && (
-            <div className="col-12 col-md-6 col-lg-3">
-              <Form.Item
-                label="Desde - Hasta"
-                name="rangePicker"
-                rules={[{ required: true, message: "Campo obligatorio" }]}
-              >
-                <RangePicker
-                  locale={locale}
-                  className="w-100"
-                  placeholder={["Fecha inicial", "Fecha final"]}
-                />
-              </Form.Item>
-            </div>
-          )} */}
         </div>
 
         <Alert {...jsonAlert} showIcon closable />
@@ -199,7 +118,6 @@ const FormFilters: FC<IFormFilters> = ({
         </button>
         <button
           type="submit"
-          // disabled={loading || activeKey === "2"}
           className="btn btn-primary"
         >
           Consultar

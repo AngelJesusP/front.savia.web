@@ -34,7 +34,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
     limit: 10,
   });
 
-  /* Un gancho que se ejecuta cuando se monta el componente y cuando cambian los datos. */
+  
   const getDescriptionError = async (key: any, nameKey: string) => {
     setSkeleton(true);
     let response: any;
@@ -121,7 +121,6 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
                           )}
                         </>
                       }
-                      // title={"Lista de errores"}
                       trigger="click"
                     >
                       <Tag

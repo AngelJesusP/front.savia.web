@@ -16,10 +16,6 @@ const useTable = (
       filters: initialFilters,
    });
 
-   /**
-    * Restablezca los filtros a su estado inicial y configure los datos, la carga y el total a su estado
-    * inicial.
-    */
    const resetFilters = async () => {
       setState({
          data: [],
@@ -43,16 +39,6 @@ const useTable = (
       });
    };
 
-   /**
-    * Voy a configurar el estado para que se cargue, luego intentaré obtener algunos datos y, si obtengo
-    * algunos datos, configuraré el estado para que no se cargue y configuraré los datos en los datos
-    * que tengo, y establezco el total en el total que obtuve, y establezco los filtros en los filtros
-    * que obtuve, y luego voy a devolver los datos que obtuve, y si no obtengo ningún dato, voy a
-    * rechazar el error.
-    * @param {any} _filters - cualquiera -&gt; este es el objeto que contiene los filtros que quiero
-    * pasar a la API
-    * @returns Se devuelve la respuesta.datos.datos.
-    */
    const getData = async (_filters: any) => {
       setState({ ...state, loading: true });
       try {
