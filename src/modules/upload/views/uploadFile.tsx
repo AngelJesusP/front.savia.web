@@ -4,8 +4,6 @@ import TableHistorical from "../components/TableHistorical";
 
 const UploadFile = () => {
   const [activeKey, setActiveKey] = useState("1");
-  //const [idPaciente, setIdPaciente] = useState<number | null>(null);
-
   const items: TabsProps["items"] = [
     {
       key: "1",

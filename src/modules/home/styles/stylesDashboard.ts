@@ -12,7 +12,6 @@ export const styleSubTitle: React.CSSProperties = {
     top: 40
 }
 export const styleCard = {
-    /* UI Properties */
     background: '#FFFFFF 0% 0% no-repeat padding-box',
     boxShadow: '0px 3px 6px #00000029',
     borderRadius: 15,

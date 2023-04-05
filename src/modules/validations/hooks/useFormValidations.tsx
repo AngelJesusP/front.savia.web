@@ -12,9 +12,7 @@ const useFormValidations = () => {
         let { convert } = convertListVarToSelect(data.data);
         setListVariables(convert);
       }
-    });
-    console.log("test ",listVariables);
-    
+    });    
   };
   return { getListValidacionesConsulta, listVariables };
 };

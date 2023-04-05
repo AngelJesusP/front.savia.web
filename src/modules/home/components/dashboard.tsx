@@ -19,10 +19,6 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
       return (
          <div style={{ height: 190 }} className="bg-white">
 
-            {/* {modalUpload ? <ModalUploadComponent
-               openModal={modalUpload}
-               closeModal={this.onClickModalUpload} /> : null} */}
-
             <h5 style={styleTitle}>Bienvenido(a) al sistema de carga de Savia Salud EPS</h5>
             <p style={styleSubTitle}>Desde aquí podrá elegir los módulos para gestionar el contenido 
             del portal de savia salud EPS</p>

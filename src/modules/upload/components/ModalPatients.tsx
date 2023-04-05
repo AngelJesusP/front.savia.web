@@ -74,11 +74,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
          tipoDocumento: values?.document?.type || "",
          documento: values?.document?.number || "",
          desde: "",
-         /* values?.desde ||
-           moment(new Date(values?.rangePicker[0])).format("YYYY-MM-DD"),*/
          hasta: "",
-         /* values?.hasta ||
-           moment(new Date(values?.rangePicker[1])).format("YYYY-MM-DD"),*/
          page: values.page || 1,
          limit: values.limit || 10,
       };
@@ -136,8 +132,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
          <span
             style={{ cursor: "pointer" }}
             className="text-primary"
-            onClick={open}
-         >
+            onClick={open}>
             Ver detalle
          </span>
          <Modal
@@ -147,29 +142,8 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
             onCancel={close}
             width={"85%"}
             bodyStyle={{ padding: 0 }}
-            footer={[]}
-         >
+            footer={[]}>
             <Tabs defaultActiveKey="1" items={items} />
-            {/* <FormFilters
-          onSubmit={onSubmit}
-          onClear={resetFilters}
-          jsonAlert={jsonAlert}
-          loading={loading}
-          values={{ idEnfermedad }}
-          type="patient"
-        /> */}
-            {/* {data.length > 0 && ( */}
-            {/* <Card className="mt-3">
-          <TableConsulta
-            total={total}
-            loading={loading}
-            data={data}
-            filters={filters}
-            novedades={novedades}
-            handleTableChange={handleTableChange}
-          />
-        </Card> */}
-            {/* )} */}
          </Modal>
       </>
    );

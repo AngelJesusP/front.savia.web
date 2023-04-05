@@ -1,21 +1,6 @@
 import logoHeader from "../../../utils/assets/img/conexionSavia.png";
-import camanaNotificaciones from "../../../utils/assets/icon/campanaNotificaciones.svg";
-import {
-  Button,
-  Popover,
-  Avatar,
-  Badge,
-  Space,
-  Dropdown,
-  MenuProps,
-  Empty,
-} from "antd";
-import {
-  styleMenuHamburguesa,
-  styleNotificacion,
-  styleUserName,
-  styleimgHeader,
-} from "../styles/styleHeader";
+import { Button, Popover, Badge, Space, Empty } from "antd";
+import { styleMenuHamburguesa, styleNotificacion, styleUserName, styleimgHeader } from "../styles/styleHeader";
 import { nametoken } from "../../../utils/constants/token/nameToken";
 import { BellTwoTone, MailOutlined } from "@ant-design/icons";
 import { TemplateContext } from "../../../utils/components/TemplateContext";
@@ -35,8 +20,7 @@ const content = (
     <span
       className="text-primary"
       onClick={() => cerrarSesion()}
-      style={{ cursor: "pointer" }}
-    >
+      style={{ cursor: "pointer" }}>
       Cerrar sesión
     </span>
   </div>
@@ -51,26 +35,21 @@ export const HeaderComponent = () => {
         src={logoHeader}
         className="img-fluid"
         style={styleimgHeader}
-        alt=""
-      />
+        alt="" />
 
       <Popover
         placement="bottomRight"
         title="Mary luz jane suarez"
         content={content}
-        trigger="click"
-      >
+        trigger="click">
         <Button
           className="p-0"
           type="primary"
           style={styleMenuHamburguesa}
-          shape="circle"
-        >
+          shape="circle">
           M
         </Button>
       </Popover>
-
-      {/* <img src={camanaNotificaciones} className="img-fluid" style={styleNotificacion} alt="" /> */}
 
       <Popover
         placement="bottomRight"
@@ -78,28 +57,23 @@ export const HeaderComponent = () => {
         content={
           < >
            { context.notifications ?
-           
            <div className="d-flex align-items-center">
             <MailOutlined />
             <span className="ms-3">
              
             </span>
            </div>
-           
            : <Empty description={'No hay notificaciones pendientes'} /> }
-            
           </>
         }
         trigger="click"
       >
         <Space style={styleNotificacion}>
           <Badge status="success" dot color="#87d068" count>
-            {/* <Avatar shape="square" size="small" /> */}
             <BellTwoTone style={{ fontSize: 20 }} />
           </Badge>
         </Space>
       </Popover>
-
       <span style={styleUserName}>
         Bienvenido/a,{" "}
         <span style={{ fontWeight: "bold" }}>Mary luz jane suarez</span>{" "}

@@ -1,5 +1,3 @@
-import { Radio } from "antd";
-import type { RadioChangeEvent } from 'antd';
 import { DownloadOutlined, SyncOutlined } from "@ant-design/icons";
 import { useState, FC } from "react";
 import { IConsulta } from "../interfaces/enfermedades.interfaces";
@@ -13,7 +11,6 @@ interface IProgressFile {
 
 const ProgressFile: FC<IProgressFile> = ({ filters }) => {
 
-    const [getRadio, setRadio] = useState(null)
     const [getSpinner, setSpinner] = useState(false)
 
     const download = async (nombreArchivo: string) => {
@@ -49,15 +46,8 @@ const ProgressFile: FC<IProgressFile> = ({ filters }) => {
 
     return (
         <>
-            {/* <div className="mt-3 d-flex align-items-center">
-                <Radio.Group value={getRadio} onChange={(e: RadioChangeEvent) => setRadio(e.target.value)}  >
-                    <Radio value={true}>General</Radio>
-                    <Radio value={false}>Paginado</Radio>
-                </Radio.Group>
-            </div> */}
             <button
                 className="btn btn-primary mt-3 d-flex align-items-center"
-                // disabled={getRadio == null}
                 onClick={async () => await setEventSource()}>
                 {getSpinner ? <SyncOutlined spin  className="me-2" />  : <DownloadOutlined className="me-2" /> }
                 {getSpinner ? 'Espere...'  : 'Exportar datos' }                
