@@ -6,7 +6,6 @@ import { IConsulta } from "../interfaces/enfermedades.interfaces";
 import { getLogErrors } from "../service/enfermedades.services";
 import FormFilters from "./FormFilters";
 import ProgressFile from "./ProgressFile";
-import { log } from "console";
 
 const originUrl = import.meta.env.VITE_URL;
 const path = "/api/v1/consulta/errores/detallado";
@@ -112,15 +111,14 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
          const columsForJson: any = Object.keys(nuevoJsonHeader).map((key, i: any) => {
             if (key != "id" && key != "campo_leido" && key != "clave_archivo") {
                return {
-                  title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA') ? `${contadorColumnas += 1}.VARIABLE` : '',
+                  title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA') ? `${columnasLetrasExcel[i]}` : '',
                   align: "center",
                   rowScope: 'row',
                   dataIndex: `${key}`,
                   key: `${key}`,
                   fixed: key === "error_validacion" ? "right" : (key === 'FILA') ? "left" : null,
                   children: [{
-                     title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA') ? `${columnasLetrasExcel[i]}` : '',
-                     align: "center",
+                     title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA') ? `${contadorColumnas += 1}.VARIABLE` : '',
                      fixed: key === "error_validacion" ? "right" : (key === 'FILA') ? "left" : null,
 
                      render: (data: any, index: number, i: number) => {
