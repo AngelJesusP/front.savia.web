@@ -1,9 +1,4 @@
-import { nametoken } from "../../../utils/constants/token/nameToken";
-/**
- * Esta función toma un nombre de usuario y una contraseña y los guarda en localStorage.
- * @param {string} username - cadena,
- * @param {string} password - cadena
- */
+import { nametoken } from "../../../utils/constants/token/nameToken"
 export const IndexAuth = (username: string, password: string) => {
   let { localStorage } = window;
   if (localStorage) {

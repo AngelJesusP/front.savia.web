@@ -100,12 +100,6 @@ const TableHistorical = () => {
   };
 
   const columnas = [
-    // {
-    //   title: "Id",
-    //   align: "center",
-    //   render: (data1: any, data2: any, index: number) =>
-    //     filters.page === 1 ? index + 1 : (filters.page - 1) * 10 + index + 1,
-    // },
     { title: "Nombre del archivo", align: "center", dataIndex: "nombreArchivo" },
     { title: "Clave unica del archivo", align: "center", dataIndex: "claveArchivo" },
     {
@@ -166,13 +160,11 @@ const TableHistorical = () => {
                     fontSize: "14px",
                     fontWeight: "bold",
                   }}
-                  // className="text-primary"
                   onClick={async () => {
                     const resp = await createFolders(
                       data?.claveArchivo,
                       IdEnfermedad
                     );
-                    //console.log(resp);
                   }}
                 >
                   <FolderOpenOutlined style={{ color: "#bdbd18" }} />

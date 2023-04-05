@@ -13,10 +13,10 @@ export const getListEnfermedades = async (): Promise<any> => {
   return response;
 };
 
-export const HttpClientPostFile = async (file: any): Promise<any> => {
+export const HttpClientPostFile = async (idEnfermedad : string, file: any): Promise<any> => {
   let form = new FormData();
-  form.append("idEnfermedad", "1");
-  form.append("idIps", "2");
+  form.append("idEnfermedad", idEnfermedad);
+  form.append("idIps", "0");
   form.append("file", file);
 
   const response = await axios.post(

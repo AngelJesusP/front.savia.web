@@ -24,15 +24,10 @@ export default class CreateFile extends React.Component {
     loading: false,
   };
 
-  /* Un método de ciclo de vida que se llama después de montar el componente. */
   componentDidMount = async () => {
     await this.getListEnfermedades();
   };
 
-  /* Esta es una función que se llama cuando se monta el componente. Es una función asíncrona que llama
-  a otra función llamada getListEnfermedades. Esta función devuelve una promesa. A continuación, se
-  resuelve la promesa y se devuelven los datos. A continuación, los datos se utilizan para
-  establecer el estado del componente. */
   getListEnfermedades = async () => {
     await getListEnfermedades().then(({ data }) => {
       const { status } = data;
@@ -44,7 +39,6 @@ export default class CreateFile extends React.Component {
     });
   };
 
-  /* Una función que devuelve un componente de alerta. */
   getAlertMessage = () => {
     const { message, typeres } = this.state;
     return (
@@ -57,19 +51,13 @@ export default class CreateFile extends React.Component {
     );
   };
 
-  /* Metodo para enviar los datos back */
-
-  /* Esta es una función que se llama cuando el usuario hace clic en el botón. Esta función es
-  asíncrona y llama a otra función denominada HttpClientPostFile. Esta función devuelve una promesa.
-  Luego se resuelve la promesa y se devuelven los datos. Luego, los datos se utilizan para
-  establecer el estado del componente. */
   onClickEnviarArchivo = async () => {
     this.setState({ loading: true });
     const { idEnfermedad, fileEnviar } = this.state;
     let type = undefined;
     let message = "";
     if (idEnfermedad && fileEnviar !== null) {
-      const response = await HttpClientPostFile(fileEnviar);
+      const response = await HttpClientPostFile(`${idEnfermedad}`, fileEnviar);
       const data = response.data;
       if (data) {
         const { status } = data;
@@ -152,7 +140,6 @@ export default class CreateFile extends React.Component {
               className="d-flex justify-content-end me-4"
             >
               <button
-                // onClick={() => closeModal(false)}
                 className="btn btn-outline-primary me-3"
               >
                 Cancelar
@@ -181,15 +168,6 @@ export default class CreateFile extends React.Component {
         >
           <span style={{ font: "normal normal normal 13px/13px Montserrat" }}>
             Carga de archivo .csv
-            {/* <span
-              style={{
-                font: "normal normal normal 10px/13px Montserrat",
-                color: "#AD0808",
-              }}
-            >
-              {" "}
-              - llenar todos los campos obligatorios
-            </span> */}
           </span>
           <hr style={{ position: "relative", bottom: 10 }} />
 
@@ -222,9 +200,6 @@ export default class CreateFile extends React.Component {
                 showSearch
                 placeholder="Selecciona el prestador"
                 optionFilterProp="children"
-                // onChange={onChange}
-                // onSearch={onSearch}
-                // filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
                 options={[]}
               />
             </div>
@@ -239,11 +214,8 @@ export default class CreateFile extends React.Component {
             beforeUpload={(e) => {
               this.getFile(e);
               return false;
-            }}
-          >
-            {/* <p className="ant-upload-drag-icon"> */}
+            }}>
             <InboxOutlined style={{ color: "#244c5c", fontSize: "50px" }} />
-            {/* </p> */}
             <p className="ant-upload-text">
               Haga clic o arrastre el archivo para ser cargado
             </p>

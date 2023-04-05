@@ -42,7 +42,6 @@ const TableConsulta: FC<ITableConsulta> = ({
   };
 
   const columnas = [
-    // { title: "Id", dataIndex: "id" },
     { title: "Primer nombre", dataIndex: "primerNombre" },
     { title: "Segundo nombre", dataIndex: "segundoNombre" },
     { title: "Primer apellido", dataIndex: "primerApellido" },

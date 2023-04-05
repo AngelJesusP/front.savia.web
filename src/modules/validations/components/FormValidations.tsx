@@ -1,13 +1,9 @@
 import { Card, Form, Input, Select } from "antd";
-import { useEffect } from "react";
 import useFormValidations from "../hooks/useFormValidations";
 
 export const FormValidations = () => {
   const { listVariables } = useFormValidations();
  
-//   useEffect(() => {
-//   }, [listVariables]);
-
   const TipoDato = [
     {
       value: "String",

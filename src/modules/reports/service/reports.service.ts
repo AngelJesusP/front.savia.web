@@ -2,7 +2,6 @@ import axios from "axios";
 import { swal } from "../../../utils/components/SwalAlert";
 import { IFiltersFolders } from "../types/Reports.type";
 
-// Promise<IResponseConsulta | any>
 const URL = import.meta.env.VITE_URL;
 
 export const createFolders = async (claveArchivo: string, idEnfermedad: Number): Promise<any> => {
