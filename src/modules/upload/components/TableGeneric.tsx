@@ -106,7 +106,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
          const nuevoJsonHeader = Object.assign({ "FILA": 1 }, data[0])
          const columnasLetrasExcel: any = ['X'].concat(generateExcelColumns(500))
          let contadorFila = 0;
-         let contadorColumnas = 0;
+         let contadorColumnas  = 0;
 
          const columsForJson: any = Object.keys(nuevoJsonHeader).map((key, i: any) => {
             if (key != "id" && key != "campo_leido" && key != "clave_archivo") {
@@ -118,7 +118,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
                   key: `${key}`,
                   fixed: key === "error_validacion" ? "right" : (key === 'FILA') ? "left" : null,
                   children: [{
-                     title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA') ? `${contadorColumnas += 1}.VARIABLE` : '',
+                     title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA') ? `V${contadorColumnas += 1}.${key.toUpperCase().charAt(0).toUpperCase() + key.slice(1)}`.replace(/_/g, ' ') : '',
                      fixed: key === "error_validacion" ? "right" : (key === 'FILA') ? "left" : null,
 
                      render: (data: any, index: number, i: number) => {
