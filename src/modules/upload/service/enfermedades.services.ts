@@ -1,7 +1,6 @@
 import axios from "axios";
 import { IConsulta } from "../interfaces/enfermedades.interfaces";
 
-// Promise<IResponseConsulta | any>
 const URL = import.meta.env.VITE_URL;
 
 export const getPaciente = async (id: number): Promise<any> => {

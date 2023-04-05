@@ -30,25 +30,31 @@
     background-color: #ffffff !important;
 }
 
+.ant-table-tbody {
+    padding: 0 !important;
+}
 
-.ant-table-tbody > tr > td,
-.ant-table-thead > tr > th,
-.ant-table tfoot > tr > td,
-.ant-table tfoot > tr > th {
+.ant-table-tbody>tr>td {
+    padding: 2px !important;
+}
+
+
+.ant-table-tbody>tr>td,
+.ant-table-thead>tr>th,
+.ant-table tfoot>tr>td,
+.ant-table tfoot>tr>th {
     padding: 8px;
     border-color: #e2e2e3 !important;
 }
 
 
-.ant-table-thead > tr > th {
+.ant-table-thead>tr>th {
     color: #4b4b4b;
-    background-color: #ffffff !important;
+    background-color: #e4e4e4 !important;
+    border: 0.1em solid rgb(188, 188, 188) !important;
 }
 
-.ant-table.ant-table-bordered
-    > .ant-table-container
-    > .ant-table-content
-    > table {
+.ant-table.ant-table-bordered>.ant-table-container>.ant-table-content>table {
     border-color: #e2e2e3 !important;
 }
 

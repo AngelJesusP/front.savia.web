@@ -100,14 +100,14 @@ const TableHistorical = () => {
   };
 
   const columnas = [
-    {
-      title: "Id",
-      align: "center",
-      render: (data1: any, data2: any, index: number) =>
-        filters.page === 1 ? index + 1 : (filters.page - 1) * 10 + index + 1,
-    },
-    { title: "Nombre", align: "center", dataIndex: "nombreArchivo" },
-    { title: "Clave", align: "center", dataIndex: "claveArchivo" },
+    // {
+    //   title: "Id",
+    //   align: "center",
+    //   render: (data1: any, data2: any, index: number) =>
+    //     filters.page === 1 ? index + 1 : (filters.page - 1) * 10 + index + 1,
+    // },
+    { title: "Nombre del archivo", align: "center", dataIndex: "nombreArchivo" },
+    { title: "Clave unica del archivo", align: "center", dataIndex: "claveArchivo" },
     {
       title: "Fecha",
       align: "center",
@@ -131,7 +131,7 @@ const TableHistorical = () => {
       },
     },
     {
-      title: "Total registros",
+      title: "Total Registros",
       align: "center",
       width: "9%",
       dataIndex: "cantidadRegistros",
@@ -234,7 +234,7 @@ const TableHistorical = () => {
           >
             <Select
               // disabled={activeKey === "2"}
-              className="w-100"
+              className="w-25"
               showSearch
               placeholder="Selecciona la enfermedad"
               optionFilterProp="children"
