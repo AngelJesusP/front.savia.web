@@ -23,6 +23,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
    const [isVisible, setIsVisible] = useState(false);
    const [jsonAlert, setJsonAlert] = useState(constantAlertJson);
    const [novedades, setNovedades] = useState([]);
+   const [getStep, setStep] = useState("1")
 
    useEffect(() => {
       if (isVisible) {
@@ -32,7 +33,6 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
 
    const getNovedades = async () => {
       const resp = await getNews(idEnfermedad);
-
       setNovedades(resp);
    };
 
@@ -42,15 +42,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
    };
    const close = () => setIsVisible(false);
 
-   const {
-      filters,
-      data,
-      loading,
-      total,
-      getData,
-      resetFilters,
-      handleTableChange,
-   } = useTable({
+   const { filters, data, loading, total, getData, resetFilters, handleTableChange, } = useTable({
       idEnfermedad: -1,
       idIps: 0,
       tipoDocumento: "",
@@ -135,7 +127,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
             onClick={open}>
             Ver detalle
          </span>
-         <Modal
+         {isVisible ? <Modal
             style={{ top: 20 }}
             className="modal-patients"
             open={isVisible}
@@ -143,8 +135,8 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
             width={"85%"}
             bodyStyle={{ padding: 0 }}
             footer={[]}>
-            <Tabs defaultActiveKey="1" items={items} />
-         </Modal>
+            <Tabs defaultActiveKey={getStep} onChange={(value) => setStep(value)} items={items} />
+         </Modal> : null}
       </>
    );
 };
