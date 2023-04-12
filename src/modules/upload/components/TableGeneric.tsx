@@ -61,6 +61,14 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
 
    const getDescriptionError = async (dataTable: any, key: string, contadorFila: number) => {
 
+      let elemento: any = document.getElementById(`${dataTable['id']}`);
+      if (elemento != null) {
+         const valor: string = elemento.getAttribute("data-valor");
+         if (valor === 'Error_Estructura') {
+            elemento.innerHTML = "<b>INFORMACIÓN</b><br/>Este registro no cumple con la estructura de los campos deseada.";
+            return;
+         }
+      }
       const json = {
          idEnfermedad,
          claveArchivo: dataTable['clave_archivo'],
