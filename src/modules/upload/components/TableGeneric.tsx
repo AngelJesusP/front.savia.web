@@ -21,14 +21,15 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
    const [total, setTotal] = useState<number | null>(null);
    const [loading, setLoading] = useState<boolean>(false);
    const [data, setData] = useState([]);
+   const [dataColumnas, setColumnasData] = useState([]);
+   const [headers, setHeaders] = useState(false);
    const [jsonAlert, setJsonAlert] = useState(constantAlertJson);
    const [filters, setFilters] = useState<IConsulta>({
       idEnfermedad: -1,
       idIps: 0,
       tipoDocumento: "",
       documento: "",
-      desde: "",
-      hasta: "",
+      encabezado: false,
       page: 1,
       limit: 10,
    });
@@ -114,8 +115,9 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
          const nuevoJsonHeader = Object.assign({ "FILA": 1 }, data[0])
          const columnasLetrasExcel: any = ['X'].concat(generateExcelColumns(500))
          let contadorFila = 0;
-         let contadorColumnas  = 0;
+         let contadorColumnas = 0;
 
+         let contador = 0;
          const columsForJson: any = Object.keys(nuevoJsonHeader).map((key, i: any) => {
             if (key != "id" && key != "campo_leido" && key != "clave_archivo") {
                return {
@@ -126,7 +128,9 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
                   key: `${key}`,
                   fixed: key === "error_validacion" ? "right" : (key === 'FILA') ? "left" : null,
                   children: [{
-                     title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA') ? `V${contadorColumnas += 1}.${key.toUpperCase().charAt(0).toUpperCase() + key.slice(1)}`.replace(/_/g, ' ') : '',
+                     title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA')
+                        ? (dataColumnas.length > contadorColumnas) ? dataColumnas[contador++]['etiqueta'] : `V${contadorColumnas += 1}.${key.toUpperCase().charAt(0).toUpperCase() + key.slice(1)}`.replace(/_/g, ' ')
+                        : '',
                      fixed: key === "error_validacion" ? "right" : (key === 'FILA') ? "left" : null,
 
                      render: (data: any, index: number, i: number) => {
@@ -198,22 +202,38 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
    const getData = async (values: any) => {
       setJsonAlert(constantAlertJson);
       setLoading(true);
+
+      const { localStorage } = window
+      if (localStorage.getItem('headers') != null) {
+         const jsonHeaders: { data: [], id: number } = JSON.parse(localStorage.getItem('headers') as string);
+         setHeaders((jsonHeaders.id === idEnfermedad) ? true : false)      
+      } else setHeaders(false)
+
       const dataFinal: IConsulta = {
          claveArchivo: claveArchivo,
          idEnfermedad: idEnfermedad || -1,
          idIps: values?.idIps || 0,
          tipoDocumento: values?.document?.type || "",
          documento: values?.document?.number || "",
-         desde: values?.desde || "",
-         hasta: values?.hasta || "",
+         encabezado: headers,
          page: values.page || 1,
-         limit: values.limit || 10,
+         limit: values.limit || 10
       };
       let valuesResponse;
 
       const { data } = await getLogErrors(dataFinal);
       valuesResponse = data;
       setData(valuesResponse?.data || []);
+
+
+      if (!headers) {
+         setColumnasData(valuesResponse?.lst);
+         localStorage.setItem('headers', JSON.stringify({ data: valuesResponse?.lst, id: idEnfermedad }))
+      } else {
+         const jsonHeaders: { data: [], id: number } = JSON.parse(localStorage.getItem('headers') as string);
+         setColumnasData(jsonHeaders.data);
+      }
+
       setFilters(dataFinal);
       setJsonAlert({ ...jsonAlert, message: valuesResponse?.message || "" });
       setTotal(Number(valuesResponse?.items?.replace(/[\[\]]/g, "")) || null);
@@ -227,8 +247,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
          idIps: 0,
          tipoDocumento: "",
          documento: "",
-         desde: "",
-         hasta: "",
+         encabezado: false,
          page: 1,
          limit: 10,
       });
@@ -237,6 +256,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
          setLoading(false);
       }, 1000);
       setData([]);
+      setColumnasData([]);
    };
 
    return (

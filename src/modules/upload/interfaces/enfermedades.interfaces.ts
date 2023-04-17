@@ -7,9 +7,7 @@ export interface Ienfermedades {
 }
 
 export interface IConsulta {
-  desde?: string;
   documento?: string;
-  hasta?: string;
   idEnfermedad?: number;
   idIps: number | number;
   limit: number;
@@ -18,6 +16,7 @@ export interface IConsulta {
   bandera?: boolean;
   claveArchivo?: string,
   novedades?: any;
+  encabezado?: boolean;
 }
 
 export interface IResponseConsulta {
