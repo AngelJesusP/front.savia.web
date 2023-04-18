@@ -17,6 +17,13 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
       hidden: true,
    };
 
+   const stylesFormatoIncorrecto = (data: any, key: any) => {
+      return {
+         color: ((data[key] == "" || data[key] == null) ? 'red' : 'black'),
+         fontWeight: ((data[key] == "" || data[key] == null) ? 'bold' : 'none')
+      }
+   }
+
    const [colums, setColumns] = useState();
    const [total, setTotal] = useState<number | null>(null);
    const [loading, setLoading] = useState<boolean>(false);
@@ -33,6 +40,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
       page: 1,
       limit: 10,
    });
+
 
 
 
@@ -60,7 +68,10 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
       }
    }
 
-   const getDescriptionError = async (dataTable: any, key: string, contadorFila: number) => {
+   const getDescriptionError = async (dataTable: any) => {
+
+      console.log(dataTable);
+
 
       let elemento: any = document.getElementById(`${dataTable['id']}`);
       if (elemento != null) {
@@ -114,10 +125,11 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
          delete data[0]['campo_leido']
          const nuevoJsonHeader = Object.assign({ "FILA": 1 }, data[0])
          const columnasLetrasExcel: any = ['X'].concat(generateExcelColumns(500))
-         let contadorFila = 0;
-         let contadorColumnas = 0;
+         let contadorFila: number = 0;
+         let contadorColumnas: number = 0;
 
-         let contador = 0;
+         let contador: number = 0;
+         let lstIds: string = "";
          const columsForJson: any = Object.keys(nuevoJsonHeader).map((key, i: any) => {
             if (key != "id" && key != "campo_leido" && key != "clave_archivo") {
                return {
@@ -161,7 +173,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
                                     }
                                     trigger="click">
                                     <Tag key={i}
-                                       onClick={() => getDescriptionError(index, key, contadorFila)}
+                                       onClick={() => getDescriptionError(index)}
                                        color="red"
                                        style={{
                                           width: "100%",
@@ -175,7 +187,17 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
                            );
                         } else {
                            return (key !== 'FILA')
-                              ? <span>{data[key]}</span>
+                              ? <span style={stylesFormatoIncorrecto(data, key)}>
+                                 {(data[key] == "" || data[key] == null) ? <Tag
+                                    color="volcano"
+                                    style={{
+                                       width: "100%",
+                                       cursor: "pointer",
+                                       textAlign: "center",
+                                    }}>
+                                    FORMATO INCORRECTO
+                                 </Tag> : data[key]}
+                              </span>
                               : <div style={{ backgroundColor: '#e4e4e4', border: 'none' }}
                                  className="w-100 p-0 m-0 text-center">{contadorFila += 1}</div>
                         }
@@ -206,7 +228,7 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
       const { localStorage } = window
       if (localStorage.getItem('headers') != null) {
          const jsonHeaders: { data: [], id: number } = JSON.parse(localStorage.getItem('headers') as string);
-         setHeaders((jsonHeaders.id === idEnfermedad) ? true : false)      
+         setHeaders((jsonHeaders.id === idEnfermedad) ? true : false)
       } else setHeaders(false)
 
       const dataFinal: IConsulta = {
