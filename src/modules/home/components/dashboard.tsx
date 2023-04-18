@@ -54,7 +54,7 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                         <div className="card-body">
                            <p className="card-text" style={styleLabelCardText}>
                               Esta función permite consultar y ver el número de registros procesados por
-                              enfermedad, Prestador y fecha de carga.</p>
+                              enfermedad</p>
                            <img src={fecha} style={{ height: 7 }} alt="" />
                            <span
                               onClick={() => {}}
@@ -70,11 +70,11 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                         <div className="card-header bg-white" style={styleCardHeader}>
                            <img src={iconExcel} style={{ height: 30 }} alt="" />
                            <span className="card-text" style={styleLink}>
-                              Ver reportes</span>
+                              Administración de validaciones</span>
                         </div>
                         <div className="card-body">
                            <p className="card-text" style={styleLabelCardText}>
-                              Permite visualizar todos los reportes de los pacientes cargados correctamente.</p>
+                              Permite agregar, editar o deshabilitar las validaciones de cada una de las enfermedades</p>
                            <img src={fecha} style={{ height: 7 }} alt="" />
                            <span className='text-card-home' 
                            onClick={() => window.location.href = RUTA_REPORTES}
