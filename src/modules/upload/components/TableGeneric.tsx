@@ -118,14 +118,6 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
       }
    };
 
-   const getEtiqueta = (dataColum : any , contador : number)=>{
-      if (typeof dataColum[contador++] != undefined){
-         return dataColum[contador++]['etiqueta']
-      } else {
-         return 'Columna no leída'
-      }
-   }
-
    useEffect(() => {
       if (data.length > 0) {
 
@@ -136,19 +128,21 @@ const TableGeneric: FC<any> = ({ idEnfermedad, claveArchivo }) => {
          let contadorColumnas: number = 0;
 
          let contador: number = 0;
-         let lstIds: string = "";
          const columsForJson: any = Object.keys(nuevoJsonHeader).map((key, i: any) => {
             if (key != "id" && key != "campo_leido" && key != "clave_archivo") {
                return {
                   title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA') ? `${columnasLetrasExcel[i]}` : '',
                   align: "center",
+                  width: "10%",
                   rowScope: 'row',
                   dataIndex: `${key}`,
                   key: `${key}`,
                   fixed: key === "error_validacion" ? "right" : (key === 'FILA') ? "left" : null,
                   children: [{
                      title: (key !== 'error_validacion' && key !== 'clave_archivo' && key !== 'FILA')
-                        ? (dataColumnas.length > contadorColumnas) ? getEtiqueta(dataColumnas,contador) : `V${contadorColumnas += 1}.${key.toUpperCase().charAt(0).toUpperCase() + key.slice(1)}`.replace(/_/g, ' ')
+                        ? (dataColumnas.length > contadorColumnas) 
+                        ? (typeof dataColumnas[contador]['etiqueta'] != undefined ? dataColumnas[contador++]['etiqueta']: 'B') 
+                        : `V${contadorColumnas += 1}.${key.toUpperCase().charAt(0).toUpperCase() + key.slice(1)}`.replace(/_/g, ' ')
                         : '',
                      fixed: key === "error_validacion" ? "right" : (key === 'FILA') ? "left" : null,
 
