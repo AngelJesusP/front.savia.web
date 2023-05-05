@@ -1,10 +1,14 @@
 import axios from "axios";
 import { swal } from "../../../utils/components/SwalAlert";
 import { IFiltersFolders } from "../types/Reports.type";
+import moment from "moment";
 
 const URL = import.meta.env.VITE_URL;
 
-export const createFolders = async (claveArchivo: string, idEnfermedad: Number): Promise<any> => {
+export const createFolders = async (
+  claveArchivo: string,
+  idEnfermedad: Number
+): Promise<any> => {
   try {
     const response = await axios.post(
       `${URL}/api/v1/soportes/creacion/automatica/carpetas/`,
@@ -25,12 +29,10 @@ export const createFolders = async (claveArchivo: string, idEnfermedad: Number):
   }
 };
 
-export const getFolders = async (claveArchivo: string): Promise<any> => {
+export const getReports = async (Data: string): Promise<any> => {
   try {
-    const response = await axios.get(`${URL}/api/v1/soportes/listar/carpetas`, {
-      params: {
-        claveArchivo,
-      },
+    const response = await axios.get(`${URL}/api/v1/soportes`, {
+      params: { stringListDirectorios: Data },
     });
     return response.data;
   } catch (error) {
@@ -111,11 +113,12 @@ export const getFilesForFolder = async (
   claveArchivo: string,
   numeroDocumento: string | number
 ): Promise<any> => {
+  const Data = `${claveArchivo};${numeroDocumento}`;
   try {
-    const response = await axios.get(`${URL}/api/v1/soportes/listar/archivos`, {
+    const response = await axios.get(`${URL}/api/v1/soportes`, {
       params: {
-        claveArchivo,
-        numeroDocumento,
+        stringListDirectorios: Data,
+        //numeroDocumento,
       },
     });
     return response.data;
@@ -131,7 +134,8 @@ export const deleteFolderOrFile = async (
 ): Promise<any> => {
   try {
     const response = await axios.post(
-      `${URL}/api/v1/soportes/eliminar/archivos`,{},
+      `${URL}/api/v1/soportes/eliminar/archivos`,
+      {},
       {
         params: {
           claveArchivo,
