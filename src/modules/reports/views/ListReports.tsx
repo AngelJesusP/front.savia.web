@@ -5,6 +5,7 @@ import { CollapseFolders } from "../components/CollapseFolders";
 import { getListEnfermedades } from "../../../utils/api/api";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 import moment from "moment";
+import { log } from "console";
 
 
 export const ListReports = () => {
@@ -18,7 +19,7 @@ export const ListReports = () => {
 
   const listFolders = async (values: any) => {
     const date = moment(values?.fecha.toISOString()).format("YYYY-MM");
-    const Data = `${values?.enfermedad};${date}`;
+    const Data = `${values?.enfermedad};${date}`; 
     const resp = await getReports(Data);
     if (resp?.data[0]?.replace(/[\[\]]/g, "")) {
       setFolders(resp?.data[0]?.replace(/[\[\]]/g, "").split(","));
