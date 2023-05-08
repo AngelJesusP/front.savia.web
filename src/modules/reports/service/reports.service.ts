@@ -1,10 +1,15 @@
 import axios from "axios";
 import { swal } from "../../../utils/components/SwalAlert";
 import { IFiltersFolders } from "../types/Reports.type";
+import moment from "moment";
+import { log } from "console";
 
 const URL = import.meta.env.VITE_URL;
 
-export const createFolders = async (claveArchivo: string, idEnfermedad: Number): Promise<any> => {
+export const createFolders = async (
+  claveArchivo: string,
+  idEnfermedad: Number
+): Promise<any> => {
   try {
     const response = await axios.post(
       `${URL}/api/v1/soportes/creacion/automatica/carpetas/`,
@@ -25,12 +30,10 @@ export const createFolders = async (claveArchivo: string, idEnfermedad: Number):
   }
 };
 
-export const getFolders = async (claveArchivo: string): Promise<any> => {
+export const getReports = async (Data: string): Promise<any> => {
   try {
-    const response = await axios.get(`${URL}/api/v1/soportes/listar/carpetas`, {
-      params: {
-        claveArchivo,
-      },
+    const response = await axios.get(`${URL}/api/v1/soportes`, {
+      params: { stringListDirectorios: Data },
     });
     return response.data;
   } catch (error) {
@@ -39,19 +42,18 @@ export const getFolders = async (claveArchivo: string): Promise<any> => {
 };
 
 export const updateNameFolder = async (
-  claveArchivo: string,
-  numeroDocumento: string | number,
+  stringListDirectorios: string,
   nombreNuevo: string | number
 ): Promise<any> => {
   try {
-    const response = await axios.post(
-      `${URL}/api/v1/soportes/renombrar/carpetas`,
+    const response = await axios.put(
+      `${URL}/api/v1/soportes`,
       {},
       {
         params: {
-          claveArchivo,
-          numeroDocumento,
+          isDirectory: true,
           nombreNuevo,
+          stringListDirectorios,
         },
       }
     );
@@ -62,20 +64,17 @@ export const updateNameFolder = async (
 };
 
 export const deleteFolders = async (
-  claveArchivo: string,
+  stringListDirectorios: string,
   listFolders: string | number
 ): Promise<any> => {
+  console.log(stringListDirectorios, " , ", listFolders);
   try {
-    const response = await axios.post(
-      `${URL}/api/v1/soportes/eliminar/carpetas`,
-      {},
-      {
-        params: {
-          claveArchivo,
-          listFolders,
-        },
-      }
-    );
+    const response = await axios.delete(`${URL}/api/v1/soportes`, {
+      params: {
+        stringListDirectorios,
+        listFolders,
+      },
+    });
     return response.data;
   } catch (error) {
     Promise.reject(error);
@@ -84,23 +83,17 @@ export const deleteFolders = async (
 
 export const saveFilesInFolder = async (
   _file: any,
-  claveArchivo: string,
-  numeroDocumento: string
+  claveArchivo: string
 ): Promise<any> => {
   const formData: FormData = new FormData();
   formData.append("files", _file);
-  formData.append("claveArchivo", claveArchivo);
-  formData.append("numeroDocumento", numeroDocumento);
+  formData.append("stringListDirectorios", claveArchivo);
   try {
-    const response = await axios.post(
-      `${URL}/api/v1/soportes/carga/archivos`,
-      formData,
-      {
-        headers: {
-          authorization: "authorization-text",
-        },
-      }
-    );
+    const response = await axios.post(`${URL}/api/v1/soportes`, formData, {
+      headers: {
+        authorization: "authorization-text",
+      },
+    });
     return response;
   } catch (error) {
     Promise.reject(error);
@@ -111,11 +104,12 @@ export const getFilesForFolder = async (
   claveArchivo: string,
   numeroDocumento: string | number
 ): Promise<any> => {
+  const Data = `${claveArchivo};${numeroDocumento}`;
   try {
-    const response = await axios.get(`${URL}/api/v1/soportes/listar/archivos`, {
+    const response = await axios.get(`${URL}/api/v1/soportes`, {
       params: {
-        claveArchivo,
-        numeroDocumento,
+        stringListDirectorios: Data,
+        //numeroDocumento,
       },
     });
     return response.data;
@@ -125,23 +119,26 @@ export const getFilesForFolder = async (
 };
 
 export const deleteFolderOrFile = async (
-  claveArchivo: string,
-  numeroDocumento: string | number,
-  listFiles: any
+  stringListDirectorios: string,
+  listFolders: string | number
 ): Promise<any> => {
+  console.log(stringListDirectorios, listFolders);
   try {
-    const response = await axios.post(
-      `${URL}/api/v1/soportes/eliminar/archivos`,{},
-      {
-        params: {
-          claveArchivo,
-          numeroDocumento,
-          listFiles,
-        },
-      }
-    );
+    const response = await axios.delete(`${URL}/api/v1/soportes`, {
+      params: {
+        stringListDirectorios,
+        listFolders,
+      },
+    });
     return response;
   } catch (error) {
     Promise.reject(error);
   }
 };
+
+/* para borrar una carpeta el stringListDirectorios = 7;2023-05
+y el listFolders es el numero de la carpeta
+
+Para borrar un archivo el stringListDirectorios = 7;2023-05;123456(Numero de la carpeta)
+y el listFolders es el nombre del archivo .pdf
+*/

@@ -50,11 +50,10 @@ export const CollapseFolders: FC<ICollapse> = ({
 
   const editFolder = async (folder: any) => {
     await updateNameFolder(
-      clave,
-      folder.trim(),
+      clave.concat(`;${folder}`),
       valueInput.trim() || folder.trim()
-    );
-    await listFolders({ claveArchivo: clave });
+    );    
+    await listFolders({ stringListDirectorios: clave });
   };
 
   const deleteFolder = async (folder: string) => {
@@ -93,7 +92,7 @@ export const CollapseFolders: FC<ICollapse> = ({
     info: UploadChangeParam<UploadFile<any>>,
     folder: string
   ) => {
-    const resp = await saveFilesInFolder(info.file, clave, folder.trim());
+    const resp = await saveFilesInFolder(info.file, clave.concat(`;${folder}`));
     if (info.file.status !== "uploading") {
     }
     if (resp.status === 200) {
@@ -120,7 +119,7 @@ export const CollapseFolders: FC<ICollapse> = ({
               </Upload>
             </>
           }
-          title="Cambiar nombre carpeta"
+          title="Subir reportes"
           trigger="click"
         >
           <UploadOutlined className="me-2" />
@@ -183,8 +182,7 @@ export const CollapseFolders: FC<ICollapse> = ({
                           className="text-danger"
                           onClick={async () => {
                             await deleteFolderOrFile(
-                              clave,
-                              folder.trim(),
+                              clave.concat(`;${folder}`),                              
                               fileName.trim()
                             );
                             await getFiles(folder);

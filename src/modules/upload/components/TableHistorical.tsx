@@ -147,64 +147,6 @@ const TableHistorical = () => {
             );
           },
         },
-        {
-          title: "Crear carpetas",
-          fixed: "right",
-          align: "center",
-          render: (data: any) => {
-            if (data?.estadoArchivo === "2") {
-              return (
-                <div
-                  style={{
-                    cursor: "pointer",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                  }}
-                  onClick={async () => {
-                    const resp = await createFolders(
-                      data?.claveArchivo,
-                      IdEnfermedad
-                    );
-                  }}
-                >
-                  <FolderOpenOutlined style={{ color: "#bdbd18" }} />
-                </div>
-              );
-            } else {
-              return "No disponible";
-            }
-          },
-        },
-        {
-          title: "Ver reporte",
-          fixed: "right",
-          align: "center",
-          render: (data: any) => {
-            if (data?.estadoArchivo === "2") {
-              return (
-                <div
-                  style={{
-                    cursor: "pointer",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                  }}
-                  // className="text-primary"
-                  onClick={async () => {
-                    const resp = await createFolders(
-                      data?.claveArchivo,
-                      IdEnfermedad
-                    );
-                    //console.log(resp);
-                  }}
-                >
-                  <FolderOpenOutlined style={{ color: "#bdbd18" }} />
-                </div>
-              );
-            } else {
-              return "No disponible";
-            }
-          },
-        },
       ],
     },
   ];
