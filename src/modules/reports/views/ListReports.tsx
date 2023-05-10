@@ -5,8 +5,6 @@ import { CollapseFolders } from "../components/CollapseFolders";
 import { getListEnfermedades } from "../../../utils/api/api";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 import moment from "moment";
-import { log } from "console";
-
 
 export const ListReports = () => {
   const [form] = Form.useForm();
@@ -15,11 +13,15 @@ export const ListReports = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [listEnfermedades, setListEnfermedades] = useState([{}]);
   const [valid, setValid] = useState(false);
-
+  const [newValue, setNewValue] = useState({
+    enfermedad: 0,
+    fecha: new Date(),
+  });
 
   const listFolders = async (values: any) => {
+    console.log(values);
     const date = moment(values?.fecha.toISOString()).format("YYYY-MM");
-    const Data = `${values?.enfermedad};${date}`; 
+    const Data = `${values?.enfermedad};${date}`;
     const resp = await getReports(Data);
     if (resp?.data[0]?.replace(/[\[\]]/g, "")) {
       setFolders(resp?.data[0]?.replace(/[\[\]]/g, "").split(","));
@@ -37,22 +39,21 @@ export const ListReports = () => {
     await getListEnfermedades().then(({ data }) => {
       const { status } = data;
       if (status && status == 200) {
-        const list:[] = data.data;
+        const list: [] = data.data;
         const { convert } = convertListToSelect(list);
-        setListEnfermedades( convert );
+        setListEnfermedades(convert);
       }
     });
   };
 
   useEffect(() => {
     getListEnf();
-  }, [])
+  }, []);
 
-  const change = (value:any)=>{
+  const change = (value: any) => {
     console.log(value);
     setValid(true);
-  }
-  
+  };
 
   return (
     <div className="container">
@@ -83,19 +84,25 @@ export const ListReports = () => {
           form={form}
         >
           <div className="row align-items-center">
-            <Form.Item label="Enfermedad" name="enfermedad">
-              <Select options={listEnfermedades} onChange={change} />
-            </Form.Item>
-          </div>
-          <div className="row align-items-center">
-            <Form.Item name="fecha" noStyle>
-              <DatePicker picker="month" onChange={change} />
-              {/* <Input
+            <div className="col-12 col-md-6 col-lg-6">
+              <Form.Item label="Enfermedad" name="enfermedad">
+                <Select options={listEnfermedades} onChange={change} />
+              </Form.Item>
+              
+            </div>
+            <div className="col-12 col-md-6 col-lg-6">
+            <Form.Item label="Fecha" name="fecha" >
+                <DatePicker picker="month" onChange={change} style={{width: '100%'}}/>
+                {/* <Input
                   placeholder="Clave del archivo"
                   onChange={({ target }) => setClave(target.value)}
                 /> */}
-            </Form.Item>
+              </Form.Item>
+            </div>
           </div>
+          {/* <div className="row align-items-center w-100">
+            
+          </div> */}
         </Form>
       </Card>
 
@@ -104,6 +111,7 @@ export const ListReports = () => {
           clave={clave}
           listFolders={listFolders}
           folders={folders}
+          newValue={newValue}
         />
       </Card>
     </div>
