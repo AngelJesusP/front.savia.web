@@ -2,7 +2,6 @@ import axios from "axios";
 import { swal } from "../../../utils/components/SwalAlert";
 import { IFiltersFolders } from "../types/Reports.type";
 import moment from "moment";
-import { log } from "console";
 
 const URL = import.meta.env.VITE_URL;
 

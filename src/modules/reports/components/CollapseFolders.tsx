@@ -29,16 +29,19 @@ interface ICollapse {
   clave: string;
   listFolders: (values: any) => Promise<any>;
   folders: any[];
+  newValue: {}
 }
 
 export const CollapseFolders: FC<ICollapse> = ({
   clave,
   listFolders,
   folders,
+  newValue
 }) => {
   const { Panel } = Collapse;
   const [listFiles, setListFiles] = useState([]);
   const [valueInput, setValueInput] = useState("");
+  const [visiblePopover, setVisiblePopover] = useState(false);
 
   const props: UploadProps = {
     name: "file",
@@ -46,6 +49,8 @@ export const CollapseFolders: FC<ICollapse> = ({
     beforeUpload: async (values) => {
       return false;
     },
+    multiple: true,
+    showUploadList: false
   };
 
   const editFolder = async (folder: any) => {
@@ -120,9 +125,8 @@ export const CollapseFolders: FC<ICollapse> = ({
             </>
           }
           title="Subir reportes"
-          trigger="click"
         >
-          <UploadOutlined className="me-2" />
+          <UploadOutlined className="me-2" style={{cursor: "pointer"}} />
         </Popover>
 
         <Popover
@@ -140,17 +144,16 @@ export const CollapseFolders: FC<ICollapse> = ({
                   className="btn btn-primary me-2"
                   onClick={async () => {
                     await editFolder(folder);
+                    await listFolders(newValue)
                   }}>
                   Actualizar
                 </button>
-                <button className="btn btn-outline-primary">Cancelar</button>
               </div>
             </>
           }
           title="Cambiar nombre carpeta"
-          trigger="click"
         >
-          <EditOutlined className="me-2 text-info" />
+          <EditOutlined className="me-2 text-info" style={{cursor: "pointer"}}/>
         </Popover>
 
         <DeleteOutlined
