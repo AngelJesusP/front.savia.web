@@ -65,8 +65,6 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
          idIps: values?.idIps || 0,
          tipoDocumento: values?.document?.type || "",
          documento: values?.document?.number || "",
-         desde: "",
-         hasta: "",
          page: values.page || 1,
          limit: values.limit || 10,
       };

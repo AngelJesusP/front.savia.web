@@ -9,7 +9,7 @@ export interface Ienfermedades {
 export interface IConsulta {
   documento?: string;
   idEnfermedad?: number;
-  idIps: number | number;
+  idIps: number | string;
   limit: number;
   page: number;
   tipoDocumento?: string;
