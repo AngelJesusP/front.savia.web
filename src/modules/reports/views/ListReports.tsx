@@ -26,8 +26,8 @@ export const ListReports = () => {
          } else {
             setFolders([]);
             messageApi.open({
-               type: "error",
-               content: "La clave del archivo no tiene carpetas existentes",
+              type: "error",
+              content: "La enfermedad no tiene carpetas existentes",
             });
          }
          setClave(dataRequest);
