@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Button,
   Collapse,
@@ -30,6 +30,8 @@ interface ICollapse {
   listFolders: (values: any) => Promise<any>;
   folders: any[];
   newValue: {};
+  refresh: boolean;
+  setRefresh: any;
 }
 
 export const CollapseFolders: FC<ICollapse> = ({
@@ -37,6 +39,8 @@ export const CollapseFolders: FC<ICollapse> = ({
   listFolders,
   folders,
   newValue,
+  refresh,
+  setRefresh,
 }) => {
   const { Panel } = Collapse;
   const [listFiles, setListFiles] = useState([]);
@@ -104,7 +108,7 @@ export const CollapseFolders: FC<ICollapse> = ({
               "Esta carpeta ha sido eliminada",
               "success"
             );
-            await listFolders({ stringListDirectorios: clave });
+            setRefresh(!refresh);
           }
         }
       });
