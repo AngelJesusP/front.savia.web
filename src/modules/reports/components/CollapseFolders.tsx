@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Button,
   Collapse,
@@ -29,10 +29,19 @@ interface ICollapse {
   clave: string;
   listFolders: (values: any) => Promise<any>;
   folders: any[];
-  newValue: {}
+  newValue: {};
+  refresh: boolean;
+  setRefresh: any;
 }
 
-export const CollapseFolders: FC<ICollapse> = ({ clave, listFolders, folders, newValue }) => {
+export const CollapseFolders: FC<ICollapse> = ({
+  clave,
+  listFolders,
+  folders,
+  newValue,
+  refresh,
+  setRefresh,
+}) => {
   const { Panel } = Collapse;
   const [listFiles, setListFiles] = useState([]);
   const [valueInput, setValueInput] = useState("");
@@ -44,40 +53,65 @@ export const CollapseFolders: FC<ICollapse> = ({ clave, listFolders, folders, ne
       return false;
     },
     multiple: true,
-    showUploadList: false
+    showUploadList: false,
   };
 
   const getStringTrim = (str: string) => {
     return str
       .toLowerCase() // make sure string is lowercase
-      .replace(/\b[aeiuo]\w+\b/g, '$&way') // starts with vowel
-      .replace(/\b([^aeiou\s])(\w+)\b/g, '$2$1ay'); // starts with consonant
-  }
+      .replace(/\b[aeiuo]\w+\b/g, "$&way") // starts with vowel
+      .replace(/\b([^aeiou\s])(\w+)\b/g, "$2$1ay"); // starts with consonant
+  };
 
   const editFolder = async (folder: any) => {
-    await updateNameFolder(clave.concat(`;${folder}`), valueInput.trim() || folder.trim());
+    const resp = await updateNameFolder(
+      clave.concat(`;${folder}`),
+      valueInput.trim() || folder.trim()
+    );
+    console.log(resp);
+
+    switch (resp.status) {
+      case 200:
+        await swal.fire(
+          "¡Renombrada exitosamente!",
+          "Esta carpeta ha sido renombrada exitosamente",
+          "success"
+        );
+        break;
+      case 400:
+        await swal.fire("¡Error!", resp.message, "info");
+        break;
+      default:
+        break;
+    }
     await listFolders({ stringListDirectorios: clave });
   };
 
   const deleteFolder = async (folder: string) => {
-    const result = await swal.fire({
-      title: "¿Estás seguro de eliminar esta carpeta?",
-      text: "¡No podrás devolver los cambios realizados!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminar",
-    });
-    if (result.isConfirmed) {
-      await deleteFolders(clave, folder.trim());
-      await listFolders({ claveArchivo: clave });
-      await swal.fire(
-        "¡Eliminado exitosamente!",
-        "Esta carpeta ha sido eliminada",
-        "success"
-      );
-    }
+    await swal
+      .fire({
+        title: "¿Estás seguro de eliminar esta carpeta?",
+        text: "¡No podrás devolver los cambios realizados!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, eliminar",
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          const deleted = await deleteFolders(clave, folder.trim());
+          if (deleted.status === 200) {
+            console.log("elimino");
+            await swal.fire(
+              "¡Eliminado exitosamente!",
+              "Esta carpeta ha sido eliminada",
+              "success"
+            );
+            setRefresh(!refresh);
+          }
+        }
+      });
   };
 
   const getFiles = async (key: string | string[]) => {
@@ -91,7 +125,10 @@ export const CollapseFolders: FC<ICollapse> = ({ clave, listFolders, folders, ne
     }
   };
 
-  const createFiles = async (info: UploadChangeParam<UploadFile<any>>, folder: string) => {
+  const createFiles = async (
+    info: UploadChangeParam<UploadFile<any>>,
+    folder: string
+  ) => {
     const resp = await saveFilesInFolder(info.file, clave.concat(`;${folder}`));
     if (resp.status === 200) {
       message.success(`${info.file.name} El archivo se ha subido exitosamente`);
@@ -99,7 +136,6 @@ export const CollapseFolders: FC<ICollapse> = ({ clave, listFolders, folders, ne
       message.error(`${info.file.name} Archivo a fallado al momento de subir`);
     }
   };
-
 
   const genExtra = (folder: any) => {
     return (
@@ -112,7 +148,8 @@ export const CollapseFolders: FC<ICollapse> = ({ clave, listFolders, folders, ne
                 onChange={async (info) => {
                   await createFiles(info, folder);
                   await getFiles(folder);
-                }}>
+                }}
+              >
                 <Button icon={<UploadOutlined />}>Subir archivo</Button>
               </Upload>
             </>
@@ -137,8 +174,9 @@ export const CollapseFolders: FC<ICollapse> = ({ clave, listFolders, folders, ne
                   className="btn btn-primary me-2"
                   onClick={async () => {
                     await editFolder(folder);
-                    await listFolders(newValue)
-                  }}>
+                    await listFolders(newValue);
+                  }}
+                >
                   Actualizar
                 </button>
               </div>
@@ -146,7 +184,10 @@ export const CollapseFolders: FC<ICollapse> = ({ clave, listFolders, folders, ne
           }
           title="Cambiar nombre carpeta"
         >
-          <EditOutlined className="me-2 text-info" style={{ cursor: "pointer" }} />
+          <EditOutlined
+            className="me-2 text-info"
+            style={{ cursor: "pointer" }}
+          />
         </Popover>
 
         <DeleteOutlined
@@ -165,28 +206,28 @@ export const CollapseFolders: FC<ICollapse> = ({ clave, listFolders, folders, ne
             <Panel header={folder} key={folder} extra={genExtra(folder)}>
               {listFiles.length > 0
                 ? listFiles.map((fileName: string) => (
-                  <div
-                    key="document-div"
-                    className="d-flex justify-content-between"
-                  >
-                    <div>
-                      <FilePdfOutlined className="me-2" />
-                      <span>{fileName}</span>
+                    <div
+                      key="document-div"
+                      className="d-flex justify-content-between"
+                    >
+                      <div>
+                        <FilePdfOutlined className="me-2" />
+                        <span>{fileName}</span>
+                      </div>
+                      <div>
+                        <DeleteOutlined
+                          className="text-danger"
+                          onClick={async () => {
+                            await deleteFolderOrFile(
+                              clave.concat(`;${folder}`),
+                              fileName.trim()
+                            );
+                            await getFiles(folder);
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <DeleteOutlined
-                        className="text-danger"
-                        onClick={async () => {
-                          await deleteFolderOrFile(
-                            clave.concat(`;${folder}`),
-                            fileName.trim()
-                          );
-                          await getFiles(folder);
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))
+                  ))
                 : "No existen documentos relacionados"}
             </Panel>
           ))}
