@@ -1,0 +1,13 @@
+.buttonRegisterUser {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.viewPassword_register_user {
+    position: absolute;
+    margin-left: 85%;
+    margin-top: 8px;
+    color: blue;
+    cursor: pointer;
+    z-index: 8;
+}

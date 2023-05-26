@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fontLabelComponent } from "../styles/stylesAuth";
 import { IndexAuth } from "../function/index.auth";
+import FormRegisterUser from "./FormRegisterUser";
 
 const FormLogin = () => {
   const [type, setType] = useState(0);
@@ -12,7 +13,7 @@ const FormLogin = () => {
   const [password, setPassword] = useState<string>("");
   const [alert, setAlert] = useState<boolean>(false);
   const [onClickSession, setOnClickSession] = useState<boolean>(false);
-
+  const [validateFormRegister, setValidateFormRegister] = useState<any>(false);
   const [typeRes, setTypeRes] = useState<any>("");
   const [message, setMessage] = useState<string>("");
 
@@ -111,13 +112,30 @@ const FormLogin = () => {
         <div className="row">
           <div className="col-12">
             <label className="d-flex align-items-center fw-normal">
-              <Checkbox onChange={() => { }} style={fontLabelComponent(true)}>
+              <Checkbox onChange={() => {}} style={fontLabelComponent(true)}>
                 Recordar datos de acceso
               </Checkbox>
             </label>
           </div>
+          <div
+            onClick={() => {
+              setValidateFormRegister(!validateFormRegister);
+            }}
+            style={{marginTop:"5%"}}
+          >
+            <span style={{ color: "blue", cursor: "pointer" }}>
+              Regístrate Aquí
+            </span>
+          </div>
         </div>
-
+        {validateFormRegister && (
+          <div>
+            <FormRegisterUser
+              validateFormRegister={validateFormRegister}
+              setValidateFormRegister={setValidateFormRegister}
+            />
+          </div>
+        )}
         <div className="row">
           <div className="col text-end">
             <button
