@@ -30,7 +30,7 @@
     "semantic-ui-react": "^2.1.4",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",
-    "sweetalert2": "^11.7.3",
+    "sweetalert2": "^11.7.5",
     "sweetalert2-react-content": "^5.0.7"
   },
   "devDependencies": {

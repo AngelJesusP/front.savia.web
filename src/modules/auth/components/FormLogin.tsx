@@ -2,8 +2,9 @@ import { Checkbox, Input, Form, Alert, Spin } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fontLabelComponent } from "../styles/stylesAuth";
-import { IndexAuth } from "../function/index.auth";
+import { IndexAuth, authLogin } from "../function/index.auth";
 import FormRegisterUser from "./FormRegisterUser";
+import Swal from "sweetalert2";
 
 const FormLogin = () => {
   const [type, setType] = useState(0);
@@ -33,7 +34,9 @@ const FormLogin = () => {
     );
   };
 
-  const signIn = () => {
+  const signIn = async() => {
+  try {
+    const res = await authLogin(userName,password)
     if (userName == "" && password == "") {
       setAlert(true);
       setTypeRes("error");
@@ -41,7 +44,7 @@ const FormLogin = () => {
       return;
     }
 
-    if (userName == "admin" && password == "admin") {
+    if (res?.token) {
       IndexAuth(userName, password);
       setOnClickSession(true);
       history("/savia/home");
@@ -51,6 +54,19 @@ const FormLogin = () => {
     setAlert(true);
     setTypeRes("error");
     setMessage("Credenciales incorrectas");
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: `<div><div><span style='font-size:40px'>Error de autenticación</span></div><p/><div><span style='font-size:18px'>usuario o contraseña incorrectos por favor valide e intente nuevamente</span></div><hr/></div>`,
+      showConfirmButton:true,
+      confirmButtonText:"Aceptar",
+      width:600,
+      confirmButtonColor:"#244C5C",
+      customClass:{
+        confirmButton:"btn btn-primary",
+      }
+    })  }
+   
   };
 
   return (
