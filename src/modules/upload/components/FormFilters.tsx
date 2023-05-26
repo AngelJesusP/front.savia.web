@@ -61,9 +61,7 @@ const FormFilters: FC<IFormFilters> = ({
         ]}
       >
         <div className="row align-items-center">
-          <div
-            className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}
-          >
+          <div className={`col-12 col-md-6 col-lg-${type === "error" ? 3 : 6}`}>
             <Form.Item
               label={
                 <>
@@ -87,6 +85,18 @@ const FormFilters: FC<IFormFilters> = ({
                   <Select style={{ width: "30%" }} placeholder="C.C">
                     <Option value="CC">CC</Option>
                     <Option value="TI">TI</Option>
+                    <Option value="RC">RC</Option>
+                    <Option value="CE">CE</Option>
+                    <Option value="PA">PA</Option>
+                    <Option value="MS">MS</Option>
+                    <Option value="AS">AS</Option>
+                    <Option value="CD">CD</Option>
+                    <Option value="CN">CN</Option>
+                    <Option value="SC">SC</Option>
+                    <Option value="PE">PE</Option>
+                    <Option value="PT">PT</Option>
+                    <Option value="DE">DE</Option>
+                    <Option value="SI">SI</Option>
                   </Select>
                 </Form.Item>
                 <Form.Item name={["document", "number"]} noStyle>
@@ -116,10 +126,7 @@ const FormFilters: FC<IFormFilters> = ({
         >
           Limpiar
         </button>
-        <button
-          type="submit"
-          className="btn btn-primary"
-        >
+        <button type="submit" className="btn btn-primary">
           Consultar
         </button>
       </Form>
