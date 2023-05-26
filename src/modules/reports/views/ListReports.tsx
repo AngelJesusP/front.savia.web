@@ -10,7 +10,7 @@ export const ListReports = () => {
   const [form] = Form.useForm();
   const [folders, setFolders] = useState([]);
   const [clave, setClave] = useState("");
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, Holder] = message.useMessage();
   const [listEnfermedades, setListEnfermedades] = useState([{}]);
   const [valid, setValid] = useState(false);
   const [newValue, setNewValue] = useState({
@@ -64,7 +64,7 @@ export const ListReports = () => {
 
   return (
     <div className="container">
-      {contextHolder}
+      {Holder}
       <Card
         title="Filtros"
         className="mt-3"
