@@ -5,6 +5,8 @@ import { FC, useState, useEffect } from "react";
 import { getListEnfermedades } from "../../../utils/api/api";
 import { convertListToSelect } from "../../../utils/constants/convertToList";
 import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
+import { DocTypes } from "../constants/Doctypes";
+
 
 interface IFormFilters {
   onSubmit: (values: any) => any;
@@ -82,22 +84,11 @@ const FormFilters: FC<IFormFilters> = ({
                     },
                   ]}
                 >
-                  <Select style={{ width: "30%" }} placeholder="C.C">
-                    <Option value="CC">CC</Option>
-                    <Option value="TI">TI</Option>
-                    <Option value="RC">RC</Option>
-                    <Option value="CE">CE</Option>
-                    <Option value="PA">PA</Option>
-                    <Option value="MS">MS</Option>
-                    <Option value="AS">AS</Option>
-                    <Option value="CD">CD</Option>
-                    <Option value="CN">CN</Option>
-                    <Option value="SC">SC</Option>
-                    <Option value="PE">PE</Option>
-                    <Option value="PT">PT</Option>
-                    <Option value="DE">DE</Option>
-                    <Option value="SI">SI</Option>
-                  </Select>
+                  <Select
+                    style={{ width: "30%" }}
+                    placeholder="C.C"
+                    options={DocTypes}
+                  ></Select>
                 </Form.Item>
                 <Form.Item name={["document", "number"]} noStyle>
                   <Input
