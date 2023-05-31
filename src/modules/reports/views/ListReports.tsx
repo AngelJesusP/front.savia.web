@@ -105,7 +105,7 @@ export const ListReports = () => {
         </Form>
       </Card>
 
-      <Card title="Reportes" className="mt-3">
+      <Card title="Soportes" className="mt-3">
         <CollapseFolders
           clave={clave}
           listFolders={listFolders}

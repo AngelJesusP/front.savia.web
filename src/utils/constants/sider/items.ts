@@ -19,7 +19,7 @@ export const listItems: itemLeftPanel[] = [
         ruta: RUTA_CONSULTA
     },
     {
-        name: "Reportes",
+        name: "Soportes",
         ruta: RUTA_REPORTES
     },
 ]
