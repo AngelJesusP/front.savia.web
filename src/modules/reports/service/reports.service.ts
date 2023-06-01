@@ -111,6 +111,23 @@ export const getFilesForFolder = async (
   }
 };
 
+export const getFilesToViewForFolder = async (
+  claveArchivo: string,
+  nombreDocumento: string | number
+): Promise<any> => {
+  const Data = `${claveArchivo};${nombreDocumento}`;
+  try {
+    const response = await axios.get(`${URL}/api/v1/soportes/pdf`, {
+      params: {
+        stringListDirectorios: Data,
+      },
+    });
+    return response;
+  } catch (error) {
+    Promise.reject(error);
+  }
+};
+
 export const deleteFolderOrFile = async (
   stringListDirectorios: string,
   listFolders: string | number
