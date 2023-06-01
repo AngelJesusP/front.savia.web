@@ -20,6 +20,7 @@ import {
   deleteFolderOrFile,
   deleteFolders,
   getFilesForFolder,
+  getFilesToViewForFolder,
   saveFilesInFolder,
   updateNameFolder,
 } from "../service/reports.service";
@@ -45,6 +46,7 @@ export const CollapseFolders: FC<ICollapse> = ({
   const { Panel } = Collapse;
   const [listFiles, setListFiles] = useState([]);
   const [valueInput, setValueInput] = useState("");
+  const [urlviewFile, setUrlviewFile] = useState("");
 
   const props: UploadProps = {
     name: "file",
@@ -117,11 +119,19 @@ export const CollapseFolders: FC<ICollapse> = ({
   const getFiles = async (key: string | string[]) => {
     if (typeof key === "string") {
       const resp = await getFilesForFolder(clave, key.trim());
+      setUrlviewFile(`${clave};${key.trim()}`);
       if (resp.data[0]?.replace(/[\[\]]/g, "")) {
         setListFiles(resp.data[0]?.replace(/[\[\]]/g, "").split(","));
       } else {
         setListFiles([]);
       }
+    }
+  };
+
+  const viewFile = async (name: string) => {
+    if (name) {
+      const resp = await getFilesToViewForFolder(urlviewFile, name.trim());
+      window.open(resp.request.responseURL, "_blank");
     }
   };
 
@@ -213,7 +223,12 @@ export const CollapseFolders: FC<ICollapse> = ({
                       key="document-div"
                       className="d-flex justify-content-between"
                     >
-                      <div>
+                      <div
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          viewFile(fileName);
+                        }}
+                      >
                         <FilePdfOutlined className="me-2" />
                         <span>{fileName}</span>
                       </div>
