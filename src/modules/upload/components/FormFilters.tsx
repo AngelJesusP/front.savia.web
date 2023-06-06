@@ -77,12 +77,12 @@ const FormFilters: FC<IFormFilters> = ({
                 <Form.Item
                   name={["document", "type"]}
                   noStyle
-                  rules={[
-                    {
-                      required: validateField ? true : false,
-                      message: "Campo obligatorio",
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: validateField ? true : false,
+                  //     message: "Campo obligatorio",
+                  //   },
+                  // ]}
                 >
                   <Select
                     style={{ width: "30%" }}

@@ -9,8 +9,10 @@ import {
   RUTA_REPORTES,
   RUTA_CARGA,
   RUTA_VALIDATIONS,
+  CONSULTAR_CARGUE,
 } from "./router.router";
 import { CreateValidations } from "../../../modules/validations/view/CreateValidations";
+import { ConsultCharge } from "../../../modules/upload/views/ConsultCharge";
 
 export const RouterComponentList = () => {
   return [
@@ -43,6 +45,11 @@ export const RouterComponentList = () => {
       key: "5",
       ruta: RUTA_VALIDATIONS,
       component: <CreateValidations />,
+    },
+    {
+      key: "6",
+      ruta: CONSULTAR_CARGUE,
+      component: <ConsultCharge />,
     },
   ];
 };
