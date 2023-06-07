@@ -83,7 +83,7 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                      </div>
                   </div>
 
-                  <div className="col-sm-3 m-2">
+                  {/* <div className="col-sm-3 m-2">
                      <div className="card card-menu-home border-0" style={styleCard}>
                         <div className="card-header bg-white" style={styleCardHeader}>
                            <img src={history} style={{ height: 30 }} alt="" />
@@ -100,7 +100,7 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                            style={styleLabelCardAction}>Realizar consulta</span>
                         </div>
                      </div>
-                  </div>
+                  </div> */}
                </div>
             </div>
          </div >
