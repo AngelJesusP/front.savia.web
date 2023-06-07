@@ -5,7 +5,7 @@ import history from '../../../utils/assets/icon/consultaCard.svg'
 import fecha from '../../../utils/assets/icon/flecha-hacia-abajo.svg'
 import { styleCard, styleCardHeader, styleLink, styleSubTitle, styleTitle, styleLabelCardAction, styleLabelCardText } from '../styles/stylesDashboard'
 import { MyProps, MyState } from '../types/Dashboard.type'
-import { RUTA_CARGA, RUTA_CONSULTA, RUTA_REPORTES } from '../../../utils/constants/router/router.router'
+import { CONSULTAR_CARGUE, RUTA_CARGA, RUTA_CONSULTA, RUTA_REPORTES } from '../../../utils/constants/router/router.router'
 export class DashboardComponent extends React.Component<MyProps, MyState> {
 
    state: MyState = {
@@ -78,6 +78,25 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                            <img src={fecha} style={{ height: 7 }} alt="" />
                            <span className='text-card-home' 
                            onClick={() => window.location.href = RUTA_REPORTES}
+                           style={styleLabelCardAction}>Realizar consulta</span>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="col-sm-3 m-2">
+                     <div className="card card-menu-home border-0" style={styleCard}>
+                        <div className="card-header bg-white" style={styleCardHeader}>
+                           <img src={history} style={{ height: 30 }} alt="" />
+                           <span className="card-text" style={styleLink}>
+                              Consultar cargues</span>
+                        </div>
+                        <div className="card-body">
+                           <p className="card-text" style={styleLabelCardText}>
+                              Esta función permite consultar y ver el número de cargues por
+                              enfermedad</p>
+                           <img src={fecha} style={{ height: 7 }} alt="" />
+                           <span className='text-card-home' 
+                           onClick={() => window.location.href = CONSULTAR_CARGUE}
                            style={styleLabelCardAction}>Realizar consulta</span>
                         </div>
                      </div>
