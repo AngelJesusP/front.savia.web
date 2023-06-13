@@ -133,14 +133,10 @@ const FormLogin = () => {
             </label>
           </div>
           <div
-            // onClick={() => {
-            //   setValidateFormRegister(!validateFormRegister);
-            // }}
+           
             style={{marginTop:"5%"}}
           >
-            <span style={{ color: "blue", cursor: "pointer" }}>
-              Regístrate Aquí
-            </span>
+           
           </div>
         </div>
       
