@@ -14,7 +14,6 @@ const FormLogin = () => {
   const [password, setPassword] = useState<string>("");
   const [alert, setAlert] = useState<boolean>(false);
   const [onClickSession, setOnClickSession] = useState<boolean>(false);
-  // const [validateFormRegister, setValidateFormRegister] = useState<any>(false);
   const [typeRes, setTypeRes] = useState<any>("");
   const [message, setMessage] = useState<string>("");
 
@@ -144,14 +143,7 @@ const FormLogin = () => {
             </span>
           </div>
         </div>
-        {/* {validateFormRegister && (
-          <div>
-            <FormRegisterUser
-              validateFormRegister={validateFormRegister}
-              setValidateFormRegister={setValidateFormRegister}
-            />
-          </div>
-        )} */}
+      
         <div className="row">
           <div className="col text-end">
             <button
