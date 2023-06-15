@@ -3,10 +3,7 @@ import ProgressFile from "./ProgressFile";
 import Table from "../../../utils/components/Table";
 import moment from "moment";
 import { Popover, TablePaginationConfig } from "antd";
-import {
-  SorterResult,
-  TableCurrentDataSource,
-} from "antd/es/table/interface";
+import { SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
 
 interface ITableConsulta {
   total: number;
@@ -42,41 +39,69 @@ const TableConsulta: FC<ITableConsulta> = ({
   };
 
   const columnas = [
-    { title: "Primer nombre", dataIndex: "primerNombre" },
-    { title: "Segundo nombre", dataIndex: "segundoNombre" },
-    { title: "Primer apellido", dataIndex: "primerApellido" },
-    { title: "Segundo apellido", dataIndex: "segundoApellido" },
+    {
+      title: "Ubicación",
+      dataIndex: "index",
+      key: "index",
+      width: "5%",
+      align: "center",
+      render: (text: any, record: any, index: any) => index + 1,
+    },
+    { title: "Primer nombre", dataIndex: "primerNombre", align: "center" },
+    { title: "Segundo nombre", dataIndex: "segundoNombre", align: "center" },
+    { title: "Primer apellido", dataIndex: "primerApellido", align: "center" },
+    {
+      title: "Segundo apellido",
+      dataIndex: "segundoApellido",
+      align: "center",
+    },
     {
       title: "Tipo identificación",
       dataIndex: "tipoIdentificacion",
+      align: "center",
     },
     {
       title: "Número identificación",
       dataIndex: "numeroIdentificacion",
+      align: "center",
+    },
+    {
+      title: "Código BDUA",
+      dataIndex: "codigoBdua",
+      align: "center",
     },
     {
       title: "Fecha de nacimiento",
       dataIndex: "fechaNacimiento",
+      align: "center",
     },
     {
       title: "Fecha de afiliación",
       dataIndex: "fechaAfilicion",
+      align: "center",
       render: (date: any) => moment(date).format("YYYY-MM-DD"),
     },
     {
       title: "Fecha de egreso",
-      dataIndex: "fecha_egreso",
+      dataIndex: "fechaEgreso",
+      align: "center",
     },
     {
       title: "Prestador",
       dataIndex: "prestador",
+      align: "center",
     },
     {
       title: "Novedades",
       dataIndex: "novedades",
+      align: "center",
       filters: novedades?.map((novedad: any) => ({
         text: (
-          <Popover style={{zIndex: 10000}} trigger="hover" content={novedad?.novDescripcion}>
+          <Popover
+            style={{ zIndex: 10000 }}
+            trigger="hover"
+            content={novedad?.novDescripcion}
+          >
             <span>{`Novedad ${novedad?.novCodigo}`}</span>
           </Popover>
         ),

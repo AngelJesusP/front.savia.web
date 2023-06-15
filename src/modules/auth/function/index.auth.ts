@@ -18,6 +18,7 @@ export const IndexAuth = (username: string, password: string) => {
       roles: [],
     };
     localStorage.setItem(nametoken, btoa(JSON.stringify(json)));
+    localStorage.setItem("name", username);
   } else console.error("No se puede aplicar la acción de guardar el usuario");
 };
 export const authLogin = async (
