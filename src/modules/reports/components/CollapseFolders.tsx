@@ -139,7 +139,8 @@ export const CollapseFolders: FC<ICollapse> = ({
     info: UploadChangeParam<UploadFile<any>>,
     folder: string
   ) => {
-    const resp = await saveFilesInFolder(info.file, clave.concat(`;${folder}`));
+    const dataRequest = `${clave};${folder.trim()}`;
+    const resp = await saveFilesInFolder(info.file, dataRequest);
     const { data } = resp;
     if (data.status === 200) {
       await message.success(
