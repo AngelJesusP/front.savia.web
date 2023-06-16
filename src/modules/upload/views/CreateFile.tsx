@@ -52,12 +52,13 @@ export default class CreateFile extends React.Component {
   };
 
   onClickEnviarArchivo = async () => {
+    const name = localStorage.getItem("name");
     this.setState({ loading: true });
     const { idEnfermedad, fileEnviar } = this.state;
     let type = undefined;
     let message = "";
     if (idEnfermedad && fileEnviar !== null) {
-      const response = await HttpClientPostFile(`${idEnfermedad}`, fileEnviar);
+      const response = await HttpClientPostFile(`${idEnfermedad}`, name, fileEnviar);
       const data = response.data;
       if (data) {
         const { status } = data;
@@ -191,7 +192,7 @@ export default class CreateFile extends React.Component {
                 options={listEnfermedades}
               />
             </div>
-            <div className="col-6">
+            {/* <div className="col-6">
               <span style={{ font: "normal normal 600 12px/15px Montserrat" }}>
                 Seleccionar el prestador
               </span>
@@ -202,7 +203,7 @@ export default class CreateFile extends React.Component {
                 optionFilterProp="children"
                 options={[]}
               />
-            </div>
+            </div> */}
           </div>
           <br />
           <Dragger

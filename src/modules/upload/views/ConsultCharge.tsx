@@ -16,6 +16,8 @@ import { Alert } from "../../../utils/components/Alert";
 import type { ColumnsType } from "antd/es/table";
 import { UpdateCharge } from "../components/UpdateCharge";
 import { padding8 } from "../styles/stylesUploadFile";
+import Table2 from "../../../utils/components/Table";
+import TableConsulta from "../components/TableConsulta";
 
 export const ConsultCharge = () => {
   const [form] = Form.useForm();
@@ -71,41 +73,15 @@ export const ConsultCharge = () => {
       align: "center",
       dataIndex: "claveArchivo",
     },
-    {
-      title: "Apellidos",
-      align: "center",
-      dataIndex: "fechaCargue",
-    },
-    {
-      title: "Tipo de documento",
-      dataIndex: "estadoArchivo",
-      align: "center",
-    },
-    {
-      title: "Numero documento",
-      align: "center",
-
-      dataIndex: "cantidadRegistros",
-    },
-    {
-      title: "Código BDUA",
-      align: "center",
-
-      dataIndex: "cantidadRegistros",
-    },
-    {
-      title: "Novedad",
-      align: "center",
-
-      dataIndex: "cantidadRegistros",
-    },
-    {
-      title: "Código del prestador o eps que reporta",
-      align: "center",
-
-      dataIndex: "cantidadRegistros",
-    },
   ];
+
+  const change_page = async (page: number, pageSize?: number) => {
+    await getData({
+      ...filters,
+      page,
+      limit: pageSize,
+    });
+  };
 
   return (
     <div className="container-fluid" style={{ marginTop: "20px" }}>
@@ -278,25 +254,31 @@ export const ConsultCharge = () => {
                   </>
                 }
               >
-                <Button>
-                  Exportar
-                </Button>
+                <Button>Exportar</Button>
               </Tooltip>
             </>,
           ]}
           width={"80%"}
         >
-          <UpdateCharge />
+          <Form form={form} component={false}></Form>
+          <Table2
+            items={data}
+            columns={columnas}
+            with_pagination
+            paginationTop
+            count={total ? total : 0}
+            loading={loading}
+            change_page={change_page}
+          />
         </Modal>
 
-        <Table
-          columns={columnas}
-          //items={data}
-          // with_pagination
-          // paginationTop
+        <TableConsulta
+          total={total}
           loading={loading}
-          //count={total}
-          // handleTableChange={handleTableChange}
+          data={data}
+          filters={filters}
+          novedades={[]}
+          handleTableChange={handleTableChange}
         />
       </Card>
     </div>
