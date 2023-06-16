@@ -125,6 +125,9 @@ const TableConsulta: FC<ITableConsulta> = ({
       />
       <div className="d-flex justify-content-end ">
         <ProgressFile filters={{ ...filters, bandera: true }} />
+        <button
+          className="btn btn-primary mt-3 d-flex align-items-center"
+        >Cargar</button>
       </div>
     </div>
   );

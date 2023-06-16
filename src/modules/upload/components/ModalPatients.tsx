@@ -20,6 +20,7 @@ const constantAlertJson = {
 };
 
 const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
+   const [name, setName] = useState(localStorage.getItem("name"));
    const [isVisible, setIsVisible] = useState(false);
    const [jsonAlert, setJsonAlert] = useState(constantAlertJson);
    const [novedades, setNovedades] = useState([]);
@@ -59,14 +60,14 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
    const onSubmit = async (values: any) => {
       setJsonAlert(constantAlertJson);
       const dataFinal: IConsulta = {
-         claveArchivo: claveArchivo,
-         novedades: "",
-         idEnfermedad: idEnfermedad || -1,
-         idIps: values?.idIps || 0,
-         tipoDocumento: values?.document?.type || "",
-         documento: values?.document?.number || "",
-         page: values.page || 1,
-         limit: values.limit || 10,
+        claveArchivo: claveArchivo,
+        novedades: "",
+        idEnfermedad: idEnfermedad || -1,
+        idIps: name || "",
+        tipoDocumento: values?.document?.type || "",
+        documento: values?.document?.number || "",
+        page: values.page || 1,
+        limit: values.limit || 10,
       };
 
       const { data, message } = await getData(dataFinal);

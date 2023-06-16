@@ -8,13 +8,11 @@ import {
   Modal,
   Row,
   Select,
-  Table,
   Tooltip,
 } from "antd";
 import useTable from "../hooks/useTable";
 import { Alert } from "../../../utils/components/Alert";
 import type { ColumnsType } from "antd/es/table";
-import { UpdateCharge } from "../components/UpdateCharge";
 import { padding8 } from "../styles/stylesUploadFile";
 import Table2 from "../../../utils/components/Table";
 import TableConsulta from "../components/TableConsulta";
@@ -82,6 +80,166 @@ export const ConsultCharge = () => {
       limit: pageSize,
     });
   };
+
+  const onKeyDown = (event: any, id: number) => {
+    //id, nombre de la variable, valor de la variable, id enfermedad
+    if (event.key === "Enter") {
+      //alert(id);
+    }
+  };
+
+  const setCellsEdit = (key: string, data: string, id: number) => {
+    return (
+      <div style={{ display: "flex", justifyContent: "left" }}>
+        <input
+          className="inputCells"
+          id={`${key}_${id}`}
+          defaultValue={data}
+          type="text"
+          onKeyDown={(event) => onKeyDown(event, id)}
+        />
+      </div>
+    );
+  };
+
+  // useEffect(() => {
+  //   if (data.length > 0) {
+  //     delete data[0]["campo_leido"];
+  //     const nuevoJsonHeader = Object.assign({ FILA: 1 }, data[0]);
+  //     const columnasLetrasExcel: any = ["X"].concat(generateExcelColumns(500));
+  //     let contadorFila: number = 0;
+  //     let contadorColumnas: number = 0;
+
+  //     let contador: number = 0;
+  //     const columsForJson: any = Object.keys(nuevoJsonHeader).map(
+  //       (key, i: any) => {
+  //         if (key != "id" && key != "campo_leido" && key != "clave_archivo") {
+  //           return {
+  //             title:
+  //               key !== "error_validacion" &&
+  //               key !== "clave_archivo" &&
+  //               key !== "FILA"
+  //                 ? `${columnasLetrasExcel[i]}`
+  //                 : "",
+  //             align: "center",
+  //             width: "10%",
+  //             rowScope: "row",
+  //             dataIndex: `${key}`,
+  //             key: `${key}`,
+  //             fixed:
+  //               key === "error_validacion"
+  //                 ? "right"
+  //                 : key === "FILA"
+  //                 ? "left"
+  //                 : null,
+  //             children: [
+  //               {
+  //                 title:
+  //                   key !== "error_validacion" &&
+  //                   key !== "clave_archivo" &&
+  //                   key !== "FILA"
+  //                     ? dataColumnas.length > contadorColumnas
+  //                       ? typeof dataColumnas[contador]["etiqueta"] != undefined
+  //                         ? dataColumnas[contador++]["etiqueta"]
+  //                         : "B"
+  //                       : `V${(contadorColumnas += 1)}.${
+  //                           key.toUpperCase().charAt(0).toUpperCase() +
+  //                           key.slice(1)
+  //                         }`.replace(/_/g, " ")
+  //                     : "",
+  //                 fixed:
+  //                   key === "error_validacion"
+  //                     ? "right"
+  //                     : key === "FILA"
+  //                     ? "left"
+  //                     : null,
+
+  //                 render: (data: any, index: any, i: number) => {
+  //                   if (key === "FILA") {
+  //                     contadorFila =
+  //                       i - i + i + (filters.page - 1) * filters.limit;
+  //                   }
+
+  //                   if (key === "error_validacion") {
+  //                     return (
+  //                       <>
+  //                         <Popover
+  //                           overlayStyle={{ width: "20vw" }}
+  //                           content={
+  //                             <>
+  //                               <p
+  //                                 data-valor={data[key]}
+  //                                 id={`${data["id"]}`}
+  //                                 style={{
+  //                                   borderRadius: 10,
+  //                                   width: "100%",
+  //                                   height: "25vh",
+  //                                   color: "black",
+  //                                   cursor: "pointer",
+  //                                   overflowX: "scroll",
+  //                                   fontFamily: "monospace",
+  //                                 }}
+  //                               >
+  //                                 Espere miestras se consulta la informacion...
+  //                               </p>
+  //                             </>
+  //                           }
+  //                           trigger="click"
+  //                         >
+  //                           <Tag
+  //                             key={i}
+  //                             onClick={() => getDescriptionError(index)}
+  //                             color="red"
+  //                             style={{
+  //                               width: "100%",
+  //                               cursor: "pointer",
+  //                               textAlign: "center",
+  //                             }}
+  //                           >
+  //                             Ver errores
+  //                           </Tag>
+  //                         </Popover>
+  //                       </>
+  //                     );
+  //                   } else {
+  //                     return key !== "FILA" ? (
+  //                       <span style={stylesFormatoIncorrecto(data, key)}>
+  //                         {data[key] == "" || data[key] == null ? (
+  //                           <Tag
+  //                             color="volcano"
+  //                             style={{
+  //                               width: "100%",
+  //                               cursor: "pointer",
+  //                               textAlign: "center",
+  //                             }}
+  //                           >
+  //                             FORMATO INCORRECTO
+  //                           </Tag>
+  //                         ) : (
+  //                           setCellsEdit(key, data[key], index.id)
+  //                         )}
+  //                       </span>
+  //                     ) : (
+  //                       <div
+  //                         style={{ backgroundColor: "#e4e4e4", border: "none" }}
+  //                         className="w-100 p-0 m-0 text-center"
+  //                       >
+  //                         {(contadorFila += 1)}
+  //                       </div>
+  //                     );
+  //                   }
+  //                 },
+  //               },
+  //             ],
+  //           };
+  //         } else return {};
+  //       }
+  //     );
+  //     if (columsForJson.length - 1) setColumns(columsForJson);
+  //   } else {
+  //     setColumns(undefined);
+  //   }
+  // }, [data]);
 
   return (
     <div className="container-fluid" style={{ marginTop: "20px" }}>

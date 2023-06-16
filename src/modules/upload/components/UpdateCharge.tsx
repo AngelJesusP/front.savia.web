@@ -4,6 +4,14 @@ import { Item } from "../interfaces/EditableCell";
 import { EditableCell } from "../hooks/editableCell";
 
 const originData: Item[] = [];
+for (let i = 0; i < 100; i++) {
+  originData.push({
+    key: i.toString(),
+    name: `Edward ${i}`,
+    age: 32,
+    address: `London Park no. ${i}`,
+  });
+}
 
 export const UpdateCharge = () => {
   const [form] = Form.useForm();
@@ -140,7 +148,7 @@ export const UpdateCharge = () => {
           },
         }}
         bordered
-        //dataSource={data}
+        dataSource={data}
         columns={mergedColumns}
         rowClassName="editable-row"
         pagination={{
