@@ -16,9 +16,82 @@ import type { ColumnsType } from "antd/es/table";
 import { padding8 } from "../styles/stylesUploadFile";
 import Table2 from "../../../utils/components/Table";
 import TableConsulta from "../components/TableConsulta";
+import { getListEnfermedades } from "../../../utils/api/api";
+import { convertListToSelect } from "../../../utils/constants/convertToList";
+import { Ienfermedades } from "../interfaces/enfermedades.interfaces";
+import { getNews } from "../service/enfermedades.services";
 
 export const ConsultCharge = () => {
+  const typeDocument = [
+    {
+      value: "CC",
+      label: "Cédula ciudadanía",
+    },
+    {
+      value: "CE",
+      label: "Cédula de extranjería",
+    },
+    {
+      value: "CD",
+      label: "Carné diplomático",
+    },
+    {
+      value: "PA",
+      label: "Pasaporte",
+    },
+    {
+      value: "SC",
+      label: "Salvoconducto de permanencia",
+    },
+    {
+      value: "PT",
+      label: "Permiso temporal de permanencia",
+    },
+    {
+      value: "PE",
+      label: "Permiso Especial de Permanencia",
+    },
+    {
+      value: "RC",
+      label: "Registro civil",
+    },
+    {
+      value: "TI",
+      label: "Tarjeta de identidad",
+    },
+    {
+      value: "CN",
+      label: "Certificado de nacido vivo",
+    },
+    {
+      value: "AS",
+      label: "Adulto sin identificar",
+    },
+    {
+      value: "MS",
+      label: "Menor sin identificar",
+    },
+    {
+      value: "DE",
+      label: "Documento extranjero",
+    },
+    {
+      value: "SI",
+      label: "Sin identificación",
+    },
+  ];
+  const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
+  const [IdEnfermedad, setIdEnfermedada] = useState(0);
+  const [validateTable, setValidateTable] = useState<any>(null);
+  const [inputValue, setInputValue] = useState<any>(0);
+  const [valuesInput, setValuesInput] = useState<any>([]);
+  const [lstNumeroDocumentos, setLstNumeroDocumentos] = useState<any>([]);
+  const [valorNumeroDocumento, setvalorNumeroDocumento] = useState<any>({
+    label: "123123",
+    value: "123213",
+  });
   const [form] = Form.useForm();
+  const { Option } = Select;
   const {
     filters,
     data,
@@ -29,12 +102,20 @@ export const ConsultCharge = () => {
     handleTableChange,
   } = useTable(
     {
+      claveArchivo: "",
+      novedades: "",
+      idEnfermedad: "",
+      idIps: "",
+      tipoDocumento: "",
+      documento: null,
       limit: 10,
       page: 1,
-      idEnfermedad: null,
     },
-    "/api/v1/historico/archivo"
+    "/api/v1/consulta/paciente",
+    "POST"
   );
+  const [novedades, setNovedades] = useState<any>([]);
+
   const [alert, setAlert] = useState<{
     message: string;
     type: "error" | "success" | "info" | "warning";
@@ -58,8 +139,39 @@ export const ConsultCharge = () => {
     setIsUpdateChargeOpen(false);
   };
 
-  const onSubmit = async (values: any) => {};
-
+  const onSubmit = async (values: any) => {
+    const inputString = valuesInput.map((value: any) => value).join(",");
+    const numberArray = inputString
+      .split(",")
+      .map((element: any) => Number(element));
+    const newDataInit = {
+      claveArchivo: "",
+      novedades: values.novedades,
+      idEnfermedad: validateTable,
+      idIps: values.idIps,
+      tipoDocumento: values.tipoDocumento,
+      documento:
+        valuesInput.length === 0
+          ? values.documento
+          : numberArray.map((value: any) => value),
+      limit: 10,
+      page: 1,
+    };
+    const { data } = await getData({ ...filters, ...newDataInit });
+  };
+  const onSubmitInit = async () => {
+    const newDataInit = {
+      claveArchivo: "",
+      novedades: "",
+      idEnfermedad: validateTable,
+      idIps: "",
+      tipoDocumento: "",
+      documento: "",
+      limit: 10,
+      page: 1,
+    };
+    const { data } = await getData({ ...filters, ...newDataInit });
+  };
   const columnas: ColumnsType<any> = [
     {
       title: "Nombre de ubicación",
@@ -80,7 +192,14 @@ export const ConsultCharge = () => {
       limit: pageSize,
     });
   };
-
+  const getNovedades = async () => {
+    let resp = await getNews(validateTable);
+    const formattedNovedades = resp.map((novedad: any) => ({
+      label: novedad.novCodigo,
+      value: novedad.novCodigo,
+    }));
+    setNovedades(formattedNovedades);
+  };
   const onKeyDown = (event: any, id: number) => {
     //id, nombre de la variable, valor de la variable, id enfermedad
     if (event.key === "Enter") {
@@ -240,7 +359,50 @@ export const ConsultCharge = () => {
   //     setColumns(undefined);
   //   }
   // }, [data]);
+  const getListEnfermedadesConsulta = async () => {
+    await getListEnfermedades().then(({ data }) => {
+      const { status } = data;
+      if (status && status == 200) {
+        const list: Ienfermedades[] = data.data;
+        const { convert } = convertListToSelect(list);
+        setListEnfermedades(convert);
+      }
+    });
+  };
 
+  const handleSelectOnchange = (e: any) => {
+    console.log(e);
+  };
+  const handlePressEnter = (event: any) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Evita el submit por defecto del formulario
+      if (inputValue !== "") {
+        setLstNumeroDocumentos((prevValues: any) => [
+          ...prevValues,
+          { label: inputValue, value: inputValue },
+        ]);
+      }
+    }
+  };
+
+  const getLstNumeroDocumentosSelect = () => {
+    if (lstNumeroDocumentos.length !== 0) {
+      return lstNumeroDocumentos.map((item: any) => {
+        return <Option value={item.value}>{item.label}</Option>;
+      });
+    }
+  };
+
+  useEffect(() => {
+    getListEnfermedadesConsulta();
+  }, []);
+
+  useEffect(() => {
+    onSubmitInit();
+  }, [validateTable]);
+  useEffect(() => {
+    getNovedades();
+  }, [validateTable]);
   return (
     <div className="container-fluid" style={{ marginTop: "20px" }}>
       <Card>
@@ -262,95 +424,85 @@ export const ConsultCharge = () => {
               showSearch
               placeholder="Selecciona la enfermedad"
               optionFilterProp="children"
-              // filterOption={(input, option) =>
-              //   (option?.label ?? "")
-              //     .toLowerCase()
-              //     .includes(input.toLowerCase())
-              // }
-              // options={listEnfermedades}
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={listEnfermedades}
+              onChange={(e) => {
+                setValidateTable(e);
+              }}
             />
           </Form.Item>
-          <Row>
-            <Col className="gutter-row" span={6}>
-              <div style={{ ...padding8 }}>
-                <Form.Item
-                  label="Tipo de documento"
-                  name="tipo_documento"
-                  rules={[{ required: true, message: "Campo obligatorio" }]}
-                >
-                  <Select
-                    className="w-90"
-                    showSearch
-                    placeholder="Selecciona un tipo de documento"
-                    optionFilterProp="children"
-                    // filterOption={(input, option) =>
-                    //   (option?.label ?? "")
-                    //     .toLowerCase()
-                    //     .includes(input.toLowerCase())
-                    // }
-                    options={undefined}
-                  />
-                </Form.Item>
-              </div>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div style={{ ...padding8 }}>
-                <Form.Item
-                  label="Numero documento"
-                  name="numero_documento"
-                  rules={[{ required: true, message: "Campo obligatorio" }]}
-                >
-                  <Input />
-                </Form.Item>
-              </div>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div style={{ ...padding8 }}>
-                <Form.Item
-                  label="Novedad"
-                  name="novedad"
-                  rules={[{ required: true, message: "Campo obligatorio" }]}
-                >
-                  <Select
-                    // disabled={activeKey === "2"}
-                    className="w-90"
-                    showSearch
-                    placeholder="Selecciona una novedad"
-                    optionFilterProp="children"
-                    // filterOption={(input, option) =>
-                    //   (option?.label ?? "")
-                    //     .toLowerCase()
-                    //     .includes(input.toLowerCase())
-                    // }
-                    options={undefined}
-                  />
-                </Form.Item>
-              </div>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div style={{ ...padding8 }}>
-                <Form.Item
-                  label="Código prestador o eps que reporta"
-                  name="cod_eps_reporta"
-                  rules={[{ required: true, message: "Campo obligatorio" }]}
-                >
-                  <Select
-                    // disabled={activeKey === "2"}
-                    className="w-90"
-                    showSearch
-                    placeholder="Selecciona código prestador o eps que reporta"
-                    optionFilterProp="children"
-                    // filterOption={(input, option) =>
-                    //   (option?.label ?? "")
-                    //     .toLowerCase()
-                    //     .includes(input.toLowerCase())
-                    // }
-                    options={undefined}
-                  />
-                </Form.Item>
-              </div>
-            </Col>
-          </Row>
+          {validateTable !== null && (
+            <Row>
+              <Col className="gutter-row" span={6}>
+                <div style={{ ...padding8 }}>
+                  <Form.Item label="Tipo de documento" name="tipoDocumento">
+                    <Select
+                      className="w-90"
+                      showSearch
+                      placeholder="Selecciona un tipo de documento"
+                      optionFilterProp="children"
+                      options={typeDocument}
+                    />
+                  </Form.Item>
+                </div>
+              </Col>
+              <Col className="gutter-row" span={6}>
+                <div style={{ ...padding8 }}>
+                  <Form.Item label="Numero documento" name="documento">
+                    <Select
+                      mode="multiple"
+                      className="w-90"
+                      showSearch
+                      placeholder="Digite su numero de documento"
+                      optionFilterProp="children"
+                      filterOption={(input:any, option:any) =>
+                        option?.children?.toLowerCase().includes(input.toLowerCase())
+                      }
+                      // onKeyDown={(val) => handlePressEnter(val)}
+                      onChange={(e) => handleSelectOnchange(e)}
+                      value={valorNumeroDocumento}
+                    >
+                      {getLstNumeroDocumentosSelect()}
+                    </Select>
+                  </Form.Item>
+                </div>
+              </Col>
+              <Col className="gutter-row" span={6}>
+                <div style={{ ...padding8 }}>
+                  <Form.Item label="Novedad" name="novedades">
+                    <Select
+                      mode="multiple"
+                      className="w-90"
+                      showSearch
+                      placeholder="Selecciona una novedad"
+                      optionFilterProp="children"
+                      options={novedades}
+                    />
+                  </Form.Item>
+                </div>
+              </Col>
+              <Col className="gutter-row" span={6}>
+                <div style={{ ...padding8 }}>
+                  <Form.Item
+                    label="Código prestador o eps que reporta"
+                    name="cod_eps_reporta"
+                  >
+                    <Select
+                      className="w-90"
+                      showSearch
+                      placeholder="Selecciona código prestador o eps que reporta"
+                      optionFilterProp="children"
+                      options={undefined}
+                    />
+                  </Form.Item>
+                </div>
+              </Col>
+            </Row>
+          )}
           <Alert {...alert} />
 
           <hr />
@@ -360,6 +512,7 @@ export const ConsultCharge = () => {
             onClick={() => {
               form.resetFields();
               resetFilters();
+              setValidateTable(null);
             }}
             className="btn btn-outline-primary me-3"
           >
@@ -370,75 +523,77 @@ export const ConsultCharge = () => {
           </button>
         </Form>
       </Card>
-      <Card className="mt-3">
-        <button
-          onClick={showModal}
-          style={{ float: "right" }}
-          className="btn btn-primary"
-        >
-          Editar
-        </button>
-        <Modal
-          title="Editar cargue"
-          open={isUpdateChargeOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={[
-            <>
-              <Tooltip
-                trigger="hover"
-                placement="top"
-                color="#ffff"
-                title={
-                  <>
-                    <Tooltip title={"Documento (txt)"}>
-                      <Button
-                        onClick={() => {
-                          handleOk();
-                        }}
-                      >
-                        txt
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title={"Documento (csv)"}>
-                      <Button
-                        onClick={() => {
-                          handleOk();
-                        }}
-                      >
-                        csv
-                      </Button>
-                    </Tooltip>
-                  </>
-                }
-              >
-                <Button>Exportar</Button>
-              </Tooltip>
-            </>,
-          ]}
-          width={"80%"}
-        >
-          <Form form={form} component={false}></Form>
-          <Table2
-            items={data}
-            columns={columnas}
-            with_pagination
-            paginationTop
-            count={total ? total : 0}
-            loading={loading}
-            change_page={change_page}
-          />
-        </Modal>
+      {validateTable !== null && (
+        <Card className="mt-3">
+          <button
+            onClick={showModal}
+            style={{ float: "right" }}
+            className="btn btn-primary"
+          >
+            Editar
+          </button>
+          <Modal
+            title="Editar cargue"
+            open={isUpdateChargeOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[
+              <>
+                <Tooltip
+                  trigger="hover"
+                  placement="top"
+                  color="#ffff"
+                  title={
+                    <>
+                      <Tooltip title={"Documento (txt)"}>
+                        <Button
+                          onClick={() => {
+                            handleOk();
+                          }}
+                        >
+                          txt
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title={"Documento (csv)"}>
+                        <Button
+                          onClick={() => {
+                            handleOk();
+                          }}
+                        >
+                          csv
+                        </Button>
+                      </Tooltip>
+                    </>
+                  }
+                >
+                  <Button>Exportar</Button>
+                </Tooltip>
+              </>,
+            ]}
+            width={"80%"}
+          >
+            <Form form={form} component={false}></Form>
+            <Table2
+              items={data}
+              columns={columnas}
+              with_pagination
+              paginationTop
+              count={total ? total : 0}
+              loading={loading}
+              change_page={change_page}
+            />
+          </Modal>
 
-        <TableConsulta
-          total={total}
-          loading={loading}
-          data={data}
-          filters={filters}
-          novedades={[]}
-          handleTableChange={handleTableChange}
-        />
-      </Card>
+          <TableConsulta
+            total={total}
+            loading={loading}
+            data={data}
+            filters={filters}
+            novedades={[]}
+            handleTableChange={handleTableChange}
+          />
+        </Card>
+      )}
     </div>
   );
 };

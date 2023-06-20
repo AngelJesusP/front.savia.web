@@ -28,8 +28,8 @@ export const listItems: itemLeftPanel[] = [
     name: "Soportes",
     ruta: RUTA_REPORTES,
   },
-  // {
-  //   name: "Consultar cargues",
-  //   ruta: CONSULTAR_CARGUE,
-  // },
+  {
+    name: "Consultar cargues",
+    ruta: CONSULTAR_CARGUE,
+  },
 ];
