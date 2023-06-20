@@ -4,7 +4,6 @@ import {
   Card,
   Col,
   Form,
-  Input,
   Modal,
   Row,
   Select,
@@ -85,11 +84,8 @@ export const ConsultCharge = () => {
   const [validateTable, setValidateTable] = useState<any>(null);
   const [inputValue, setInputValue] = useState<any>(0);
   const [valuesInput, setValuesInput] = useState<any>([]);
-  const [lstNumeroDocumentos, setLstNumeroDocumentos] = useState<any>([]);
-  const [valorNumeroDocumento, setvalorNumeroDocumento] = useState<any>({
-    label: "123123",
-    value: "123213",
-  });
+  const [lstNumeroDocumentos, setLstNumeroDocumentos] = useState<any>([{ label: "", value: "" }]);
+  const [valorNumeroDocumento, setvalorNumeroDocumento] = useState<any>({ label: "", value: "" });
   const [form] = Form.useForm();
   const { Option } = Select;
   const {
@@ -370,18 +366,15 @@ export const ConsultCharge = () => {
     });
   };
 
-  const handleSelectOnchange = (e: any) => {
-    console.log(e);
-  };
   const handlePressEnter = (event: any) => {
-    if (event.key === "Enter") {
-      event.preventDefault(); // Evita el submit por defecto del formulario
-      if (inputValue !== "") {
-        setLstNumeroDocumentos((prevValues: any) => [
-          ...prevValues,
-          { label: inputValue, value: inputValue },
-        ]);
-      }
+    if (event.key === 'Enter') {
+      const targer = event.target as HTMLTextAreaElement;
+      const inputValue = targer.getAttribute('value');
+      const object = { label: inputValue, value: inputValue };
+      setvalorNumeroDocumento(object)
+      setLstNumeroDocumentos((prevValues: any) => [
+        ...prevValues, object
+      ]);
     }
   };
 
@@ -419,7 +412,6 @@ export const ConsultCharge = () => {
             rules={[{ required: true, message: "Campo obligatorio" }]}
           >
             <Select
-              // disabled={activeKey === "2"}
               className="w-25"
               showSearch
               placeholder="Selecciona la enfermedad"
@@ -459,13 +451,9 @@ export const ConsultCharge = () => {
                       showSearch
                       placeholder="Digite su numero de documento"
                       optionFilterProp="children"
-                      filterOption={(input:any, option:any) =>
-                        option?.children?.toLowerCase().includes(input.toLowerCase())
-                      }
-                      // onKeyDown={(val) => handlePressEnter(val)}
-                      onChange={(e) => handleSelectOnchange(e)}
-                      value={valorNumeroDocumento}
-                    >
+                      onKeyDown={(e) => handlePressEnter(e)}
+                      filterOption={(input:any, option:any) => option?.children?.toLowerCase().includes(input.toLowerCase())}
+                      value={valorNumeroDocumento}>
                       {getLstNumeroDocumentosSelect()}
                     </Select>
                   </Form.Item>
