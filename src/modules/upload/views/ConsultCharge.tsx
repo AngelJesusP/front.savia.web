@@ -98,11 +98,11 @@ export const ConsultCharge = () => {
   } = useTable(
     {
       claveArchivo: "",
-      novedades: "",
+      novedades: [],
       idEnfermedad: "",
       idIps: "",
       tipoDocumento: "",
-      documento: null,
+      documento: [],
       limit: 10,
       page: 1,
     },
@@ -157,11 +157,11 @@ export const ConsultCharge = () => {
   const onSubmitInit = async () => {
     const newDataInit = {
       claveArchivo: "",
-      novedades: "",
+      novedades: [],
       idEnfermedad: validateTable,
       idIps: "",
       tipoDocumento: "",
-      documento: "",
+      documento: [],
       limit: 10,
       page: 1,
     };
