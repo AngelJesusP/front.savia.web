@@ -4,6 +4,7 @@ const RUTA_REPORTES = "/savia/reportes";
 const RUTA_CARGA = "/savia/carga";
 const CONSULTAR_CARGUE = "/savia/consultar_cargue";
 const RUTA_VALIDATIONS = "/savia/validaciones/crear";
+const CREAR_USUARIO ="/savia/crear_usuario"
 
 export {
   RUTA_HOME,
@@ -12,4 +13,5 @@ export {
   RUTA_CARGA,
   RUTA_VALIDATIONS,
   CONSULTAR_CARGUE,
+  CREAR_USUARIO
 };

@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fontLabelComponent } from "../styles/stylesAuth";
 import { IndexAuth, authLogin } from "../function/index.auth";
-import FormRegisterUser from "./FormRegisterUser";
 import Swal from "sweetalert2";
 
 const FormLogin = () => {

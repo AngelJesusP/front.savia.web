@@ -4,6 +4,7 @@ import {
   RUTA_CONSULTA,
   RUTA_HOME,
   RUTA_REPORTES,
+  CREAR_USUARIO
 } from "../router/router.router";
 
 interface itemLeftPanel {
@@ -31,5 +32,9 @@ export const listItems: itemLeftPanel[] = [
   {
     name: "Consultar cargues",
     ruta: CONSULTAR_CARGUE,
+  },
+  {
+    name: "Registrate Aqui",
+    ruta: CREAR_USUARIO,
   },
 ];

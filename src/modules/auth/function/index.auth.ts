@@ -35,3 +35,16 @@ export const authLogin = async (
     throw new Error("Error al cargar los perfiles");
   }
 };
+
+export const CreateUser = async (
+ data:any
+): Promise<any> => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/create`, 
+      data
+    );
+    return response.data as login[];
+  } catch (error) {
+    throw new Error("Error al crear el usuario");
+  }
+};

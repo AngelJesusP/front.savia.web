@@ -4,18 +4,18 @@ import { fontLabelComponent } from "../styles/stylesAuth";
 import "../../../utils/Css/FormRegister.css";
 import { CreateUser } from "../function/index.auth";
 
-const FormRegisterUser = () => {
+const CreatePrestador = () => {
   const [values, setValues] = useState<object>({
     firstName: "",
-    middleName: "",
-    lastName: "",
-    secondLastName: "",
     email: "",
     password: "",
     role: "ROLE_ADMIN",
-    prestador: false,
-    sede: false,
+    prestador: true,
+    sede: true,
+    codigo : "",
+    consecutivo : "01"
   });
+  
   const [viewPass, setViewPass] = useState<boolean>(false);
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -28,7 +28,7 @@ const FormRegisterUser = () => {
     <div>
       <div className="bg-white d-flex flex-row pt-3 ps-4">
         <span style={{ fontSize: "14px", fontWeight: "bold" }}>
-          Crear Usuario
+          Crear Prestador
         </span>
       </div>
       <Card bodyStyle={{ padding: "20px" }}>
@@ -47,14 +47,14 @@ const FormRegisterUser = () => {
                   className="form-label "
                   style={fontLabelComponent(false)}
                 >
-                  Primer Nombre
+                  Nombre del prestador
                 </label>
                 <Form.Item
                   name="firstName"
                   rules={[
                     {
                       required: true,
-                      message: "Por favor introduzca su primer nombre",
+                      message: "Por favor introduzca el nombre del prestador",
                     },
                   ]}
                 >
@@ -70,93 +70,6 @@ const FormRegisterUser = () => {
                   />
                 </Form.Item>
               </div>
-              <div>
-                <label
-                  htmlFor="user_id"
-                  className="form-label "
-                  style={fontLabelComponent(false)}
-                >
-                  Segundo Nombre
-                </label>
-
-                <Input
-                  type="text"
-                  className="form-control"
-                  id="user_id"
-                  name="middleName"
-                  autoComplete="off"
-                  style={fontLabelComponent(true)}
-                  onChange={onChange}
-                  maxLength={20}
-                />
-              </div>
-            </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "5px",
-              }}
-            >
-              <div>
-                <label
-                  htmlFor="user_id"
-                  className="form-label "
-                  style={fontLabelComponent(false)}
-                >
-                  Primer Apellido
-                </label>
-                <Form.Item
-                  name="lastName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Por favor introduzca su primer Apellido",
-                    },
-                  ]}
-                >
-                <Input
-                  type="text"
-                  className="form-control"
-                  id="user_id"
-                  name="lastName"
-                  autoComplete="off"
-                  style={fontLabelComponent(true)}
-                  onChange={onChange}
-                  maxLength={20}
-                />
-                </Form.Item>
-
-              </div>
-
-              <div>
-                <label
-                  htmlFor="user_id"
-                  className="form-label "
-                  style={fontLabelComponent(false)}
-                >
-                  Segundo Apellido
-                </label>
-                <Form.Item name="secondLastName">
-                  <Input
-                    type="text"
-                    className="form-control"
-                    id="user_id"
-                    name="secondLastName"
-                    autoComplete="off"
-                    style={fontLabelComponent(true)}
-                    onChange={onChange}
-                  />
-                </Form.Item>
-              </div>
-            </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "5px",
-              }}
-            >
               <div>
                 <label
                   htmlFor="user_id"
@@ -179,6 +92,43 @@ const FormRegisterUser = () => {
                     className="form-control"
                     id="user_id"
                     name="email"
+                    autoComplete="off"
+                    style={fontLabelComponent(true)}
+                    onChange={onChange}
+                  />
+                </Form.Item>
+              </div>
+            </div>
+       
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "5px",
+              }}
+            >
+              <div>
+                <label
+                  htmlFor="user_id"
+                  className="form-label "
+                  style={fontLabelComponent(false)}
+                >
+                  Código del prestador
+                </label>
+                <Form.Item
+                  name="codigo"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor introduzca un código valido",
+                    },
+                  ]}
+                >
+                  <Input
+                    type="text"
+                    className="form-control"
+                    id="user_id"
+                    name="codigo"
                     autoComplete="off"
                     style={fontLabelComponent(true)}
                     onChange={onChange}
@@ -243,4 +193,4 @@ const FormRegisterUser = () => {
   );
 };
 
-export default FormRegisterUser;
+export default CreatePrestador;

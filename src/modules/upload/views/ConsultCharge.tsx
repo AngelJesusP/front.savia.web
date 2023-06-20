@@ -4,6 +4,7 @@ import {
   Card,
   Col,
   Form,
+  Input,
   Modal,
   Row,
   Select,
@@ -80,9 +81,7 @@ export const ConsultCharge = () => {
     },
   ];
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
-  const [IdEnfermedad, setIdEnfermedada] = useState(0);
   const [validateTable, setValidateTable] = useState<any>(null);
-  const [inputValue, setInputValue] = useState<any>(0);
   const [valuesInput, setValuesInput] = useState<any>([]);
   const [lstNumeroDocumentos, setLstNumeroDocumentos] = useState<any>([{ label: "", value: "" }]);
   const [valorNumeroDocumento, setvalorNumeroDocumento] = useState<any>({ label: "", value: "" });
@@ -144,7 +143,7 @@ export const ConsultCharge = () => {
       claveArchivo: "",
       novedades: values.novedades,
       idEnfermedad: validateTable,
-      idIps: values.idIps,
+      idIps: Number(values.idIps),
       tipoDocumento: values.tipoDocumento,
       documento:
         valuesInput.length === 0
@@ -367,7 +366,7 @@ export const ConsultCharge = () => {
   };
 
   const handlePressEnter = (event: any) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && lstNumeroDocumentos.length < 4) {
       const targer = event.target as HTMLTextAreaElement;
       const inputValue = targer.getAttribute('value');
       const object = { label: inputValue, value: inputValue };
@@ -477,14 +476,12 @@ export const ConsultCharge = () => {
                 <div style={{ ...padding8 }}>
                   <Form.Item
                     label="Código prestador o eps que reporta"
-                    name="cod_eps_reporta"
+                    name="idIps"
                   >
-                    <Select
+                    <Input
                       className="w-90"
-                      showSearch
                       placeholder="Selecciona código prestador o eps que reporta"
-                      optionFilterProp="children"
-                      options={undefined}
+                  
                     />
                   </Form.Item>
                 </div>
