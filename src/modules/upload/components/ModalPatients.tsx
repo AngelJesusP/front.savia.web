@@ -47,13 +47,13 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
       idEnfermedad: -1,
       idIps: 0,
       tipoDocumento: "",
-      documento: "",
+      documento: [],
       desde: "",
       hasta: "",
       page: 1,
       limit: 10,
       claveArchivo: claveArchivo,
-      novedades: "",
+      novedades: [],
    }, "/api/v1/consulta/paciente", "POST"
    );
 
@@ -61,11 +61,11 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
       setJsonAlert(constantAlertJson);
       const dataFinal: IConsulta = {
         claveArchivo: claveArchivo,
-        novedades: "",
+        novedades:[],
         idEnfermedad: idEnfermedad || -1,
         idIps: name || "",
         tipoDocumento: values?.document?.type || "",
-        documento: values?.document?.number || "",
+        documento: values?.document?.number.split(",") || [],
         page: values.page || 1,
         limit: values.limit || 10,
       };

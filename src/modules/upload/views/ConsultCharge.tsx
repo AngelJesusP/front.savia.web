@@ -83,10 +83,22 @@ export const ConsultCharge = () => {
   const [listEnfermedades, setListEnfermedades] = useState<any[]>([]);
   const [validateTable, setValidateTable] = useState<any>(null);
   const [valuesInput, setValuesInput] = useState<any>([]);
-  const [lstNumeroDocumentos, setLstNumeroDocumentos] = useState<any>([{ label: "", value: "" }]);
-  const [valorNumeroDocumento, setvalorNumeroDocumento] = useState<any>({ label: "", value: "" });
+  const [lstNumeroDocumentos, setLstNumeroDocumentos] = useState<any>([
+    { label: "", value: "" },
+  ]);
+  const [valorNumeroDocumento, setvalorNumeroDocumento] = useState<any>({
+    label: "",
+    value: "",
+  });
   const [form] = Form.useForm();
   const { Option } = Select;
+  const [lstNumeroIps, setLstNumeroIps] = useState<any>([
+    { label: "", value: "" },
+  ]);
+  const [valorNumeroIps, setvalorNumeroIps] = useState<any>({
+    label: "",
+    value: "",
+  });
   const {
     filters,
     data,
@@ -100,7 +112,7 @@ export const ConsultCharge = () => {
       claveArchivo: "",
       novedades: [],
       idEnfermedad: "",
-      idIps: "",
+      idIps: [],
       tipoDocumento: "",
       documento: [],
       limit: 10,
@@ -143,7 +155,7 @@ export const ConsultCharge = () => {
       claveArchivo: "",
       novedades: values.novedades,
       idEnfermedad: validateTable,
-      idIps: Number(values.idIps),
+      idIps: values.idIps,
       tipoDocumento: values.tipoDocumento,
       documento:
         valuesInput.length === 0
@@ -366,20 +378,34 @@ export const ConsultCharge = () => {
   };
 
   const handlePressEnter = (event: any) => {
-    if (event.key === 'Enter' && lstNumeroDocumentos.length < 4) {
+    if (event.key === "Enter" && lstNumeroDocumentos.length < 4) {
       const targer = event.target as HTMLTextAreaElement;
-      const inputValue = targer.getAttribute('value');
+      const inputValue = targer.getAttribute("value");
       const object = { label: inputValue, value: inputValue };
-      setvalorNumeroDocumento(object)
-      setLstNumeroDocumentos((prevValues: any) => [
-        ...prevValues, object
-      ]);
+      setvalorNumeroDocumento(object);
+      setLstNumeroDocumentos((prevValues: any) => [...prevValues, object]);
+    }
+  };
+  const handlePressEnterPrestador = (event: any) => {
+    if (event.key === "Enter" && lstNumeroIps.length < 11) {
+      const targer = event.target as HTMLTextAreaElement;
+      const inputValue = targer.getAttribute("value");
+      const object = { label: inputValue, value: inputValue };
+      setvalorNumeroIps(object);
+      setLstNumeroIps((prevValues: any) => [...prevValues, object]);
     }
   };
 
   const getLstNumeroDocumentosSelect = () => {
     if (lstNumeroDocumentos.length !== 0) {
       return lstNumeroDocumentos.map((item: any) => {
+        return <Option value={item.value}>{item.label}</Option>;
+      });
+    }
+  };
+  const getLstNumeroIpsSelect = () => {
+    if (lstNumeroIps.length !== 0) {
+      return lstNumeroIps.map((item: any) => {
         return <Option value={item.value}>{item.label}</Option>;
       });
     }
@@ -451,8 +477,13 @@ export const ConsultCharge = () => {
                       placeholder="Digite su numero de documento"
                       optionFilterProp="children"
                       onKeyDown={(e) => handlePressEnter(e)}
-                      filterOption={(input:any, option:any) => option?.children?.toLowerCase().includes(input.toLowerCase())}
-                      value={valorNumeroDocumento}>
+                      filterOption={(input: any, option: any) =>
+                        option?.children
+                          ?.toLowerCase()
+                          .includes(input.toLowerCase())
+                      }
+                      value={valorNumeroDocumento}
+                    >
                       {getLstNumeroDocumentosSelect()}
                     </Select>
                   </Form.Item>
@@ -475,14 +506,25 @@ export const ConsultCharge = () => {
               <Col className="gutter-row" span={6}>
                 <div style={{ ...padding8 }}>
                   <Form.Item
-                    label="Código prestador o eps que reporta"
+                    label="Código prestador o ips que reporta"
                     name="idIps"
                   >
-                    <Input
+                    <Select
+                      mode="multiple"
                       className="w-90"
+                      showSearch
                       placeholder="Selecciona código prestador o eps que reporta"
-                  
-                    />
+                      optionFilterProp="children"
+                      onKeyDown={(e) => handlePressEnterPrestador(e)}
+                      filterOption={(input: any, option: any) =>
+                        option?.children
+                          ?.toLowerCase()
+                          .includes(input.toLowerCase())
+                      }
+                      value={valorNumeroIps}
+                    >
+                      {getLstNumeroIpsSelect()}
+                    </Select>
                   </Form.Item>
                 </div>
               </Col>

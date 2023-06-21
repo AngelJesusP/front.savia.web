@@ -3,8 +3,10 @@ import { useState } from "react";
 import { fontLabelComponent } from "../styles/stylesAuth";
 import "../../../utils/Css/FormRegister.css";
 import { CreateUser } from "../function/index.auth";
+import Swal from "sweetalert2";
 
 const CreatePrestador = () => {
+
   const [values, setValues] = useState<object>({
     firstName: "",
     email: "",
@@ -12,10 +14,10 @@ const CreatePrestador = () => {
     role: "ROLE_ADMIN",
     prestador: true,
     sede: true,
-    codigo : "",
-    consecutivo : "01"
+    codigo: "",
+    consecutivo: "01",
   });
-  
+
   const [viewPass, setViewPass] = useState<boolean>(false);
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -23,6 +25,23 @@ const CreatePrestador = () => {
   };
   const create_user = async () => {
     const resp = await CreateUser(values);
+    if (resp) {
+      Swal.fire({
+        icon: "success",
+        title: `<div><div><span style='font-size:40px'>Creación de usuario exitosa</span></div><p/><div><span style='font-size:18px'>Oprima el boton aceptar para continuar</span></div><hr/></div>`,
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+        width: 600,
+        confirmButtonColor: "#244C5C",
+        customClass: {
+          confirmButton: "btn btn-primary",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href ="/home"
+        }
+      });
+    }
   };
   return (
     <div>
@@ -99,7 +118,7 @@ const CreatePrestador = () => {
                 </Form.Item>
               </div>
             </div>
-       
+
             <div
               style={{
                 display: "grid",
@@ -180,7 +199,6 @@ const CreatePrestador = () => {
                     justifyContent: "center",
                   }}
                   className="btn btn-primary"
-                  
                 >
                   Registrarse
                 </button>

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { fontLabelComponent } from "../styles/stylesAuth";
 import "../../../utils/Css/FormRegister.css";
 import { CreateUser } from "../function/index.auth";
+import Swal from "sweetalert2";
+
 
 const FormRegisterUser = () => {
   const [values, setValues] = useState<object>({
@@ -23,6 +25,23 @@ const FormRegisterUser = () => {
   };
   const create_user = async () => {
     const resp = await CreateUser(values);
+    if(resp){
+      Swal.fire({
+        icon: 'success',
+        title: `<div><div><span style='font-size:40px'>Creación de usuario exitosa</span></div><p/><div><span style='font-size:18px'>Oprima el boton aceptar para continuar</span></div><hr/></div>`,
+        showConfirmButton:true,
+        confirmButtonText:"Aceptar",
+        width:600,
+        confirmButtonColor:"#244C5C",
+        customClass:{
+          confirmButton:"btn btn-primary",
+        }
+      }).then((result) => {
+        if(result.isConfirmed){
+          window.location.href ="/home"
+        }
+      })
+    }
   };
   return (
     <div>
