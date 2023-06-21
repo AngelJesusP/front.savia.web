@@ -381,18 +381,27 @@ export const ConsultCharge = () => {
     if (event.key === "Enter" && lstNumeroDocumentos.length < 4) {
       const targer = event.target as HTMLTextAreaElement;
       const inputValue = targer.getAttribute("value");
-      const object = { label: inputValue, value: inputValue };
-      setvalorNumeroDocumento(object);
-      setLstNumeroDocumentos((prevValues: any) => [...prevValues, object]);
+      if(inputValue && inputValue?.length < 16){
+        const object = { label: inputValue, value: inputValue };
+        setvalorNumeroDocumento(object);
+        setLstNumeroDocumentos((prevValues: any) => [...prevValues, object]);
+      }else {
+        window.alert("El numero de documento no puede ser mayor a 16 caracteres")
+      }
+   
     }
   };
   const handlePressEnterPrestador = (event: any) => {
     if (event.key === "Enter" && lstNumeroIps.length < 11) {
       const targer = event.target as HTMLTextAreaElement;
       const inputValue = targer.getAttribute("value");
+      if(inputValue && inputValue?.length < 10){
       const object = { label: inputValue, value: inputValue };
       setvalorNumeroIps(object);
       setLstNumeroIps((prevValues: any) => [...prevValues, object]);
+      }else {
+        window.alert("Ingrese un código de prestador valido")
+      }
     }
   };
 
