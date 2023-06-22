@@ -171,7 +171,7 @@ export const ConsultCharge = () => {
       claveArchivo: "",
       novedades: [],
       idEnfermedad: validateTable,
-      idIps: "",
+      idIps: [],
       tipoDocumento: "",
       documento: [],
       limit: 10,
@@ -395,7 +395,7 @@ export const ConsultCharge = () => {
     if (event.key === "Enter" && lstNumeroIps.length < 11) {
       const targer = event.target as HTMLTextAreaElement;
       const inputValue = targer.getAttribute("value");
-      if(inputValue && inputValue?.length < 10){
+      if(inputValue && inputValue?.length < 12){
       const object = { label: inputValue, value: inputValue };
       setvalorNumeroIps(object);
       setLstNumeroIps((prevValues: any) => [...prevValues, object]);

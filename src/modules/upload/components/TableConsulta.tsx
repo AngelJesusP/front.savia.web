@@ -29,11 +29,11 @@ const TableConsulta: FC<ITableConsulta> = ({
 }) => {
   const tableChange = async (
     pagination: TablePaginationConfig,
-    filters: Record<string, string | number | boolean | null>,
+    filters: any,
     sorter: SorterResult<any> | SorterResult<any>[],
     extra: TableCurrentDataSource<any>
   ) => {
-    filters = { ...filters, novedades: filters?.novedades?.toString() || "" };
+    filters = { ...filters, novedades: filters?.novedades || [] };
 
     handleTableChange(pagination, filters, sorter, extra);
   };
@@ -110,6 +110,26 @@ const TableConsulta: FC<ITableConsulta> = ({
       filterMode: "tree",
       filterSearch: true,
     },
+    {
+      title: "Origen de la información",
+      dataIndex: "datosPrestador",
+      align: "center",
+      render: (datosPrestador: string) => {
+        if (datosPrestador === "1") {
+          return (
+            <div>
+              <span style={{ color: "orange" }}>Prestador</span>
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              <span style={{ color: "green" }}></span>actualizado de intrasvia
+            </div>
+          );
+        }
+      },
+    },
   ];
 
   return (
@@ -125,9 +145,9 @@ const TableConsulta: FC<ITableConsulta> = ({
       />
       <div className="d-flex justify-content-end ">
         <ProgressFile filters={{ ...filters, bandera: true }} />
-        <button
-          className="btn btn-primary mt-3 d-flex align-items-center"
-        >Cargar</button>
+        <button className="btn btn-primary mt-3 d-flex align-items-center">
+          Cargar
+        </button>
       </div>
     </div>
   );

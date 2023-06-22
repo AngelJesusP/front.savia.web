@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { fontLabelComponent } from "../styles/stylesAuth";
 import { IndexAuth, authLogin } from "../function/index.auth";
 import Swal from "sweetalert2";
-
+import jwt_decode from "jwt-decode";
 const FormLogin = () => {
   const [type, setType] = useState(0);
   const [text_pass, setText_pass] = useState("password");
@@ -15,7 +15,6 @@ const FormLogin = () => {
   const [onClickSession, setOnClickSession] = useState<boolean>(false);
   const [typeRes, setTypeRes] = useState<any>("");
   const [message, setMessage] = useState<string>("");
-
   /* Una función que devuelve un componente de alerta. */
   const getAlertMessage = () => {
     return (
@@ -32,40 +31,43 @@ const FormLogin = () => {
     );
   };
 
-  const signIn = async() => {
-  try {
-    const res = await authLogin(userName,password)
-    if (userName == "" && password == "") {
+  const signIn = async () => {
+    try {
+      const res = await authLogin(userName, password);
+      if (userName == "" && password == "") {
+        setAlert(true);
+        setTypeRes("error");
+        setMessage("Acción no permitida, Debe ingresar todos los campos");
+        return;
+      }
+
+      if (res?.token) {
+        const tokenRes = res?.token;
+        const decodedToken: any = jwt_decode(tokenRes);
+        IndexAuth(userName, password,decodedToken?.role[0].authority);
+        setOnClickSession(true);
+        history("/savia/home");
+        return;
+      }
+
       setAlert(true);
       setTypeRes("error");
-      setMessage("Acción no permitida, Debe ingresar todos los campos");
-      return;
+      setMessage("Credenciales incorrectas");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: `<div><div><span style='font-size:40px'>Error de autenticación</span></div><p/><div><span style='font-size:18px'>usuario o contraseña incorrectos por favor valide e intente nuevamente</span></div><hr/></div>`,
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+        width: 600,
+        confirmButtonColor: "#244C5C",
+        customClass: {
+          confirmButton: "btn btn-primary",
+        },
+      });
     }
-
-    if (res?.token) {
-      IndexAuth(userName, password);
-      setOnClickSession(true);
-      history("/savia/home");
-      return;
-    }
-
-    setAlert(true);
-    setTypeRes("error");
-    setMessage("Credenciales incorrectas");
-  } catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: `<div><div><span style='font-size:40px'>Error de autenticación</span></div><p/><div><span style='font-size:18px'>usuario o contraseña incorrectos por favor valide e intente nuevamente</span></div><hr/></div>`,
-      showConfirmButton:true,
-      confirmButtonText:"Aceptar",
-      width:600,
-      confirmButtonColor:"#244C5C",
-      customClass:{
-        confirmButton:"btn btn-primary",
-      }
-    })  }
-   
   };
+
 
   return (
     <div>
@@ -131,14 +133,9 @@ const FormLogin = () => {
               </Checkbox>
             </label>
           </div>
-          <div
-           
-            style={{marginTop:"5%"}}
-          >
-           
-          </div>
+          <div style={{ marginTop: "5%" }}></div>
         </div>
-      
+
         <div className="row">
           <div className="col text-end">
             <button

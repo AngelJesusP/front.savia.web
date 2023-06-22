@@ -45,7 +45,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
 
    const { filters, data, loading, total, getData, resetFilters, handleTableChange, } = useTable({
       idEnfermedad: -1,
-      idIps: 0,
+      idIps:[],
       tipoDocumento: "",
       documento: [],
       desde: "",
@@ -63,7 +63,7 @@ const ModalPatients: FC<IModalPatients> = ({ claveArchivo, idEnfermedad }) => {
         claveArchivo: claveArchivo,
         novedades:[],
         idEnfermedad: idEnfermedad || -1,
-        idIps: name || "",
+        idIps: name?.split(",") || [],
         tipoDocumento: values?.document?.type || "",
         documento: values?.document?.number.split(",") || [],
         page: values.page || 1,

@@ -8,17 +8,19 @@ interface login {
   password: string;
 }
 
-export const IndexAuth = (username: string, password: string) => {
+export const IndexAuth = (username: string, password: string,role:string) => {
   let { localStorage } = window;
   if (localStorage) {
     const json = {
       user: username,
       pass: btoa(password),
       permissions: [],
-      roles: [],
+      roles: role,
     };
     localStorage.setItem(nametoken, btoa(JSON.stringify(json)));
     localStorage.setItem("name", username);
+    localStorage.setItem("role", role);
+
   } else console.error("No se puede aplicar la acción de guardar el usuario");
 };
 export const authLogin = async (
@@ -30,6 +32,7 @@ export const authLogin = async (
       username: username,
       password: password,
     });
+
     return response.data as login[];
   } catch (error) {
     throw new Error("Error al cargar los perfiles");
