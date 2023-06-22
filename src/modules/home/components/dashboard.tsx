@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import "../../../utils/Css/index.scss";
 import iconExcel from "../../../utils/assets/icon/cargaarchivos.svg";
 import history from "../../../utils/assets/icon/consultaCard.svg";
@@ -29,7 +29,6 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
 
   render() {
     const role = localStorage.getItem("role");
-
     const { modalUpload } = this.state;
     return (
       <div style={{ height: 190 }} className="bg-white">
@@ -43,7 +42,7 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
 
         <div style={{ position: "relative", top: 68 }}>
           <div className="row justify-content-center">
-            {role === "" ? (
+            {role === "ROLE_PRESTADOR" ? (
               <>
                 <div className="col-sm-3 m-2">
                   <div
@@ -191,7 +190,8 @@ export class DashboardComponent extends React.Component<MyProps, MyState> {
                     </div>
                     <div className="card-body">
                       <p className="card-text" style={styleLabelCardText}>
-                        Esta función permite la creacion de usuarios con diferentes roles
+                        Esta función permite la creación de usuarios con
+                        roles de prestador o administrador
                       </p>
                       <img src={fecha} style={{ height: 7 }} alt="" />
                       <span

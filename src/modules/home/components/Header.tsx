@@ -1,6 +1,11 @@
 import logoHeader from "../../../utils/assets/img/conexionSavia.png";
 import { Button, Popover, Badge, Space, Empty } from "antd";
-import { styleMenuHamburguesa, styleNotificacion, styleUserName, styleimgHeader } from "../styles/styleHeader";
+import {
+  styleMenuHamburguesa,
+  styleNotificacion,
+  styleUserName,
+  styleimgHeader,
+} from "../styles/styleHeader";
 import { nametoken } from "../../../utils/constants/token/nameToken";
 import { BellTwoTone, MailOutlined } from "@ant-design/icons";
 import { TemplateContext } from "../../../utils/components/TemplateContext";
@@ -20,14 +25,16 @@ const content = (
     <span
       className="text-primary"
       onClick={() => cerrarSesion()}
-      style={{ cursor: "pointer" }}>
+      style={{ cursor: "pointer" }}
+    >
       Cerrar sesión
     </span>
   </div>
 );
 
 export const HeaderComponent = () => {
-  const [name, setName] = useState(localStorage.getItem("name"))
+  const [name, _setName] = useState(localStorage.getItem("name"));
+
   const context = useContext(TemplateContext);
 
   return (

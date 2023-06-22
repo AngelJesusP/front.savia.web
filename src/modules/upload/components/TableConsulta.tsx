@@ -124,7 +124,7 @@ const TableConsulta: FC<ITableConsulta> = ({
         } else {
           return (
             <div>
-              <span style={{ color: "green" }}></span>actualizado de intrasvia
+              <span style={{ color: "green" }}>actualizado de intrasvia</span>
             </div>
           );
         }

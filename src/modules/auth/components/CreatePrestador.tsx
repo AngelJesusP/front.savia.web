@@ -5,17 +5,18 @@ import "../../../utils/Css/FormRegister.css";
 import { CreateUser } from "../function/index.auth";
 import Swal from "sweetalert2";
 
-const CreatePrestador = () => {
+const CreatePrestador = ({value}:any) => {
 
   const [values, setValues] = useState<object>({
     firstName: "",
     email: "",
     password: "",
-    role: "ROLE_ADMIN",
+    role: "ROLE_PRESTADOR",
     prestador: true,
-    sede: true,
+    sede: value === 1 ? false : true,
     codigo: "",
-    consecutivo: "01",
+    nit:"",
+    consecutivo: "02",
   });
 
   const [viewPass, setViewPass] = useState<boolean>(false);
@@ -132,10 +133,10 @@ const CreatePrestador = () => {
                   className="form-label "
                   style={fontLabelComponent(false)}
                 >
-                  Código del prestador
+                  {value === 2 ? "Código del prestador" : "Nit del prestador"}
                 </label>
                 <Form.Item
-                  name="codigo"
+                  name={value === 2 ? "codigo" : "Nit"}
                   rules={[
                     {
                       required: true,
@@ -147,7 +148,7 @@ const CreatePrestador = () => {
                     type="text"
                     className="form-control"
                     id="user_id"
-                    name="codigo"
+                    name={value === 2 ? "codigo" : "Nit"}
                     autoComplete="off"
                     style={fontLabelComponent(true)}
                     onChange={onChange}
